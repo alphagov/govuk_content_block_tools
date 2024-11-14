@@ -1,6 +1,6 @@
-# Content Block Presenter
+# Content Block Tools
 
-A Ruby Gem that renders GOV.UK Publishing Content Blocks in a consistent way
+A suite of tools for working with GOV.UK Content Blocks
 
 ## License
 

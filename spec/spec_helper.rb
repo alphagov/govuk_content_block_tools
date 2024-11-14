@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require "bundler/setup"
-require "content_block_presenter"
+require "content_block_tools"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

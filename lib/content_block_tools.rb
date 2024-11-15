@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "content_block_tools/content_block"
 require "content_block_tools/version"
 
 module ContentBlockTools

@@ -1,6 +1,6 @@
-RSpec.describe ContentBlockPresenter do
+RSpec.describe ContentBlockTools do
   it "has a version number" do
-    expect(ContentBlockPresenter::VERSION).not_to be nil
+    expect(ContentBlockTools::VERSION).not_to be nil
   end
 
   it "does something useful" do

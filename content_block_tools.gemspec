@@ -1,16 +1,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "content_block_presenter/version"
+require "content_block_tools/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "content_block_presenter"
-  spec.version       = ContentBlockPresenter::VERSION
+  spec.name          = "content_block_tools"
+  spec.version       = ContentBlockTools::VERSION
   spec.authors       = ["GOV.UK Dev"]
   spec.email         = ["govuk-dev@digital.cabinet-office.gov.uk"]
 
-  spec.summary       = "A Ruby Gem that renders GOV.UK Publishing Content Blocks in a consistent way"
-  spec.homepage      = "https://github.com/alphagov/content_block_presenter"
+  spec.summary       = "A suite of tools for working with GOV.UK Content Blocks"
+  spec.homepage      = "https://github.com/alphagov/content_block_tools"
   spec.license       = "MIT"
 
   spec.required_ruby_version = ">= 3.1"

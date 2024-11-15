@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::ContentBlock do
+RSpec.describe ContentBlockTools::ContentBlockReference do
   it "initializes correctly" do
     content_id = SecureRandom.uuid
     document_type = "content_block_email_address"

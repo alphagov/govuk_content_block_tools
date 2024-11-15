@@ -14,13 +14,13 @@ module ContentBlockTools
         @document = document
       end
 
-      # Finds all content block references within a document, using `ContentBlock::EMBED_REGEX`
+      # Finds all content block references within a document, using `ContentBlockReference::EMBED_REGEX`
       # to scan through the document
       #
-      # @return [Array<ContentBlock>] An array of content blocks
+      # @return [Array<ContentBlockReference>] An array of content block references
       def content_references
-        @content_references ||= @document.scan(ContentBlock::EMBED_REGEX).map { |match|
-          ContentBlock.new(document_type: match[1], content_id: match[2], embed_code: match[0])
+        @content_references ||= @document.scan(ContentBlockReference::EMBED_REGEX).map { |match|
+          ContentBlockReference.new(document_type: match[1], content_id: match[2], embed_code: match[0])
         }.uniq
       end
 

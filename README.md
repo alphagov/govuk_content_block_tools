@@ -16,12 +16,11 @@ or add it to your Gemfile
 
 ### Finding embed code
 
-To find embed code in a block of text, use the Content Block extractor:
+To find embed code in a block of text, use `ContentBlockReference.find_all_in_document`:
 
 ```ruby
 content = "Hello - here is a embed code {{embed:content_block_email_address:be24ee44-b636-4a3e-b979-0da27b4a8e62}}"
-result = ContentBlockTools::ContentBlock::Extractor.new(content)
-result.content_references
+ContentBlockReference.find_all_in_document(content)
 # =>
 #[#<data ContentBlockTools::ContentBlockReference
 #  document_type="content_block_email_address",

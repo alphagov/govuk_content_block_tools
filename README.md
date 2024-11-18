@@ -28,6 +28,26 @@ ContentBlockReference.find_all_in_document(content)
 #  embed_code="{{embed:content_block_email_address:be24ee44-b636-4a3e-b979-0da27b4a8e62}}">]
 ```
 
+### Rendering a content block
+
+To render a content block, you can initialize the content block like so:
+
+```ruby
+content_block = ContentBlockTools::ContentBlock.new(
+  document_type: "something",
+  content_id: "some uuid",
+  title: "Title",
+  details: { some: "hash"},
+)
+```
+
+Then call `render`:
+
+```ruby
+content_block.render
+#=> {HTML representation of content block}
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

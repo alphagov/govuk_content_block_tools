@@ -48,6 +48,8 @@ content_block.render
 #=> {HTML representation of content block}
 ```
 
+For more information, see the [Documentation](https://www.rubydoc.info/github/alphagov/content_block_tools)
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

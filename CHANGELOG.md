@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.2.1
+
+* Loosen ActionView dependency ([#7](https://github.com/alphagov/content_block_tools/pull/7))
+
 ## 0.2.0
 
 * Don't `uniq` content references ([#6](https://github.com/alphagov/content_block_tools/pull/6))

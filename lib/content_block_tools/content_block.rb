@@ -48,5 +48,9 @@ module ContentBlockTools
         .fetch(document_type, Presenters::BasePresenter)
         .new(self).render
     end
+
+    def details
+      to_h[:details].symbolize_keys
+    end
   end
 end

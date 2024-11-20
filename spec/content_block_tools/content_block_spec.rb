@@ -20,6 +20,14 @@ RSpec.describe ContentBlockTools::ContentBlock do
     expect(content_block.details).to eq(details)
   end
 
+  describe ".details" do
+    let(:details) { { "foo" => "bar" } }
+
+    it "symbolizes the keys" do
+      expect(content_block.details).to eq({ foo: "bar" })
+    end
+  end
+
   describe ".render" do
     let(:render_response) { "SOME_HTML" }
     let(:presenter_double) { double(presenter_class, render: render_response) }

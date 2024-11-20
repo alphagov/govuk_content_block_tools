@@ -38,9 +38,9 @@ module ContentBlockTools
       #
       # @return [Array<ContentBlockReference>] An array of content block references
       def find_all_in_document(document)
-        document.scan(ContentBlockReference::EMBED_REGEX).map { |match|
+        document.scan(ContentBlockReference::EMBED_REGEX).map do |match|
           ContentBlockReference.new(document_type: match[1], content_id: match[2], embed_code: match[0])
-        }.uniq
+        end
       end
     end
   end

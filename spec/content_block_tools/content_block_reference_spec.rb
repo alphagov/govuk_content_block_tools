@@ -49,6 +49,24 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
           expect(result[1].content_id).to eq(content_block_email_address_uuid)
           expect(result[1].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_uuid}}}")
         end
+
+        context "with duplicate references" do
+          let(:document) do
+            """
+              {{embed:contact:#{contact_uuid}}}
+              {{embed:contact:#{contact_uuid}}}
+              {{embed:content_block_email_address:#{content_block_email_address_uuid}}}
+            """
+          end
+
+          it "retains the duplicates" do
+            expect(result.count).to eq(3)
+
+            expect(result[0].content_id).to eq(contact_uuid)
+            expect(result[1].content_id).to eq(contact_uuid)
+            expect(result[2].content_id).to eq(content_block_email_address_uuid)
+          end
+        end
       end
     end
   end

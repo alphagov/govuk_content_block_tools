@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.3.1
+
+* Support any Rails version `>= 6` ([#10](https://github.com/alphagov/govuk_content_block_tools/pull/10))
+
 ## 0.3.0
 
 * Symbolise details hash ([#8](https://github.com/alphagov/content_block_tools/pull/8))

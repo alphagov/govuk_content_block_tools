@@ -6,5 +6,7 @@ on:
 jobs:
   autorelease:
     uses: alphagov/govuk-infrastructure/.github/workflows/autorelease-rubygem.yml@main
+    with:
+      gem_name: content_block_tools
     secrets:
       GH_TOKEN: ${{ secrets.GOVUK_CI_GITHUB_API_TOKEN }}

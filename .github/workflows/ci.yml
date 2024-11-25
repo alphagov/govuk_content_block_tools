@@ -40,5 +40,7 @@ jobs:
     permissions:
       contents: write
     uses: alphagov/govuk-infrastructure/.github/workflows/publish-rubygem.yml@main
+    with:
+      gem_name: content_block_tools
     secrets:
       GEM_HOST_API_KEY: ${{ secrets.ALPHAGOV_RUBYGEMS_API_KEY }}

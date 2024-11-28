@@ -31,10 +31,10 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
       let(:content_block_email_address_uuid) { SecureRandom.uuid }
 
       let(:document) do
-        """
+        "
         {{embed:contact:#{contact_uuid}}}
         {{embed:content_block_email_address:#{content_block_email_address_uuid}}}
-      """
+      "
       end
 
       describe "#content_references" do
@@ -52,11 +52,11 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
         context "with duplicate references" do
           let(:document) do
-            """
+            "
               {{embed:contact:#{contact_uuid}}}
               {{embed:contact:#{contact_uuid}}}
               {{embed:content_block_email_address:#{content_block_email_address_uuid}}}
-            """
+            "
           end
 
           it "retains the duplicates" do

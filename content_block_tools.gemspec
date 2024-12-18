@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake", "13.2.1"
   spec.add_development_dependency "rspec", "3.13.0"
-  spec.add_development_dependency "rubocop-govuk", "5.0.3"
+  spec.add_development_dependency "rubocop-govuk", "5.0.6"
 
   spec.add_dependency "actionview", ">= 6"
 end

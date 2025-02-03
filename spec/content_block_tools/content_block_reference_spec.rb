@@ -67,6 +67,30 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
             expect(result[2].content_id).to eq(content_block_email_address_uuid)
           end
         end
+
+        context "when there are fields in the embed code" do
+          let(:contact_uuid) { SecureRandom.uuid }
+          let(:content_block_email_address_uuid) { SecureRandom.uuid }
+
+          let(:document) do
+            "
+              {{embed:contact:#{contact_uuid}/example_field}}
+              {{embed:content_block_email_address:#{content_block_email_address_uuid}/another_field}}
+            "
+          end
+
+          it "finds all the references" do
+            expect(result.count).to eq(2)
+
+            expect(result[0].document_type).to eq("contact")
+            expect(result[0].content_id).to eq(contact_uuid)
+            expect(result[0].embed_code).to eq("{{embed:contact:#{contact_uuid}/example_field}}")
+
+            expect(result[1].document_type).to eq("content_block_email_address")
+            expect(result[1].content_id).to eq(content_block_email_address_uuid)
+            expect(result[1].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_uuid}/another_field}}")
+          end
+        end
       end
     end
   end

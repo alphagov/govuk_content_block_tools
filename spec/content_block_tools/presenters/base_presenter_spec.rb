@@ -7,6 +7,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
       content_id:,
       title: "My content block",
       details: {},
+      embed_code: "something",
     )
   end
 

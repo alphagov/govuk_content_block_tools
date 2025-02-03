@@ -44,6 +44,7 @@ module ContentBlockTools
     # A lookup of presenters for particular content block types
     CONTENT_PRESENTERS = {
       "content_block_email_address" => ContentBlockTools::Presenters::EmailAddressPresenter,
+      "content_block_postal_address" => ContentBlockTools::Presenters::PostalAddressPresenter,
     }.freeze
 
     # Calls the appropriate presenter class to return a HTML representation of a content

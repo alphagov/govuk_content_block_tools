@@ -8,6 +8,7 @@ RSpec.describe ContentBlockTools::Presenters::EmailAddressPresenter do
       content_id:,
       title: "My content block",
       details: { email_address: },
+      embed_code: "something",
     )
   end
 

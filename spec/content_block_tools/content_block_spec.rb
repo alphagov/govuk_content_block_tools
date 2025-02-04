@@ -3,6 +3,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
   let(:title) { "Some Title" }
   let(:document_type) { "content_block_email_address" }
   let(:details) { { some: "details" } }
+  let(:embed_code) { "something" }
 
   let(:content_block) do
     described_class.new(
@@ -10,6 +11,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
       content_id:,
       title:,
       details:,
+      embed_code:,
     )
   end
 

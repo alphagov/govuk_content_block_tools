@@ -1,5 +1,5 @@
 module ContentBlockTools
-  ContentBlock = Data.define(:content_id, :title, :document_type, :details)
+  ContentBlock = Data.define(:content_id, :title, :document_type, :details, :embed_code)
 
   # Defines a Content Block
   #
@@ -33,10 +33,18 @@ module ContentBlockTools
   #   content_block.details #=> { email_address: "foo@example.com" }
   #  @return [Hash] the details
   #  @api public
+  #
+  # @!attribute [r] embed_code
+  #  The embed_code used for a block containing optional field name
+  #   @example
+  #     content_block_reference.embed_code #=> "{{embed:content_block_email_address:2b92cade-549c-4449-9796-e7a3957f3a86}}"
+  #     content_block_reference.embed_code #=> "{{embed:content_block_postal_address:2b92cade-549c-4449-9796-e7a3957f3a86/field_name}}"
+  #   @return [String]
   class ContentBlock < Data
     # A lookup of presenters for particular content block types
     CONTENT_PRESENTERS = {
       "content_block_email_address" => ContentBlockTools::Presenters::EmailAddressPresenter,
+      "content_block_postal_address" => ContentBlockTools::Presenters::PostalAddressPresenter,
     }.freeze
 
     # Calls the appropriate presenter class to return a HTML representation of a content

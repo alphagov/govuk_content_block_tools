@@ -7,6 +7,12 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.4.0
+
+* BREAKING: allow support for field names in block's embed code. new ContentBlocks now require an embed code argument. (
+  [17]
+  (https://github.com/alphagov/govuk_content_block_tools/pull/17))
+
 ## 0.3.1
 
 * Support any Rails version `>= 6` ([#10](https://github.com/alphagov/govuk_content_block_tools/pull/10))

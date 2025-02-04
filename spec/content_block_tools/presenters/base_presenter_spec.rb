@@ -45,7 +45,8 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
         class="content-embed content-embed__something"
         data-content-block=""
         data-document-type="something"
-        data-content-id="#{content_id}">hello world</span>
+        data-content-id="#{content_id}"
+        data-field-names="first_field,second_field,third_field">hello world</span>
     HTML
 
     expect(presenter.render.squish).to eq(expected_html.squish)
@@ -72,7 +73,8 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
         class="content-embed content-embed__something"
         data-content-block=""
         data-document-type="something"
-        data-content-id="#{content_id}"></span>
+        data-content-id="#{content_id}"
+        data-field-names="first_field,second_field,fake_field"></span>
     HTML
 
     expect(presenter.render.squish).to eq(expected_html.squish)

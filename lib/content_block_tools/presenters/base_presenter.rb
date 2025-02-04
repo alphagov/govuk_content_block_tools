@@ -29,11 +29,14 @@ module ContentBlockTools
             content_block: "",
             document_type: content_block.document_type,
             content_id: content_block.content_id,
+            field_names: field_names&.join(","),
           },
         )
       end
 
     private
+
+      attr_reader :content_block
 
       # The default representation of the content block - this can be overridden in a subclass
       # by overriding the content, default_content or content_for_fields methods
@@ -57,14 +60,12 @@ module ContentBlockTools
       end
 
       def field_names
-        embed_code_match = ContentBlockReference::EMBED_REGEX.match(@content_block.embed_code)
+        embed_code_match = ContentBlockReference::EMBED_REGEX.match(content_block.embed_code)
         if embed_code_match.present?
           all_fields = embed_code_match[4]&.reverse&.chomp("/")&.reverse
           all_fields&.split("/")&.map(&:to_sym)
         end
       end
-
-      attr_reader :content_block
     end
   end
 end

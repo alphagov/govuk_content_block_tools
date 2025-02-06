@@ -29,7 +29,7 @@ module ContentBlockTools
             content_block: "",
             document_type: content_block.document_type,
             content_id: content_block.content_id,
-            field_names: field_names&.join(","),
+            embed_code: content_block.embed_code,
           },
         )
       end

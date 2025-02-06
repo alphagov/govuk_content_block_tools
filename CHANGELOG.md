@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.4.2
+
+* Pass embed code to HTML span ([19](https://github.com/alphagov/govuk_content_block_tools/pull/19))
+
 ## 0.4.1
 
 * Fix field regular expression ([18](https://github.com/alphagov/govuk_content_block_tools/pull/18))

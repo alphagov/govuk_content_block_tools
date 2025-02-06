@@ -74,21 +74,26 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
           let(:document) do
             "
-              {{embed:contact:#{contact_uuid}/example_field}}
+              {{embed:contact:#{contact_uuid}/example_field_1}}
+              {{embed:contact:#{contact_uuid}/example_field_2}}
               {{embed:content_block_email_address:#{content_block_email_address_uuid}/another_field}}
-            "
+            ".squish
           end
 
           it "finds all the references" do
-            expect(result.count).to eq(2)
+            expect(result.count).to eq(3)
 
             expect(result[0].document_type).to eq("contact")
             expect(result[0].content_id).to eq(contact_uuid)
-            expect(result[0].embed_code).to eq("{{embed:contact:#{contact_uuid}/example_field}}")
+            expect(result[0].embed_code).to eq("{{embed:contact:#{contact_uuid}/example_field_1}}")
 
-            expect(result[1].document_type).to eq("content_block_email_address")
-            expect(result[1].content_id).to eq(content_block_email_address_uuid)
-            expect(result[1].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_uuid}/another_field}}")
+            expect(result[1].document_type).to eq("contact")
+            expect(result[1].content_id).to eq(contact_uuid)
+            expect(result[1].embed_code).to eq("{{embed:contact:#{contact_uuid}/example_field_2}}")
+
+            expect(result[2].document_type).to eq("content_block_email_address")
+            expect(result[2].content_id).to eq(content_block_email_address_uuid)
+            expect(result[2].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_uuid}/another_field}}")
           end
         end
       end

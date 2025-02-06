@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.4.1
+
+* Fix field regular expression ([18](https://github.com/alphagov/govuk_content_block_tools/pull/18))
+
 ## 0.4.0
 
 * BREAKING: allow support for field names in block's embed code. new ContentBlocks now require an embed code argument. (

@@ -29,7 +29,8 @@ RSpec.describe ContentBlockTools::Presenters::PostalAddressPresenter do
         class="content-embed content-embed__something"
         data-content-block=""
         data-document-type="something"
-        data-content-id="#{content_id}">#{postal_html_string}</span>
+        data-content-id="#{content_id}"
+        data-embed-code="{{embed:content_block_postal_address:#{content_id}}}">#{postal_html_string}</span>
     HTML
 
     expect(presenter.render.squish).to eq(expected_html.squish)
@@ -64,7 +65,7 @@ RSpec.describe ContentBlockTools::Presenters::PostalAddressPresenter do
         data-content-block=""
         data-document-type="something"
         data-content-id="#{content_id}"
-        data-field-names="town_or_city">Somewhereville</span>
+        data-embed-code="{{embed:content_block_postal_address:#{content_id}/town_or_city}}">Somewhereville</span>
       HTML
 
       expect(presenter.render.squish).to eq(expected_html.squish)
@@ -78,7 +79,7 @@ RSpec.describe ContentBlockTools::Presenters::PostalAddressPresenter do
         data-content-block=""
         data-document-type="something"
         data-content-id="#{content_id}"
-        data-field-names="nothing"></span>
+        data-embed-code="{{embed:content_block_postal_address:#{content_id}/nothing}}"></span>
       HTML
 
       expect(presenter.render.squish).to eq(expected_html.squish)

@@ -19,7 +19,8 @@ RSpec.describe ContentBlockTools::Presenters::EmailAddressPresenter do
         class="content-embed content-embed__something"
         data-content-block=""
         data-document-type="something"
-        data-content-id="#{content_id}">#{email_address}</span>
+        data-content-id="#{content_id}"
+        data-embed-code="something">#{email_address}</span>
     HTML
 
     expect(presenter.render.squish).to eq(expected_html.squish)

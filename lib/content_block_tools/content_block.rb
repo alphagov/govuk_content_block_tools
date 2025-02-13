@@ -45,6 +45,7 @@ module ContentBlockTools
     CONTENT_PRESENTERS = {
       "content_block_email_address" => ContentBlockTools::Presenters::EmailAddressPresenter,
       "content_block_postal_address" => ContentBlockTools::Presenters::PostalAddressPresenter,
+      "content_block_pension" => ContentBlockTools::Presenters::PensionPresenter,
     }.freeze
 
     # Calls the appropriate presenter class to return a HTML representation of a content

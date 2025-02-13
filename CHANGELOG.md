@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.4.3
+
+* Add presenter for a pension block ([20](https://github.com/alphagov/govuk_content_block_tools/pull/20))
+
 ## 0.4.2
 
 * Pass embed code to HTML span ([19](https://github.com/alphagov/govuk_content_block_tools/pull/19))

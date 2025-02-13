@@ -26,7 +26,7 @@ module ContentBlockTools
   #   @return [String]
   class ContentBlockReference < Data
     # An array of the supported document types
-    SUPPORTED_DOCUMENT_TYPES = %w[contact content_block_email_address content_block_postal_address].freeze
+    SUPPORTED_DOCUMENT_TYPES = %w[contact content_block_email_address content_block_postal_address content_block_pension].freeze
     # The regex used to find UUIDs
     UUID_REGEX = /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/
     # The regex to find optional field names after the UUID, begins with '/'

@@ -80,4 +80,32 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
 
     expect(presenter.render.squish).to eq(expected_html.squish)
   end
+
+  it "should return nested fields if some keys are strings" do
+    content_block_with_nested_fields = ContentBlockTools::ContentBlock.new(
+      document_type: "something",
+      content_id:,
+      title: "My content block",
+      details: {
+        first_field: {
+          second_field: {
+            "third_field" => "hello world",
+          },
+        },
+      },
+      embed_code: "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}",
+    )
+
+    presenter = described_class.new(content_block_with_nested_fields)
+    expected_html = <<-HTML
+      <span
+        class="content-embed content-embed__something"
+        data-content-block=""
+        data-document-type="something"
+        data-content-id="#{content_id}"
+        data-embed-code="{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}">hello world</span>
+    HTML
+
+    expect(presenter.render.squish).to eq(expected_html.squish)
+  end
 end

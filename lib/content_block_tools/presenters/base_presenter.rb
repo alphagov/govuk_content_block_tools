@@ -56,7 +56,7 @@ module ContentBlockTools
       end
 
       def content_for_fields
-        content_block.details.dig(*field_names)
+        content_block.details.deep_symbolize_keys.dig(*field_names)
       end
 
       def field_names

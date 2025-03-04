@@ -16,4 +16,20 @@ require "content_block_tools/version"
 module ContentBlockTools
   class Error < StandardError; end
   module Presenters; end
+
+  class << self
+    attr_writer :logger
+
+    def logger
+      @logger ||= Logger.new($stdout)
+    end
+  end
+
+  if defined?(Rails::Railtie)
+    class Railtie < Rails::Railtie
+      initializer "content_block_tools.initialize_logger" do
+        ContentBlockTools.logger = Rails.logger
+      end
+    end
+  end
 end

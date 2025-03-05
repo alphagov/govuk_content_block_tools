@@ -22,6 +22,8 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
         data-embed-code="something">My content block</span>
     HTML
 
+    expect(ContentBlockTools.logger).to receive(:info).with("Getting content for content block #{content_id}")
+
     expect(presenter.render.squish).to eq(expected_html.squish)
   end
 
@@ -53,7 +55,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
     expect(presenter.render.squish).to eq(expected_html.squish)
   end
 
-  it "should return empty string if a given field does not exist" do
+  it "should return the embed code if a given field does not exist" do
     content_block_with_nested_fields = ContentBlockTools::ContentBlock.new(
       document_type: "something",
       content_id:,
@@ -75,8 +77,10 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
         data-content-block=""
         data-document-type="something"
         data-content-id="#{content_id}"
-        data-embed-code="{{embed:content_block_postal_address:#{content_id}/first_field/second_field/fake_field}}"></span>
+        data-embed-code="{{embed:content_block_postal_address:#{content_id}/first_field/second_field/fake_field}}">{{embed:content_block_postal_address:#{content_id}/first_field/second_field/fake_field}}</span>
     HTML
+
+    expect(ContentBlockTools.logger).to receive(:warn).with("Content not found for content block #{content_id} and fields [:first_field, :second_field, :fake_field]")
 
     expect(presenter.render.squish).to eq(expected_html.squish)
   end

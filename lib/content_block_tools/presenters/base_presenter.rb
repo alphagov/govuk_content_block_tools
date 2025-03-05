@@ -44,6 +44,7 @@ module ContentBlockTools
       # @return [string] A representation of the content block to be wrapped in the base_tag in
       # {#content}
       def content
+        ContentBlockTools.logger.info("Getting content for content block #{content_block.content_id}")
         if field_names.present?
           content_for_fields
         else
@@ -56,7 +57,13 @@ module ContentBlockTools
       end
 
       def content_for_fields
-        content_block.details.deep_symbolize_keys.dig(*field_names)
+        content = content_block.details.deep_symbolize_keys.dig(*field_names)
+        if content.blank?
+          ContentBlockTools.logger.warn("Content not found for content block #{content_block.content_id} and fields #{field_names}")
+          content_block.embed_code
+        else
+          content
+        end
       end
 
       def field_names

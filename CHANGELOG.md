@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.4.5
+
+- Add handling for incorrect field names and some logging ([24](https://github.com/alphagov/govuk_content_block_tools/pull/24))
+
 ## 0.4.4
 
 - symbolize keys in block details blob, in order to find embedded nested fields ([22](https://github.com/alphagov/govuk_content_block_tools/pull/22))

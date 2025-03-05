@@ -71,7 +71,7 @@ RSpec.describe ContentBlockTools::Presenters::PostalAddressPresenter do
       expect(presenter.render.squish).to eq(expected_html.squish)
     end
 
-    it "should return empty string if given a fake field" do
+    it "should return the embed code if given a fake field" do
       presenter = described_class.new(content_block_with_fake_fields)
       expected_html = <<-HTML
       <span
@@ -79,7 +79,7 @@ RSpec.describe ContentBlockTools::Presenters::PostalAddressPresenter do
         data-content-block=""
         data-document-type="something"
         data-content-id="#{content_id}"
-        data-embed-code="{{embed:content_block_postal_address:#{content_id}/nothing}}"></span>
+        data-embed-code="{{embed:content_block_postal_address:#{content_id}/nothing}}">{{embed:content_block_postal_address:#{content_id}/nothing}}</span>
       HTML
 
       expect(presenter.render.squish).to eq(expected_html.squish)

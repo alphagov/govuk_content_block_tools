@@ -40,7 +40,6 @@ module ContentBlockTools
       #
       # @return [Array<ContentBlockReference>] An array of content block references
       def find_all_in_document(document)
-        ContentBlockTools.logger.info("Finding embedded content")
         document.scan(ContentBlockReference::EMBED_REGEX).map do |match|
           ContentBlockTools.logger.info("Found Content Block Reference: #{match}")
           ContentBlockReference.new(document_type: match[1], content_id: match[2], embed_code: match[0])

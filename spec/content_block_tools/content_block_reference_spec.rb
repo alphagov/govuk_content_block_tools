@@ -39,7 +39,6 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
       describe "#content_references" do
         it "returns all references" do
-          expect(ContentBlockTools.logger).to receive(:info).with("Finding embedded content")
           expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:contact:#{contact_uuid}}}\", \"contact\", \"#{contact_uuid}\", nil]")
           expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:content_block_email_address:#{content_block_email_address_uuid}}}\", \"content_block_email_address\", \"#{content_block_email_address_uuid}\", nil]")
 

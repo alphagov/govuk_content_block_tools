@@ -99,9 +99,9 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
           let(:document) do
             "
-              {{embed:contact:#{contact_uuid}/example_field_1}}
-              {{embed:contact:#{contact_uuid}/example_field_2}}
-              {{embed:content_block_email_address:#{content_block_email_address_uuid}/another_field}}
+              {{embed:contact:#{contact_uuid}/example-field-1}}
+              {{embed:contact:#{contact_uuid}/example-field-2}}
+              {{embed:content_block_email_address:#{content_block_email_address_uuid}/another-field}}
             ".squish
           end
 
@@ -110,15 +110,15 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
             expect(result[0].document_type).to eq("contact")
             expect(result[0].identifier).to eq(contact_uuid)
-            expect(result[0].embed_code).to eq("{{embed:contact:#{contact_uuid}/example_field_1}}")
+            expect(result[0].embed_code).to eq("{{embed:contact:#{contact_uuid}/example-field-1}}")
 
             expect(result[1].document_type).to eq("contact")
             expect(result[1].identifier).to eq(contact_uuid)
-            expect(result[1].embed_code).to eq("{{embed:contact:#{contact_uuid}/example_field_2}}")
+            expect(result[1].embed_code).to eq("{{embed:contact:#{contact_uuid}/example-field-2}}")
 
             expect(result[2].document_type).to eq("content_block_email_address")
             expect(result[2].identifier).to eq(content_block_email_address_uuid)
-            expect(result[2].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_uuid}/another_field}}")
+            expect(result[2].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_uuid}/another-field}}")
           end
         end
       end
@@ -157,9 +157,9 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
           let(:document) do
             "
-              {{embed:contact:#{contact_alias}/example_field_1}}
-              {{embed:contact:#{contact_alias}/example_field_2}}
-              {{embed:content_block_email_address:#{content_block_email_address_alias}/another_field}}
+              {{embed:contact:#{contact_alias}/example-field-1}}
+              {{embed:contact:#{contact_alias}/example-field-2}}
+              {{embed:content_block_email_address:#{content_block_email_address_alias}/another-field}}
             ".squish
           end
 
@@ -168,15 +168,15 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
             expect(result[0].document_type).to eq("contact")
             expect(result[0].identifier).to eq(contact_alias)
-            expect(result[0].embed_code).to eq("{{embed:contact:#{contact_alias}/example_field_1}}")
+            expect(result[0].embed_code).to eq("{{embed:contact:#{contact_alias}/example-field-1}}")
 
             expect(result[1].document_type).to eq("contact")
             expect(result[1].identifier).to eq(contact_alias)
-            expect(result[1].embed_code).to eq("{{embed:contact:#{contact_alias}/example_field_2}}")
+            expect(result[1].embed_code).to eq("{{embed:contact:#{contact_alias}/example-field-2}}")
 
             expect(result[2].document_type).to eq("content_block_email_address")
             expect(result[2].identifier).to eq(content_block_email_address_alias)
-            expect(result[2].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_alias}/another_field}}")
+            expect(result[2].embed_code).to eq("{{embed:content_block_email_address:#{content_block_email_address_alias}/another-field}}")
           end
         end
       end

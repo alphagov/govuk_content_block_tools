@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.5.0
+
+- Support Content ID aliases ([27](https://github.com/alphagov/govuk_content_block_tools/pull/27))
+
 ## 0.4.6
 - Remove noisy log ([25](https://github.com/alphagov/govuk_content_block_tools/pull/25))
 

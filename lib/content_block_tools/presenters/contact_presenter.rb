@@ -5,6 +5,10 @@ module ContentBlockTools
 
       BASE_TAG_TYPE = :div
 
+      FIELD_PRESENTERS = {
+        email_address: ContentBlockTools::Presenters::FieldPresenters::Contact::EmailAddressPresenter,
+      }.freeze
+
     private
 
       def default_content

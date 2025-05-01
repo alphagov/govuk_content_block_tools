@@ -58,6 +58,26 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         end
       end
     end
+
+    it "should render an email address when embed code is provided" do
+      content_block = ContentBlockTools::ContentBlock.new(
+        document_type: "contact",
+        content_id:,
+        title: "My Contact",
+        details: { email_addresses: email_addresses, telephones: telephones },
+        embed_code: "{{embed:content_block:#{content_id}/email_addresses/foo/email_address}}",
+      )
+
+      presenter = described_class.new(content_block)
+
+      expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => "{{embed:content_block:#{content_id}/email_addresses/foo/email_address}}" })) do
+        with_tag(
+          :a,
+          text: "foo@example.com",
+          with: { href: "mailto:foo@example.com", class: "govuk-link" },
+        )
+      end
+    end
   end
 
   describe "when phone numbers are present" do

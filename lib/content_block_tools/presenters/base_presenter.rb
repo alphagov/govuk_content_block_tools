@@ -1,6 +1,7 @@
 module ContentBlockTools
   module Presenters
     class BasePresenter
+      include ActionView::Context
       include ActionView::Helpers::TagHelper
 
       # The default HTML tag to wrap the presented response in - can be overridden in a subclass
@@ -22,7 +23,7 @@ module ContentBlockTools
       # @return [string] A HTML representation of the content block
       def render
         content_tag(
-          BASE_TAG_TYPE,
+          self.class::BASE_TAG_TYPE,
           content,
           class: %W[content-embed content-embed__#{content_block.document_type}],
           data: {

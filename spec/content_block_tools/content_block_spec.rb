@@ -50,6 +50,16 @@ RSpec.describe ContentBlockTools::ContentBlock do
       end
     end
 
+    context "when a contact" do
+      let(:document_type) { "content_block_contact" }
+      let(:presenter_class) { ContentBlockTools::Presenters::ContactPresenter }
+
+      it "calls the contact presenter" do
+        expect(content_block.render).to eq(render_response)
+        expect(presenter_double).to have_received(:render)
+      end
+    end
+
     context "when presenter can't be found" do
       let(:document_type) { "contact" }
       let(:presenter_class) { ContentBlockTools::Presenters::BasePresenter }

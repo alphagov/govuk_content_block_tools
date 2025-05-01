@@ -2,6 +2,9 @@ module ContentBlockTools
   module Presenters
     module FieldPresenters
       class BasePresenter
+        include ActionView::Context
+        include ActionView::Helpers::TagHelper
+
         attr_reader :field
 
         def initialize(field)

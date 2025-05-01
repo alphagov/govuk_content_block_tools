@@ -2,10 +2,13 @@
 
 require "bundler/setup"
 require "securerandom"
+require "rspec-html-matchers"
 
 require "content_block_tools"
 
 RSpec.configure do |config|
+  config.include RSpecHtmlMatchers
+
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 

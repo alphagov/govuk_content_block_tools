@@ -24,16 +24,14 @@ RSpec.describe ContentBlockTools::Presenters::PostalAddressPresenter do
 
   it "should render with the postal address" do
     presenter = described_class.new(content_block)
-    expected_html = <<-HTML
-      <span
-        class="content-embed content-embed__something"
-        data-content-block=""
-        data-document-type="something"
-        data-content-id="#{content_id}"
-        data-embed-code="{{embed:content_block_postal_address:#{content_id}}}">#{postal_html_string}</span>
-    HTML
 
-    expect(presenter.render.squish).to eq(expected_html.squish)
+    expect(presenter.render).to have_tag("span", text: postal_html_string, with: {
+      class: "content-embed content-embed__something",
+      "data-content-block" => "",
+      "data-document-type" => "something",
+      "data-content-id" => content_id,
+      "data-embed-code" => "{{embed:content_block_postal_address:#{content_id}}}",
+    })
   end
 
   context "when fields have been defined" do
@@ -59,30 +57,28 @@ RSpec.describe ContentBlockTools::Presenters::PostalAddressPresenter do
 
     it "should render only the value of that field" do
       presenter = described_class.new(content_block_with_fields)
-      expected_html = <<-HTML
-      <span
-        class="content-embed content-embed__something"
-        data-content-block=""
-        data-document-type="something"
-        data-content-id="#{content_id}"
-        data-embed-code="{{embed:content_block_postal_address:#{content_id}/town_or_city}}">Somewhereville</span>
-      HTML
 
-      expect(presenter.render.squish).to eq(expected_html.squish)
+      expect(presenter.render).to have_tag("span", text: "Somewhereville", with: {
+        class: "content-embed content-embed__something",
+        "data-content-block" => "",
+        "data-document-type" => "something",
+        "data-content-id" => content_id,
+        "data-embed-code" => "{{embed:content_block_postal_address:#{content_id}/town_or_city}}",
+      })
     end
 
     it "should return the embed code if given a fake field" do
       presenter = described_class.new(content_block_with_fake_fields)
-      expected_html = <<-HTML
-      <span
-        class="content-embed content-embed__something"
-        data-content-block=""
-        data-document-type="something"
-        data-content-id="#{content_id}"
-        data-embed-code="{{embed:content_block_postal_address:#{content_id}/nothing}}">{{embed:content_block_postal_address:#{content_id}/nothing}}</span>
-      HTML
 
-      expect(presenter.render.squish).to eq(expected_html.squish)
+      embed_code = "{{embed:content_block_postal_address:#{content_id}/nothing}}"
+
+      expect(presenter.render).to have_tag("span", text: embed_code, with: {
+        class: "content-embed content-embed__something",
+        "data-content-block" => "",
+        "data-document-type" => "something",
+        "data-content-id" => content_id,
+        "data-embed-code" => embed_code,
+      })
     end
   end
 end

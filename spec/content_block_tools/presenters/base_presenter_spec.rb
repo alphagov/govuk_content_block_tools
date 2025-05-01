@@ -111,4 +111,33 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
       ),
     )
   end
+
+  it "should render fields with the base presenter" do
+    presenter_class = ContentBlockTools::Presenters::FieldPresenters::BasePresenter
+
+    render_response = "STUB_RESPONSE"
+    presenter_double = double(presenter_class, render: render_response)
+
+    content_block_with_nested_fields = ContentBlockTools::ContentBlock.new(
+      document_type: "something",
+      content_id:,
+      title: "My content block",
+      details: {
+        first_field: {
+          second_field: {
+            third_field: "hello world",
+          },
+        },
+      },
+      embed_code: "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}",
+    )
+
+    expect(presenter_class).to receive(:new).with("hello world") {
+      presenter_double
+    }
+
+    described_class.new(content_block_with_nested_fields).render
+
+    expect(presenter_double).to have_received(:render)
+  end
 end

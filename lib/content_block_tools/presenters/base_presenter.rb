@@ -7,6 +7,9 @@ module ContentBlockTools
       # The default HTML tag to wrap the presented response in - can be overridden in a subclass
       BASE_TAG_TYPE = :span
 
+      # A lookup of presenters for particular fields - can be overridden in a subclass
+      FIELD_PRESENTERS = {}.freeze
+
       # Returns a new presenter object
       #
       # @param [{ContentBlockTools::ContentBlock}] content_block  A content block object
@@ -63,7 +66,8 @@ module ContentBlockTools
           ContentBlockTools.logger.warn("Content not found for content block #{content_block.content_id} and fields #{field_names}")
           content_block.embed_code
         else
-          content
+          presenter = self.class::FIELD_PRESENTERS[field_names.last] || ContentBlockTools::Presenters::FieldPresenters::BasePresenter
+          presenter.new(content).render
         end
       end
 

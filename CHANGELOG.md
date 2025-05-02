@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.5.2
+
+- Use `deep_symbolize_keys` when initializing a block's details  ([31](https://github.com/alphagov/govuk_content_block_tools/pull/31))
+
 ## 0.5.1
 
 - Update dependencies

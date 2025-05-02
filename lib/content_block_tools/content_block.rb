@@ -60,7 +60,7 @@ module ContentBlockTools
     end
 
     def details
-      to_h[:details].symbolize_keys
+      to_h[:details].deep_symbolize_keys
     end
   end
 end

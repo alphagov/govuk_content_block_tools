@@ -23,10 +23,18 @@ RSpec.describe ContentBlockTools::ContentBlock do
   end
 
   describe ".details" do
-    let(:details) { { "foo" => "bar" } }
+    let(:details) do
+      {
+        "foo" => {
+          "bar" => {
+            "fizz" => "buzz",
+          },
+        },
+      }
+    end
 
     it "symbolizes the keys" do
-      expect(content_block.details).to eq({ foo: "bar" })
+      expect(content_block.details).to eq({ foo: { bar: { fizz: "buzz" } } })
     end
   end
 

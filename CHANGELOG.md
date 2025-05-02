@@ -7,6 +7,11 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+
+- Update dependencies
+- Create a presenter for Contact Blocks ([30](https://github.com/alphagov/govuk_content_block_tools/pull/30))
+
 ## 0.5.0
 
 - Support Content ID aliases ([27](https://github.com/alphagov/govuk_content_block_tools/pull/27))

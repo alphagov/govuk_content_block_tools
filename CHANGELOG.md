@@ -7,7 +7,7 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
-## Unreleased
+## 0.5.1
 
 - Update dependencies
 - Create a presenter for Contact Blocks ([30](https://github.com/alphagov/govuk_content_block_tools/pull/30))

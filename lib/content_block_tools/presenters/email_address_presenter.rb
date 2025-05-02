@@ -4,7 +4,10 @@ module ContentBlockTools
     private
 
       def content
-        content_block.details[:email_address]
+        content_tag(:a,
+                    content_block.details[:email_address],
+                    class: "govuk-link",
+                    href: "mailto:#{content_block.details[:email_address]}")
       end
     end
   end

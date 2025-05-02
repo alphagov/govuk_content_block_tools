@@ -20,16 +20,14 @@ RSpec.describe ContentBlockTools::Presenters::PensionPresenter do
 
   it "should render with the title of the pension" do
     presenter = described_class.new(content_block)
-    expected_html = <<-HTML
-      <span
-        class="content-embed content-embed__something"
-        data-content-block=""
-        data-document-type="something"
-        data-content-id="#{content_id}"
-        data-embed-code="{{embed:content_block_pension:#{content_id}}}">#{title}</span>
-    HTML
 
-    expect(presenter.render.squish).to eq(expected_html.squish)
+    expect(presenter.render).to have_tag("span", text: title, with: {
+      class: "content-embed content-embed__something",
+      "data-content-block" => "",
+      "data-document-type" => "something",
+      "data-content-id" => content_id,
+      "data-embed-code" => "{{embed:content_block_pension:#{content_id}}}",
+    })
   end
 
   context "when fields have been defined" do
@@ -45,16 +43,14 @@ RSpec.describe ContentBlockTools::Presenters::PensionPresenter do
 
     it "should render only the value of that field" do
       presenter = described_class.new(content_block_with_fields)
-      expected_html = <<-HTML
-      <span
-        class="content-embed content-embed__something"
-        data-content-block=""
-        data-document-type="something"
-        data-content-id="#{content_id}"
-        data-embed-code="{{embed:content_block_pension:#{content_id}/description}}">description of pension</span>
-      HTML
 
-      expect(presenter.render.squish).to eq(expected_html.squish)
+      expect(presenter.render).to have_tag("span", text: "description of pension", with: {
+        class: "content-embed content-embed__something",
+        "data-content-block" => "",
+        "data-document-type" => "something",
+        "data-content-id" => content_id,
+        "data-embed-code" => "{{embed:content_block_pension:#{content_id}/description}}",
+      })
     end
   end
 end

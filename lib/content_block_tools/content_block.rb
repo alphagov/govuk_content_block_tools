@@ -43,6 +43,7 @@ module ContentBlockTools
   class ContentBlock < Data
     # A lookup of presenters for particular content block types
     CONTENT_PRESENTERS = {
+      "content_block_contact" => ContentBlockTools::Presenters::ContactPresenter,
       "content_block_email_address" => ContentBlockTools::Presenters::EmailAddressPresenter,
       "content_block_postal_address" => ContentBlockTools::Presenters::PostalAddressPresenter,
       "content_block_pension" => ContentBlockTools::Presenters::PensionPresenter,

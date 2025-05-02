@@ -14,15 +14,19 @@ RSpec.describe ContentBlockTools::Presenters::EmailAddressPresenter do
 
   it "should render with the email address" do
     presenter = described_class.new(content_block)
-    expected_html = <<-HTML
-      <span
-        class="content-embed content-embed__something"
-        data-content-block=""
-        data-document-type="something"
-        data-content-id="#{content_id}"
-        data-embed-code="something">#{email_address}</span>
-    HTML
 
-    expect(presenter.render.squish).to eq(expected_html.squish)
+    expect(presenter.render).to have_tag("span", with: {
+      class: "content-embed content-embed__something",
+      "data-content-block" => "",
+      "data-document-type" => "something",
+      "data-content-id" => content_id,
+      "data-embed-code" => "something",
+    }) do
+      with_tag(
+        :a,
+        text: email_address,
+        with: { href: "mailto:#{email_address}", class: "govuk-link" },
+      )
+    end
   end
 end

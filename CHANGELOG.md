@@ -7,6 +7,11 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+
+- Add spacing to contact item titles ([35](https://github.com/alphagov/govuk_content_block_tools/pull/35))
+- Add new fields to contact items ([35](https://github.com/alphagov/govuk_content_block_tools/pull/35))
+
 ## 0.5.2
 
 - Use `deep_symbolize_keys` when initializing a block's details  ([31](https://github.com/alphagov/govuk_content_block_tools/pull/31))

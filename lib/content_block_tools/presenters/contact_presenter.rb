@@ -9,18 +9,22 @@ module ContentBlockTools
         email_address: ContentBlockTools::Presenters::FieldPresenters::Contact::EmailAddressPresenter,
       }.freeze
 
-      has_embedded_objects :email_addresses, :telephones, :addresses, :contact_forms
+      has_embedded_objects :addresses, :email_addresses, :telephones, :contact_forms
 
     private
 
       def default_content
         content_tag(:div, class: "contact") do
           concat content_tag(:p, content_block.title, class: "govuk-body")
-          concat(addresses.map { |address| ContentBlockTools::Presenters::BlockPresenters::Contact::AddressPresenter.new(address).render }.join.html_safe) if addresses.any?
-          concat(email_addresses.map { |email_address| ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAddressPresenter.new(email_address).render }.join.html_safe) if email_addresses.any?
-          concat(telephones.map { |phone_number| ContentBlockTools::Presenters::BlockPresenters::Contact::PhoneNumberPresenter.new(phone_number).render }.join.html_safe) if telephones.any?
-          concat(contact_forms.map { |contact_form| ContentBlockTools::Presenters::BlockPresenters::Contact::ContactFormPresenter.new(contact_form).render }.join.html_safe) if contact_forms.any?
+          embedded_objects.each do |object|
+            items = send(object)
+            concat(items.map { |item| presenter_for_object_type(object).new(item).render }.join.html_safe)
+          end
         end
+      end
+
+      def presenter_for_object_type(type)
+        "ContentBlockTools::Presenters::BlockPresenters::Contact::#{type.to_s.singularize.underscore.camelize}Presenter".constantize
       end
     end
   end

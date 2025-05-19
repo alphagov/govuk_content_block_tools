@@ -2,7 +2,7 @@ module ContentBlockTools
   module Presenters
     module BlockPresenters
       module Contact
-        class PhoneNumberPresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
+        class TelephonePresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
           def render
             content_tag(:p, class: "govuk-body govuk-!-margin-bottom-4") do
               concat content_tag(:span, title_content)

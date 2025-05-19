@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::PhoneNumberPresenter do
+RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::TelephonePresenter do
   let(:phone_number) do
     {
       "title": "Some phone number",

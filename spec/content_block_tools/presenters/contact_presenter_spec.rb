@@ -3,13 +3,14 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
   let(:email_addresses) { {} }
   let(:telephones) { {} }
   let(:addresses) { {} }
+  let(:contact_forms) { {} }
 
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
       document_type: "contact",
       content_id:,
       title: "My Contact",
-      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses },
+      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses, contact_forms: contact_forms },
       embed_code: "something",
     )
   end
@@ -161,6 +162,40 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           with_tag("p", with: { class: "govuk-body" }) do
             with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
             with_tag "br", count: 4
+          end
+        end
+      end
+    end
+  end
+
+  describe "when contact forms are present" do
+    let(:contact_forms) do
+      {
+        "foo": {
+          "title": "Some contact form",
+          "url": "http://example.com",
+        },
+      }
+    end
+
+    it "should return the contact forms" do
+      presenter = described_class.new(content_block)
+
+      expect(presenter.contact_forms).to eq([{
+        "title": "Some contact form",
+        "url": "http://example.com",
+      }])
+    end
+
+    it "should render successfully" do
+      presenter = described_class.new(content_block)
+
+      expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
+        with_tag("div", with: { class: "contact" }) do
+          with_tag("p", text: "My Contact", with: { class: "govuk-body" })
+          with_tag("p", with: { class: "govuk-body" }) do
+            with_tag("span", text: "Some contact form: ")
+            with_tag("a", text: "http://example.com", with: { href: "http://example.com", class: "govuk-link" })
           end
         end
       end

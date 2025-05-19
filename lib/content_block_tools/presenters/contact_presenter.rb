@@ -9,7 +9,7 @@ module ContentBlockTools
         email_address: ContentBlockTools::Presenters::FieldPresenters::Contact::EmailAddressPresenter,
       }.freeze
 
-      has_embedded_objects :email_addresses, :telephones, :addresses
+      has_embedded_objects :email_addresses, :telephones, :addresses, :contact_forms
 
     private
 
@@ -19,6 +19,7 @@ module ContentBlockTools
           concat(addresses.map { |address| ContentBlockTools::Presenters::BlockPresenters::Contact::AddressPresenter.new(address).render }.join.html_safe) if addresses.any?
           concat(email_addresses.map { |email_address| ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAddressPresenter.new(email_address).render }.join.html_safe) if email_addresses.any?
           concat(telephones.map { |phone_number| ContentBlockTools::Presenters::BlockPresenters::Contact::PhoneNumberPresenter.new(phone_number).render }.join.html_safe) if telephones.any?
+          concat(contact_forms.map { |contact_form| ContentBlockTools::Presenters::BlockPresenters::Contact::ContactFormPresenter.new(contact_form).render }.join.html_safe) if contact_forms.any?
         end
       end
     end

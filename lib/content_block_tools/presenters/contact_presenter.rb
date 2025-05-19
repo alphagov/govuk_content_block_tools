@@ -9,40 +9,16 @@ module ContentBlockTools
         email_address: ContentBlockTools::Presenters::FieldPresenters::Contact::EmailAddressPresenter,
       }.freeze
 
-      has_embedded_objects :email_addresses, :telephones
+      has_embedded_objects :email_addresses, :telephones, :addresses
 
     private
 
       def default_content
         content_tag(:div, class: "contact") do
           concat content_tag(:p, content_block.title, class: "govuk-body")
-          concat(email_addresses.map { |email_address| email_address_content(email_address) }.join.html_safe) if email_addresses.any?
-          concat(telephones.map { |phone_number| phone_number_content(phone_number) }.join.html_safe) if telephones.any?
+          concat(email_addresses.map { |email_address| ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAddressPresenter.new(email_address).render }.join.html_safe) if email_addresses.any?
+          concat(telephones.map { |phone_number| ContentBlockTools::Presenters::BlockPresenters::Contact::PhoneNumberPresenter.new(phone_number).render }.join.html_safe) if telephones.any?
         end
-      end
-
-      def email_address_content(email_address)
-        content_tag(:p, class: "govuk-body govuk-!-margin-bottom-4") do
-          concat content_tag(:span, title_content(email_address))
-          concat content_tag(:a,
-                             email_address[:email_address],
-                             class: "govuk-link",
-                             href: "mailto:#{email_address[:email_address]}")
-        end
-      end
-
-      def phone_number_content(phone_number)
-        content_tag(:p, class: "govuk-body govuk-!-margin-bottom-4") do
-          concat content_tag(:span, title_content(phone_number))
-          concat content_tag(:a,
-                             phone_number[:telephone],
-                             class: "govuk-link",
-                             href: "tel:#{CGI.escape phone_number[:telephone]}")
-        end
-      end
-
-      def title_content(item)
-        "#{item[:title]}: "
       end
     end
   end

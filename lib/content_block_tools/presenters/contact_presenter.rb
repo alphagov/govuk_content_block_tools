@@ -23,7 +23,7 @@ module ContentBlockTools
 
       def email_address_content(email_address)
         content_tag(:p, class: "govuk-body govuk-!-margin-bottom-4") do
-          concat content_tag(:span, email_address[:title])
+          concat content_tag(:span, title_content(email_address))
           concat content_tag(:a,
                              email_address[:email_address],
                              class: "govuk-link",
@@ -33,12 +33,16 @@ module ContentBlockTools
 
       def phone_number_content(phone_number)
         content_tag(:p, class: "govuk-body govuk-!-margin-bottom-4") do
-          concat content_tag(:span, phone_number[:title])
+          concat content_tag(:span, title_content(phone_number))
           concat content_tag(:a,
                              phone_number[:telephone],
                              class: "govuk-link",
                              href: "tel:#{CGI.escape phone_number[:telephone]}")
         end
+      end
+
+      def title_content(item)
+        "#{item[:title]}: "
       end
     end
   end

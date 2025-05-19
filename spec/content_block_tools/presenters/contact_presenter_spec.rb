@@ -61,7 +61,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         with_tag("div", with: { class: "contact" }) do
           with_tag("p", text: "My Contact", with: { class: "govuk-body" })
           with_tag("p", with: { class: "govuk-body" }) do
-            with_tag("span", text: "Some email address")
+            with_tag("span", text: "Some email address: ")
             with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com", class: "govuk-link" })
           end
         end
@@ -117,7 +117,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         with_tag("div", with: { class: "contact" }) do
           with_tag("p", text: "My Contact", with: { class: "govuk-body" })
           with_tag("p", with: { class: "govuk-body" }) do
-            with_tag("span", text: "Some phone number")
+            with_tag("span", text: "Some phone number: ")
             with_tag("a", text: "0891 50 50 50", with: { href: "tel:0891+50+50+50", class: "govuk-link" })
           end
         end

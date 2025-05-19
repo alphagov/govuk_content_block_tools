@@ -9,13 +9,15 @@ module ContentBlockTools
         email_address: ContentBlockTools::Presenters::FieldPresenters::Contact::EmailAddressPresenter,
       }.freeze
 
+      has_embedded_objects :email_addresses, :telephones
+
     private
 
       def default_content
         content_tag(:div, class: "contact") do
           concat content_tag(:p, content_block.title, class: "govuk-body")
           concat(email_addresses.map { |email_address| email_address_content(email_address) }.join.html_safe) if email_addresses.any?
-          concat(phone_numbers.map { |phone_number| phone_number_content(phone_number) }.join.html_safe) if phone_numbers.any?
+          concat(telephones.map { |phone_number| phone_number_content(phone_number) }.join.html_safe) if telephones.any?
         end
       end
 
@@ -37,14 +39,6 @@ module ContentBlockTools
                              class: "govuk-link",
                              href: "tel:#{CGI.escape phone_number[:telephone]}")
         end
-      end
-
-      def email_addresses
-        content_block.details[:email_addresses]&.values
-      end
-
-      def phone_numbers
-        content_block.details[:telephones]&.values
       end
     end
   end

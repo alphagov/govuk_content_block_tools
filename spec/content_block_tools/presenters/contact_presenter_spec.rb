@@ -45,6 +45,15 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       }
     end
 
+    it "should return the email addresses" do
+      presenter = described_class.new(content_block)
+
+      expect(presenter.email_addresses).to eq([{
+        "title": "Some email address",
+        "email_address": "foo@example.com",
+      }])
+    end
+
     it "should render successfully" do
       presenter = described_class.new(content_block)
 
@@ -90,6 +99,15 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           "telephone": "0891 50 50 50",
         },
       }
+    end
+
+    it "should return the telephones" do
+      presenter = described_class.new(content_block)
+
+      expect(presenter.telephones).to eq([{
+        "title": "Some phone number",
+        "telephone": "0891 50 50 50",
+      }])
     end
 
     it "should render successfully" do

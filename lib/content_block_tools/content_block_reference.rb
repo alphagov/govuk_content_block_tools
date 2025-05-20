@@ -28,7 +28,7 @@ module ContentBlockTools
   #   @return [String]
   class ContentBlockReference < Data
     # An array of the supported document types
-    SUPPORTED_DOCUMENT_TYPES = %w[contact content_block_postal_address content_block_pension content_block_contact].freeze
+    SUPPORTED_DOCUMENT_TYPES = %w[contact content_block_pension content_block_contact].freeze
     # The regex used to find UUIDs
     UUID_REGEX = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
     # The regex used to find content ID aliases

@@ -23,7 +23,7 @@ module ContentBlockTools
   #   will be used to render the content block. All supported document_types are documented in
   #   {ContentBlockTools::ContentBlockReference::SUPPORTED_DOCUMENT_TYPES}
   #   @example
-  #     content_block.document_type #=> "content_block_email_address"
+  #     content_block.document_type #=> "content_block_pension"
   #   @return [String] the document type
   #   @api public
   #
@@ -37,14 +37,13 @@ module ContentBlockTools
   # @!attribute [r] embed_code
   #  The embed_code used for a block containing optional field name
   #  @example
-  #    content_block_reference.embed_code #=> "{{embed:content_block_email_address:2b92cade-549c-4449-9796-e7a3957f3a86}}"
+  #    content_block_reference.embed_code #=> "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}"
   #    content_block_reference.embed_code #=> "{{embed:content_block_postal_address:2b92cade-549c-4449-9796-e7a3957f3a86/field_name}}"
   #  @return [String]
   class ContentBlock < Data
     # A lookup of presenters for particular content block types
     CONTENT_PRESENTERS = {
       "content_block_contact" => ContentBlockTools::Presenters::ContactPresenter,
-      "content_block_email_address" => ContentBlockTools::Presenters::EmailAddressPresenter,
       "content_block_postal_address" => ContentBlockTools::Presenters::PostalAddressPresenter,
       "content_block_pension" => ContentBlockTools::Presenters::PensionPresenter,
     }.freeze

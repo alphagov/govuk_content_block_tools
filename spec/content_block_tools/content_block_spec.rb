@@ -1,7 +1,7 @@
 RSpec.describe ContentBlockTools::ContentBlock do
   let(:content_id) { SecureRandom.uuid }
   let(:title) { "Some Title" }
-  let(:document_type) { "content_block_email_address" }
+  let(:document_type) { "content_block_pension" }
   let(:details) { { some: "details" } }
   let(:embed_code) { "something" }
 
@@ -46,16 +46,6 @@ RSpec.describe ContentBlockTools::ContentBlock do
       expect(presenter_class).to receive(:new).with(content_block) {
         presenter_double
       }
-    end
-
-    context "when an email address" do
-      let(:document_type) { "content_block_email_address" }
-      let(:presenter_class) { ContentBlockTools::Presenters::EmailAddressPresenter }
-
-      it "calls the email address presenter" do
-        expect(content_block.render).to eq(render_response)
-        expect(presenter_double).to have_received(:render)
-      end
     end
 
     context "when a contact" do

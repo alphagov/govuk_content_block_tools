@@ -6,6 +6,12 @@ require "uri"
 require "content_block_tools/presenters/field_presenters/base_presenter"
 require "content_block_tools/presenters/field_presenters/contact/email_address_presenter"
 
+require "content_block_tools/presenters/block_presenters/base_presenter"
+require "content_block_tools/presenters/block_presenters/contact/address_presenter"
+require "content_block_tools/presenters/block_presenters/contact/contact_form_presenter"
+require "content_block_tools/presenters/block_presenters/contact/email_address_presenter"
+require "content_block_tools/presenters/block_presenters/contact/telephone_presenter"
+
 require "content_block_tools/presenters/base_presenter"
 require "content_block_tools/presenters/contact_presenter"
 require "content_block_tools/presenters/email_address_presenter"

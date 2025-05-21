@@ -41,7 +41,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
           },
         },
       },
-      embed_code: "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}",
+      embed_code: "{{embed:content_block_contact:#{content_id}/first_field/second_field/third_field}}",
     )
 
     presenter = described_class.new(content_block_with_nested_fields)
@@ -50,7 +50,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
       "span",
       text: "hello world",
       with: expected_wrapper_attributes.merge(
-        "data-embed-code" => "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}",
+        "data-embed-code" => "{{embed:content_block_contact:#{content_id}/first_field/second_field/third_field}}",
       ),
     )
   end
@@ -67,14 +67,14 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
           },
         },
       },
-      embed_code: "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/fake_field}}",
+      embed_code: "{{embed:content_block_contact:#{content_id}/first_field/second_field/fake_field}}",
     )
 
     presenter = described_class.new(content_block_with_nested_fields)
 
     expect(ContentBlockTools.logger).to receive(:warn).with("Content not found for content block #{content_id} and fields [:first_field, :second_field, :fake_field]")
 
-    embed_code = "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/fake_field}}"
+    embed_code = "{{embed:content_block_contact:#{content_id}/first_field/second_field/fake_field}}"
 
     expect(presenter.render).to have_tag(
       "span",
@@ -97,11 +97,11 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
           },
         },
       },
-      embed_code: "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}",
+      embed_code: "{{embed:content_block_contact:#{content_id}/first_field/second_field/third_field}}",
     )
 
     presenter = described_class.new(content_block_with_nested_fields)
-    embed_code = "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}"
+    embed_code = "{{embed:content_block_contact:#{content_id}/first_field/second_field/third_field}}"
 
     expect(presenter.render).to have_tag(
       "span",
@@ -129,7 +129,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
           },
         },
       },
-      embed_code: "{{embed:content_block_postal_address:#{content_id}/first_field/second_field/third_field}}",
+      embed_code: "{{embed:content_block_contact:#{content_id}/first_field/second_field/third_field}}",
     )
 
     expect(presenter_class).to receive(:new).with("hello world") {

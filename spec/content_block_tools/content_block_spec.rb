@@ -78,4 +78,43 @@ RSpec.describe ContentBlockTools::ContentBlock do
       end
     end
   end
+
+  describe ".field_order" do
+    let(:details) do
+      {
+        "foo" => {
+          "bar" => {
+            "fizz" => "buzz",
+          },
+          "baz" => {
+            "fizz" => "bazz",
+          },
+        },
+        "something" => {
+          "else" => {
+            "name" => "something",
+          },
+        },
+        "field_orders" => field_orders,
+      }
+    end
+
+    context "when a field order is not provided" do
+      let(:field_orders) { nil }
+
+      it "returns the keys in a standard order" do
+        expect(content_block.field_order).to eq(["title", { foo: %i[bar baz] }, { something: %i[else] }])
+      end
+    end
+
+    context "when a field order is provided" do
+      let(:field_orders) do
+        { default: ["title", { something: %i[else] }, { foo: %i[baz bar] }] }
+      end
+
+      it "returns the keys in a standard order" do
+        expect(content_block.field_order).to eq(field_orders[:default])
+      end
+    end
+  end
 end

@@ -62,5 +62,21 @@ module ContentBlockTools
     def details
       to_h[:details].deep_symbolize_keys
     end
+
+    def field_order
+      details.dig(:field_orders, :default) || default_field_order
+    end
+
+  private
+
+    def default_field_order
+      base_fields = %w[title]
+
+      additional_fields = details.except(:field_orders).map do |key, value|
+        value.is_a?(String) ? key : { key => value.keys }
+      end
+
+      base_fields + additional_fields
+    end
   end
 end

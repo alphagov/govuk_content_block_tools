@@ -5,12 +5,21 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
   let(:addresses) { {} }
   let(:contact_forms) { {} }
 
+  let(:details) do
+    {
+      email_addresses: email_addresses,
+      telephones: telephones,
+      addresses: addresses,
+      contact_forms: contact_forms,
+    }
+  end
+
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
       document_type: "contact",
       content_id:,
       title: "My Contact",
-      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses, contact_forms: contact_forms },
+      details:,
       embed_code: "something",
     )
   end
@@ -45,15 +54,6 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           "email_address": "foo@example.com",
         },
       }
-    end
-
-    it "should return the email addresses" do
-      presenter = described_class.new(content_block)
-
-      expect(presenter.email_addresses).to eq([{
-        "title": "Some email address",
-        "email_address": "foo@example.com",
-      }])
     end
 
     it "should render successfully" do
@@ -103,15 +103,6 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       }
     end
 
-    it "should return the telephones" do
-      presenter = described_class.new(content_block)
-
-      expect(presenter.telephones).to eq([{
-        "title": "Some phone number",
-        "telephone": "0891 50 50 50",
-      }])
-    end
-
     it "should render successfully" do
       presenter = described_class.new(content_block)
 
@@ -141,19 +132,6 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       }
     end
 
-    it "should return the addresses" do
-      presenter = described_class.new(content_block)
-
-      expect(presenter.addresses).to eq([{
-        "title": "Some address",
-        "street_address": "123 Fake Street",
-        "locality": "Springton",
-        "region": "Missouri",
-        "postal_code": "TEST 123",
-        "country": "USA",
-      }])
-    end
-
     it "should render successfully" do
       presenter = described_class.new(content_block)
 
@@ -176,15 +154,6 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           "url": "http://example.com",
         },
       }
-    end
-
-    it "should return the contact forms" do
-      presenter = described_class.new(content_block)
-
-      expect(presenter.contact_forms).to eq([{
-        "title": "Some contact form",
-        "url": "http://example.com",
-      }])
     end
 
     it "should render successfully" do

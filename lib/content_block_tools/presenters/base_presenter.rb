@@ -10,16 +10,6 @@ module ContentBlockTools
       # A lookup of presenters for particular fields - can be overridden in a subclass
       FIELD_PRESENTERS = {}.freeze
 
-      def self.has_embedded_objects(*object_types)
-        @embedded_objects = object_types
-
-        object_types.each do |object_type|
-          define_method(object_type) do
-            embedded_objects_of_type(object_type)
-          end
-        end
-      end
-
       # Returns a new presenter object
       #
       # @param [{ContentBlockTools::ContentBlock}] content_block  A content block object
@@ -59,23 +49,19 @@ module ContentBlockTools
       # {#content}
       def content
         ContentBlockTools.logger.info("Getting content for content block #{content_block.content_id}")
-        if content_block.keys_from_embed_code.present?
-          ContentBlockTools::Renderers::FieldRenderer.new(content_block).render
-        else
-          default_content
-        end
+        content_block.keys_from_embed_code.present? ? field_content : block_content
+      end
+
+      def field_content
+        ContentBlockTools::Renderers::FieldRenderer.new(content_block).render
+      end
+
+      def block_content
+        ContentBlockTools::Renderers::BlockRenderer.new(content_block).render
       end
 
       def base_tag
-        content_block.keys_from_embed_code ? :span : self.class::BASE_TAG_TYPE
-      end
-
-      def embedded_objects_of_type(type)
-        content_block.details.fetch(type, {}).values
-      end
-
-      def embedded_objects
-        self.class.instance_variable_get("@embedded_objects")
+        content_block.keys_from_embed_code.present? ? :span : self.class::BASE_TAG_TYPE
       end
     end
   end

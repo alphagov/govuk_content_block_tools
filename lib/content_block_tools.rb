@@ -18,6 +18,7 @@ require "content_block_tools/presenters/email_address_presenter"
 require "content_block_tools/presenters/postal_address_presenter"
 require "content_block_tools/presenters/pension_presenter"
 
+require "content_block_tools/renderers/block_renderer"
 require "content_block_tools/renderers/field_renderer"
 
 require "content_block_tools/content_block"

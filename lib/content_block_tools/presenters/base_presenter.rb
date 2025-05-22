@@ -53,50 +53,21 @@ module ContentBlockTools
       attr_reader :content_block
 
       # The default representation of the content block - this can be overridden in a subclass
-      # by overriding the content, default_content or content_for_fields methods
+      # by overriding the content, default_content or the output of the FieldRenderer class
       #
       # @return [string] A representation of the content block to be wrapped in the base_tag in
       # {#content}
       def content
         ContentBlockTools.logger.info("Getting content for content block #{content_block.content_id}")
-        if field_names.present?
-          content_for_fields
+        if content_block.keys_from_embed_code.present?
+          ContentBlockTools::Renderers::FieldRenderer.new(content_block).render
         else
           default_content
         end
       end
 
-      def default_content
-        content_block.title
-      end
-
-      def content_for_fields
-        content = content_block.details.deep_symbolize_keys.dig(*field_names)
-        if content.blank?
-          ContentBlockTools.logger.warn("Content not found for content block #{content_block.content_id} and fields #{field_names}")
-          content_block.embed_code
-        else
-          presenter = field_presenter || ContentBlockTools::Presenters::FieldPresenters::BasePresenter
-          presenter.new(content).render
-        end
-      end
-
-      def field_names
-        @field_names ||= begin
-          embed_code_match = ContentBlockReference::EMBED_REGEX.match(content_block.embed_code)
-          if embed_code_match.present?
-            all_fields = embed_code_match[4]&.reverse&.chomp("/")&.reverse
-            all_fields&.split("/")&.map(&:to_sym)
-          end
-        end
-      end
-
-      def field_presenter
-        @field_presenter ||= field_names ? self.class::FIELD_PRESENTERS[field_names.last] : nil
-      end
-
       def base_tag
-        field_names ? :span : self.class::BASE_TAG_TYPE
+        content_block.keys_from_embed_code ? :span : self.class::BASE_TAG_TYPE
       end
 
       def embedded_objects_of_type(type)

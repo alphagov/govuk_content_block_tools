@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.6.0
+
+- Add support for field orders ([39](https://github.com/alphagov/govuk_content_block_tools/pull/39))
+
 ## 0.5.3
 
 - Add spacing to contact item titles ([35](https://github.com/alphagov/govuk_content_block_tools/pull/35))

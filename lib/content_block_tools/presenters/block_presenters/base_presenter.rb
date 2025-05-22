@@ -15,7 +15,13 @@ module ContentBlockTools
           "#{item[:title]}: "
         end
 
-        def render; end
+        def render
+          content_tag(:div) do
+            item.each_key do |key|
+              concat content_tag(:p, item[key])
+            end
+          end
+        end
       end
     end
   end

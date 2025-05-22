@@ -10,16 +10,6 @@ module ContentBlockTools
       # A lookup of presenters for particular fields - can be overridden in a subclass
       FIELD_PRESENTERS = {}.freeze
 
-      def self.has_embedded_objects(*object_types)
-        @embedded_objects = object_types
-
-        object_types.each do |object_type|
-          define_method(object_type) do
-            embedded_objects_of_type(object_type)
-          end
-        end
-      end
-
       # Returns a new presenter object
       #
       # @param [{ContentBlockTools::ContentBlock}] content_block  A content block object
@@ -53,58 +43,25 @@ module ContentBlockTools
       attr_reader :content_block
 
       # The default representation of the content block - this can be overridden in a subclass
-      # by overriding the content, default_content or content_for_fields methods
+      # by overriding the content, default_content or the output of the FieldRenderer class
       #
       # @return [string] A representation of the content block to be wrapped in the base_tag in
       # {#content}
       def content
         ContentBlockTools.logger.info("Getting content for content block #{content_block.content_id}")
-        if field_names.present?
-          content_for_fields
-        else
-          default_content
-        end
+        content_block.keys_from_embed_code.present? ? field_content : block_content
       end
 
-      def default_content
-        content_block.title
+      def field_content
+        ContentBlockTools::Renderers::FieldRenderer.new(content_block).render
       end
 
-      def content_for_fields
-        content = content_block.details.deep_symbolize_keys.dig(*field_names)
-        if content.blank?
-          ContentBlockTools.logger.warn("Content not found for content block #{content_block.content_id} and fields #{field_names}")
-          content_block.embed_code
-        else
-          presenter = field_presenter || ContentBlockTools::Presenters::FieldPresenters::BasePresenter
-          presenter.new(content).render
-        end
-      end
-
-      def field_names
-        @field_names ||= begin
-          embed_code_match = ContentBlockReference::EMBED_REGEX.match(content_block.embed_code)
-          if embed_code_match.present?
-            all_fields = embed_code_match[4]&.reverse&.chomp("/")&.reverse
-            all_fields&.split("/")&.map(&:to_sym)
-          end
-        end
-      end
-
-      def field_presenter
-        @field_presenter ||= field_names ? self.class::FIELD_PRESENTERS[field_names.last] : nil
+      def block_content
+        ContentBlockTools::Renderers::BlockRenderer.new(content_block).render
       end
 
       def base_tag
-        field_names ? :span : self.class::BASE_TAG_TYPE
-      end
-
-      def embedded_objects_of_type(type)
-        content_block.details.fetch(type, {}).values
-      end
-
-      def embedded_objects
-        self.class.instance_variable_get("@embedded_objects")
+        content_block.keys_from_embed_code.present? ? :span : self.class::BASE_TAG_TYPE
       end
     end
   end

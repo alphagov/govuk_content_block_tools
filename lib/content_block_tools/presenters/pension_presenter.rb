@@ -3,7 +3,7 @@ module ContentBlockTools
     class PensionPresenter < BasePresenter
     private
 
-      def default_content
+      def block_content
         content_block.title
       end
     end

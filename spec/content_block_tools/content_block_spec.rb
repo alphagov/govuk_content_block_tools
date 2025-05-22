@@ -117,4 +117,30 @@ RSpec.describe ContentBlockTools::ContentBlock do
       end
     end
   end
+
+  describe ".keys_from_embed_code" do
+    context "when an embed code has no fields" do
+      let(:embed_code) { "{{embed:content_block_pension:something}}" }
+
+      it "returns nil" do
+        expect(content_block.keys_from_embed_code).to be_nil
+      end
+    end
+
+    context "when an embed code has a first class field" do
+      let(:embed_code) { "{{embed:content_block_pension:something/field}}" }
+
+      it "returns an array with the field" do
+        expect(content_block.keys_from_embed_code).to eq([:field])
+      end
+    end
+
+    context "when an embed code has a nested field" do
+      let(:embed_code) { "{{embed:content_block_pension:something/deeply/nested/field}}" }
+
+      it "returns an array with all fields" do
+        expect(content_block.keys_from_embed_code).to eq(%i[deeply nested field])
+      end
+    end
+  end
 end

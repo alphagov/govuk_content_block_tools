@@ -12,7 +12,7 @@ module ContentBlockTools
         end
 
         def render
-          field
+          content_tag(:p, field, class: "govuk-body")
         end
       end
     end

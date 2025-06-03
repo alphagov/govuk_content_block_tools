@@ -9,7 +9,7 @@ module ContentBlockTools
   #   will be used to render the content block. All supported document_types are documented in
   #   {ContentBlockTools::ContentBlockReference::SUPPORTED_DOCUMENT_TYPES}
   #   @example
-  #     content_block_reference.document_type #=> "content_block_email_address"
+  #     content_block_reference.document_type #=> "content_block_pension"
   #   @return [String] the document type
   #   @api public
   #
@@ -24,11 +24,11 @@ module ContentBlockTools
   # @!attribute [r] embed_code
   #   The embed_code used for a block
   #   @example
-  #     content_block_reference.embed_code #=> "{{embed:content_block_email_address:2b92cade-549c-4449-9796-e7a3957f3a86}}"
+  #     content_block_reference.embed_code #=> "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}"
   #   @return [String]
   class ContentBlockReference < Data
     # An array of the supported document types
-    SUPPORTED_DOCUMENT_TYPES = %w[contact content_block_email_address content_block_postal_address content_block_pension content_block_contact].freeze
+    SUPPORTED_DOCUMENT_TYPES = %w[contact content_block_pension content_block_contact].freeze
     # The regex used to find UUIDs
     UUID_REGEX = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
     # The regex used to find content ID aliases

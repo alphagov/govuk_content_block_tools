@@ -166,6 +166,25 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         end
       end
     end
+
+    it "should render an address when embed code is provided" do
+      embed_code = "{{embed:content_block_contact:#{content_id}/addresses/some_address}}"
+
+      content_block = ContentBlockTools::ContentBlock.new(
+        document_type: "contact",
+        content_id:,
+        title: "My Contact",
+        details: { addresses: addresses, telephones: telephones },
+        embed_code:,
+      )
+
+      presenter = described_class.new(content_block)
+
+      expect(presenter.render).to have_tag("span", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
+        with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
+        with_tag "br", count: 4
+      end
+    end
   end
 
   describe "when contact forms are present" do

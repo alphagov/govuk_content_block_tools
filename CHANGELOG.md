@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.6.0
+
+- Support rendering nested blocks ([45](https://github.com/alphagov/govuk_content_block_tools/pull/45))
+
 ## 0.5.4
 
 - Remove old email_address and postal_address types ([38](https://github.com/alphagov/govuk_content_block_tools/pull/38))

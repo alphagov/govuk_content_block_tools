@@ -9,6 +9,10 @@ module ContentBlockTools
         email_address: ContentBlockTools::Presenters::FieldPresenters::Contact::EmailAddressPresenter,
       }.freeze
 
+      BLOCK_PRESENTERS = {
+        addresses: ContentBlockTools::Presenters::BlockPresenters::Contact::AddressPresenter,
+      }.freeze
+
       has_embedded_objects :addresses, :email_addresses, :telephones, :contact_forms
 
     private

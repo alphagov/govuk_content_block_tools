@@ -10,6 +10,9 @@ module ContentBlockTools
       # A lookup of presenters for particular fields - can be overridden in a subclass
       FIELD_PRESENTERS = {}.freeze
 
+      # A lookup of presenters for particular blocks - can be overridden in a subclass
+      BLOCK_PRESENTERS = {}.freeze
+
       def self.has_embedded_objects(*object_types)
         @embedded_objects = object_types
 
@@ -59,26 +62,28 @@ module ContentBlockTools
       # {#content}
       def content
         ContentBlockTools.logger.info("Getting content for content block #{content_block.content_id}")
-        if field_names.present?
-          content_for_fields
-        else
-          default_content
-        end
+        field_names.present? ? content_for_field_names : default_content
       end
 
       def default_content
         content_block.title
       end
 
-      def content_for_fields
+      def content_for_field_names
         content = content_block.details.deep_symbolize_keys.dig(*field_names)
+
         if content.blank?
           ContentBlockTools.logger.warn("Content not found for content block #{content_block.content_id} and fields #{field_names}")
-          content_block.embed_code
-        else
-          presenter = field_presenter || ContentBlockTools::Presenters::FieldPresenters::BasePresenter
-          presenter.new(content).render
+          return content_block.embed_code
         end
+
+        presenter = if content.is_a?(Hash)
+                      block_presenter || ContentBlockTools::Presenters::BlockPresenters::BasePresenter
+                    else
+                      field_presenter || ContentBlockTools::Presenters::FieldPresenters::BasePresenter
+                    end
+
+        presenter.new(content).render
       end
 
       def field_names
@@ -93,6 +98,10 @@ module ContentBlockTools
 
       def field_presenter
         @field_presenter ||= field_names ? self.class::FIELD_PRESENTERS[field_names.last] : nil
+      end
+
+      def block_presenter
+        @block_presenter ||= field_names ? self.class::BLOCK_PRESENTERS[field_names.first] : nil
       end
 
       def base_tag

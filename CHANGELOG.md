@@ -7,7 +7,7 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
-## Unreleased
+## 0.5.4
 
 - Remove old email_address and postal_address types ([38](https://github.com/alphagov/govuk_content_block_tools/pull/38))
 

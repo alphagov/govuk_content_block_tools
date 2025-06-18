@@ -98,7 +98,12 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       {
         "foo": {
           "title": "Some phone number",
-          "telephone": "0891 50 50 50",
+          "telephone_numbers": [
+            {
+              label: "Telephone",
+              telephone_number: "0891 50 50 50",
+            },
+          ],
         },
       }
     end
@@ -108,7 +113,12 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
       expect(presenter.telephones).to eq([{
         "title": "Some phone number",
-        "telephone": "0891 50 50 50",
+        "telephone_numbers": [
+          {
+            label: "Telephone",
+            telephone_number: "0891 50 50 50",
+          },
+        ],
       }])
     end
 
@@ -118,8 +128,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
         with_tag("div", with: { class: "contact" }) do
           with_tag("p", text: "My Contact", with: { class: "govuk-body" })
-          with_tag("p", with: { class: "govuk-body" }) do
-            with_tag("span", text: "Some phone number: ")
+          with_tag("div", with: { class: "govuk-body" }) do
             with_tag("a", text: "0891 50 50 50", with: { href: "tel:0891+50+50+50", class: "govuk-link" })
           end
         end

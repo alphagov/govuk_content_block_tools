@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.6.1
+
+- Handle multiple telephone numbers for a Contact block ([48](https://github.com/alphagov/govuk_content_block_tools/pull/48)
+
 ## 0.6.0
 
 - Support rendering nested blocks ([45](https://github.com/alphagov/govuk_content_block_tools/pull/45))

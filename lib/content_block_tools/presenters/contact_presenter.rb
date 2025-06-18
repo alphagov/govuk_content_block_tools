@@ -11,6 +11,7 @@ module ContentBlockTools
 
       BLOCK_PRESENTERS = {
         addresses: ContentBlockTools::Presenters::BlockPresenters::Contact::AddressPresenter,
+        telephones: ContentBlockTools::Presenters::BlockPresenters::Contact::TelephonePresenter,
       }.freeze
 
       has_embedded_objects :addresses, :email_addresses, :telephones, :contact_forms

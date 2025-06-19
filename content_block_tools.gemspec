@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = %w[lib]
 
   spec.add_development_dependency "rake", "13.3.0"
-  spec.add_development_dependency "rspec", "3.13.0"
+  spec.add_development_dependency "rspec", "3.13.1"
   spec.add_development_dependency "rspec-html-matchers", "0.10.0"
   spec.add_development_dependency "rubocop-govuk", "5.1.15"
 

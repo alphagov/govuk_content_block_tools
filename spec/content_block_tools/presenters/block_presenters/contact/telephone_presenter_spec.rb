@@ -12,6 +12,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
           "telephone_number": "5678",
         },
       ],
+      "show_uk_call_charges": "false",
     }
   end
 
@@ -20,9 +21,27 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
     expect(presenter.render).to have_tag("div", with: { class: "govuk-body" }) do
       with_tag("ul", with: { style: "list-style: none;" }) do
-        with_tag("li") do
-          with_tag("span", text: "Office: ")
-          with_tag("a", text: "1234", with: { href: "tel:1234", class: "govuk-link" })
+        with_tag("li", text: "Office: 1234")
+        without_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges", class: "govuk-link" })
+      end
+    end
+  end
+
+  describe "when it should show uk call charges" do
+    let(:phone_number_with_call_charges) do
+      {
+        "title": "Some phone number",
+        "telephone_numbers": [],
+        "show_uk_call_charges": "true",
+      }
+    end
+
+    it "renders a link" do
+      presenter = described_class.new(phone_number_with_call_charges)
+
+      expect(presenter.render).to have_tag("div", with: { class: "govuk-body" }) do
+        with_tag("p") do
+          with_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges", class: "govuk-link" })
         end
       end
     end

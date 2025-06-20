@@ -9,7 +9,7 @@
 
 ## Unreleased
 
-- Handle UK call charges for a Contact block
+- Handle UK call charges for a Contact block ([51](https://github.com/alphagov/govuk_content_block_tools/pull/51))
 
 ## 0.6.1
 

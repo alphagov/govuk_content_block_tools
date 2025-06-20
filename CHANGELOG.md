@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+
+- Handle UK call charges for a Contact block, remove links from telephone numbers
+
 ## 0.6.1
 
 - Handle multiple telephone numbers for a Contact block ([48](https://github.com/alphagov/govuk_content_block_tools/pull/48)

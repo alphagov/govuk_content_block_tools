@@ -129,7 +129,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         with_tag("div", with: { class: "contact" }) do
           with_tag("p", text: "My Contact", with: { class: "govuk-body" })
           with_tag("div", with: { class: "govuk-body" }) do
-            with_tag("a", text: "0891 50 50 50", with: { href: "tel:0891+50+50+50", class: "govuk-link" })
+            with_tag("li", text: "Telephone: 0891 50 50 50")
           end
         end
       end

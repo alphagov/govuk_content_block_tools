@@ -6,6 +6,7 @@ module ContentBlockTools
           def render
             content_tag(:div, class: "govuk-body govuk-!-margin-bottom-4") do
               concat number_list
+              concat call_charges_link
             end
           end
 
@@ -24,6 +25,15 @@ module ContentBlockTools
                                  number[:telephone_number],
                                  class: "govuk-link",
                                  href: "tel:#{CGI.escape number[:telephone_number]}")
+            end
+          end
+
+          def call_charges_link
+            item[:show_uk_call_charges] == "true" && content_tag(:p) do
+              concat content_tag(:a,
+                                 "Find out about call charges",
+                                 class: "govuk-link",
+                                 href: "https://www.gov.uk/call-charges")
             end
           end
         end

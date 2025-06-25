@@ -4,6 +4,7 @@ module ContentBlockTools
       class BasePresenter
         include ActionView::Context
         include ActionView::Helpers::TagHelper
+        BASE_TAG_TYPE = :span
 
         attr_reader :field
 

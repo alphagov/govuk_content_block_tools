@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.6.3
+
+- Fix rendering telephone numbers and rendering individual nested fields ([53](https://github.com/alphagov/govuk_content_block_tools/pull/53))
+
 ## 0.6.2
 
 - Handle UK call charges for a Contact block, remove links from telephone numbers ([51](https://github.com/alphagov/govuk_content_block_tools/pull/51))

@@ -134,6 +134,46 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         end
       end
     end
+
+    it "should render a telephone number when embed code is provided" do
+      embed_code = "{{embed:content_block_contact:#{content_id}/telephones/foo}}"
+
+      content_block = ContentBlockTools::ContentBlock.new(
+        document_type: "contact",
+        content_id:,
+        title: "My Contact",
+        details: { addresses: addresses, telephones: telephones },
+        embed_code:,
+      )
+
+      presenter = described_class.new(content_block)
+
+      expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
+        with_tag("div", with: { class: "govuk-body" }) do
+          with_tag("li", text: "Telephone: 0891 50 50 50")
+        end
+      end
+    end
+
+    it "should render an individual telephone number when a reference to the number is provided" do
+      embed_code = "{{embed:content_block_contact:#{content_id}/telephones/foo/telephone_numbers/0/telephone_number}}"
+
+      content_block = ContentBlockTools::ContentBlock.new(
+        document_type: "contact",
+        content_id:,
+        title: "My Contact",
+        details: { addresses: addresses, telephones: telephones },
+        embed_code:,
+      )
+
+      presenter = described_class.new(content_block)
+
+      expect(presenter.render).to have_tag("span",
+                                           with: expected_wrapper_attributes.merge(
+                                             { "data-embed-code" => embed_code, "data-document-type" => "contact" },
+                                           ),
+                                           text: "0891 50 50 50")
+    end
   end
 
   describe "when addresses are present" do

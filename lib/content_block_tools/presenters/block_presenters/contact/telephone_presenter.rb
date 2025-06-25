@@ -3,6 +3,8 @@ module ContentBlockTools
     module BlockPresenters
       module Contact
         class TelephonePresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
+          BASE_TAG_TYPE = :div
+
           def render
             content_tag(:div, class: "govuk-body") do
               concat number_list
@@ -11,7 +13,7 @@ module ContentBlockTools
           end
 
           def number_list
-            content_tag(:ul, class: "govuk-!-padding-0 govuk-!-margin-0", style: "list-style: none;") do
+            content_tag(:ul, class: "govuk-!-padding-0 govuk-!-margin-0 govuk-list") do
               item[:telephone_numbers].each do |number|
                 concat number_list_item(number)
               end

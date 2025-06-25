@@ -83,9 +83,15 @@ module ContentBlockTools
           embed_code_match = ContentBlockReference::EMBED_REGEX.match(content_block.embed_code)
           if embed_code_match.present?
             all_fields = embed_code_match[4]&.reverse&.chomp("/")&.reverse
-            all_fields&.split("/")&.map(&:to_sym)
+            all_fields&.split("/")&.map do |item|
+              is_number?(item) ? item.to_i : item.to_sym
+            end
           end
         end
+      end
+
+      def is_number?(item)
+        Float(item, exception: false)
       end
 
       def field_or_block_content

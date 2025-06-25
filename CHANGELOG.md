@@ -7,7 +7,7 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
-## Unreleased
+## 0.6.3
 
 - Fix rendering telephone numbers and rendering individual nested fields ([53](https://github.com/alphagov/govuk_content_block_tools/pull/53))
 

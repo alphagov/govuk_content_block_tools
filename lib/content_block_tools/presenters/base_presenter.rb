@@ -70,20 +70,12 @@ module ContentBlockTools
       end
 
       def content_for_field_names
-        content = content_block.details.deep_symbolize_keys.dig(*field_names)
-
-        if content.blank?
+        if field_or_block_content.blank?
           ContentBlockTools.logger.warn("Content not found for content block #{content_block.content_id} and fields #{field_names}")
           return content_block.embed_code
         end
 
-        presenter = if content.is_a?(Hash)
-                      block_presenter || ContentBlockTools::Presenters::BlockPresenters::BasePresenter
-                    else
-                      field_presenter || ContentBlockTools::Presenters::FieldPresenters::BasePresenter
-                    end
-
-        presenter.new(content).render
+        field_or_block_presenter.new(field_or_block_content).render
       end
 
       def field_names
@@ -94,6 +86,22 @@ module ContentBlockTools
             all_fields&.split("/")&.map(&:to_sym)
           end
         end
+      end
+
+      def field_or_block_content
+        @field_or_block_content ||= field_names.any? ? content_block.details.deep_symbolize_keys.dig(*field_names) : nil
+      end
+
+      def rendering_block?
+        field_or_block_content.is_a?(Hash)
+      end
+
+      def field_or_block_presenter
+        @field_or_block_presenter ||= if rendering_block?
+                                        block_presenter || ContentBlockTools::Presenters::BlockPresenters::BasePresenter
+                                      else
+                                        field_presenter || ContentBlockTools::Presenters::FieldPresenters::BasePresenter
+                                      end
       end
 
       def field_presenter

@@ -113,7 +113,7 @@ module ContentBlockTools
       end
 
       def base_tag
-        field_names ? :span : self.class::BASE_TAG_TYPE
+        field_names ? field_or_block_presenter::BASE_TAG_TYPE : self.class::BASE_TAG_TYPE
       end
 
       def embedded_objects_of_type(type)

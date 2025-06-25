@@ -3,6 +3,8 @@ module ContentBlockTools
     module BlockPresenters
       module Contact
         class TelephonePresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
+          BASE_TAG_TYPE = :div
+
           def render
             content_tag(:div, class: "govuk-body") do
               concat number_list

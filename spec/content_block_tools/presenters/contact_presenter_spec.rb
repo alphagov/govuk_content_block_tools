@@ -104,6 +104,14 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
               telephone_number: "0891 50 50 50",
             },
           ],
+          "opening_hours": [
+            {
+              "day_from": "Monday",
+              "day_to": "Friday",
+              "time_from": "9am",
+              "time_to": "5pm",
+            },
+          ],
         },
       }
     end
@@ -119,6 +127,14 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
             telephone_number: "0891 50 50 50",
           },
         ],
+        "opening_hours": [
+          {
+            "day_from": "Monday",
+            "day_to": "Friday",
+            "time_from": "9am",
+            "time_to": "5pm",
+          },
+        ],
       }])
     end
 
@@ -130,6 +146,10 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           with_tag("p", text: "My Contact", with: { class: "govuk-body" })
           with_tag("div", with: { class: "govuk-body" }) do
             with_tag("li", text: "Telephone: 0891 50 50 50")
+          end
+
+          with_tag("ul", with: { class: "govuk-list" }) do
+            with_tag("li", text: "Monday to Friday, 9am to 5pm")
           end
         end
       end

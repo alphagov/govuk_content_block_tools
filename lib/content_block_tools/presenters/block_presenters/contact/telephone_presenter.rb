@@ -25,11 +25,13 @@ module ContentBlockTools
           end
 
           def call_charges_link
-            item[:show_uk_call_charges] == "true" && content_tag(:p, class: "govuk-!-margin-0") do
-              concat content_tag(:a,
-                                 "Find out about call charges",
-                                 class: "govuk-link",
-                                 href: "https://www.gov.uk/call-charges")
+            if item[:show_uk_call_charges] == "true"
+              content_tag(:p, class: "govuk-!-margin-0") do
+                concat content_tag(:a,
+                                   "Find out about call charges",
+                                   class: "govuk-link",
+                                   href: "https://www.gov.uk/call-charges")
+              end
             end
           end
         end

@@ -7,9 +7,9 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
-## Unreleased
+## 0.6.4
 
-- Fix rendering of block when UK call charges are not shown
+- Fix rendering of block when UK call charges are not shown ([54](https://github.com/alphagov/govuk_content_block_tools/pull/54))
 
 ## 0.6.3
 

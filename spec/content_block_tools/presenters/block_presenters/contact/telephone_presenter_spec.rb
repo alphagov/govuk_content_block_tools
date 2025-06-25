@@ -22,8 +22,9 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     expect(presenter.render).to have_tag("div", with: { class: "govuk-body" }) do
       with_tag("ul", with: { class: "govuk-list" }) do
         with_tag("li", text: "Office: 1234")
-        without_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges", class: "govuk-link" })
       end
+      without_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges", class: "govuk-link" })
+      without_text("false")
     end
   end
 

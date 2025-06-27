@@ -8,6 +8,7 @@ module ContentBlockTools
           def render
             content_tag(:div, class: "govuk-body") do
               concat number_list
+              concat opening_hours_list if item[:opening_hours].any?
               concat call_charges_link
             end
           end
@@ -22,6 +23,18 @@ module ContentBlockTools
 
           def number_list_item(number)
             content_tag(:li, "#{number[:label]}: #{number[:telephone_number]}", class: "govuk-!-margin-bottom-0")
+          end
+
+          def opening_hours_list
+            content_tag(:ul, class: "govuk-!-padding-0 govuk-!-margin-0 govuk-list") do
+              item[:opening_hours].each do |item|
+                concat opening_hours_list_item(item)
+              end
+            end
+          end
+
+          def opening_hours_list_item(item)
+            content_tag(:li, "#{item[:day_from]} to #{item[:day_to]}, #{item[:time_from]} to #{item[:time_to]}", class: "govuk-!-margin-bottom-0")
           end
 
           def call_charges_link

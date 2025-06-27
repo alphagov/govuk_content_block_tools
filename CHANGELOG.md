@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.6.5
+
+- Add opening hours to a contact block ([52](https://github.com/alphagov/govuk_content_block_tools/pull/52))
+
 ## 0.6.4
 
 - Fix rendering of block when UK call charges are not shown ([54](https://github.com/alphagov/govuk_content_block_tools/pull/54))

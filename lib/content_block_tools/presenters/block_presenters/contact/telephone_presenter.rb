@@ -8,7 +8,7 @@ module ContentBlockTools
           def render
             content_tag(:div, class: "email-url-number") do
               concat number_list
-              concat opening_hours_list if item[:opening_hours].any?
+              concat opening_hours_list if item[:opening_hours].present?
               concat call_charges_link
             end
           end

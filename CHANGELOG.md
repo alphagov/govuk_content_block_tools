@@ -7,6 +7,11 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.7.0
+
+- Alter markup of contact ([55](https://github.com/alphagov/govuk_content_block_tools/pull/55))
+- Handle when opening hours are missing ([55](https://github.com/alphagov/govuk_content_block_tools/pull/55))
+
 ## 0.6.5
 
 - Add opening hours to a contact block ([52](https://github.com/alphagov/govuk_content_block_tools/pull/52))

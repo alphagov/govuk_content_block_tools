@@ -12,10 +12,6 @@ module ContentBlockTools
           @item = item
         end
 
-        def title_content
-          "#{item[:title]}: "
-        end
-
         def render; end
       end
     end

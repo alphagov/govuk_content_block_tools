@@ -13,7 +13,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
   it "should render successfully" do
     presenter = described_class.new(address)
 
-    expect(presenter.render).to have_tag("p", with: { class: "govuk-body" }) do
+    expect(presenter.render).to have_tag("p") do
       with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
       with_tag "br", count: 4
     end
@@ -34,7 +34,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     it "should ignore the missing fields" do
       presenter = described_class.new(address)
 
-      expect(presenter.render).to have_tag("p", with: { class: "govuk-body" }) do
+      expect(presenter.render).to have_tag("p") do
         with_text "123 Fake Street,Springton,TEST 123"
         with_tag "br", count: 2
       end

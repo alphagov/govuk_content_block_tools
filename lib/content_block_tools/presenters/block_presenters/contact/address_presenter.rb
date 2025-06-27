@@ -4,7 +4,7 @@ module ContentBlockTools
       module Contact
         class AddressPresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
           def render
-            content_tag(:p, class: "govuk-body govuk-!-margin-bottom-4") do
+            content_tag(:p, class: "adr") do
               [
                 item[:street_address],
                 item[:locality],

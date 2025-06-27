@@ -22,7 +22,7 @@ module ContentBlockTools
         content_tag(:div, class: "contact") do
           content_tag(:div, class: "content") do
             content_tag(:div, class: "vcard contact-inner") do
-              concat content_tag(:p, content_block.title)
+              concat content_tag(:p, content_block.title, class: "fn org")
               embedded_objects.each do |object|
                 items = send(object)
                 concat(items.map { |item| presenter_for_object_type(object).new(item).render }.join.html_safe)

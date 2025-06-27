@@ -6,11 +6,11 @@ module ContentBlockTools
           BASE_TAG_TYPE = :div
 
           def render
-            [
-              number_list,
-              (opening_hours_list if item[:opening_hours].any?),
-              call_charges_link,
-            ].join.html_safe
+            content_tag(:div, class: "email-url-number") do
+              concat number_list
+              concat opening_hours_list if item[:opening_hours].any?
+              concat call_charges_link
+            end
           end
 
           def number_list
@@ -22,7 +22,10 @@ module ContentBlockTools
           end
 
           def number_list_item(number)
-            content_tag(:li, "#{number[:label]}: #{number[:telephone_number]}")
+            content_tag(:li) do
+              concat content_tag(:span, number[:label])
+              concat content_tag(:span, number[:telephone_number], { class: "tel" })
+            end
           end
 
           def opening_hours_list

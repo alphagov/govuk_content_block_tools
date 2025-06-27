@@ -33,7 +33,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         with_tag("div", with: { class: "contact" }) do
           with_tag("div", with: { class: "content" }) do
             with_tag("div", with: { class: "vcard contact-inner" }) do
-              with_tag("p", text: "My Contact")
+              with_tag("p", text: "My Contact", with: { class: "fn org" })
             end
           end
         end
@@ -69,7 +69,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p", text: "My Contact")
               with_tag("p") do
-                with_tag("span", text: "Some email address: ")
+                with_tag("span", text: "Some email address")
                 with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com" })
               end
             end
@@ -155,7 +155,10 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p", text: "My Contact")
               with_tag("ul") do
-                with_tag("li", text: "Telephone: 0891 50 50 50")
+                with_tag("li") do
+                  with_tag("span", text: "Telephone")
+                  with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
+                end
               end
 
               with_tag("ul") do
@@ -182,7 +185,10 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
         with_tag("ul") do
-          with_tag("li", text: "Telephone: 0891 50 50 50")
+          with_tag("li") do
+            with_tag("span", text: "Telephone")
+            with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
+          end
         end
       end
     end
@@ -300,7 +306,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p", text: "My Contact")
               with_tag("p") do
-                with_tag("span", text: "Some contact form: ")
+                with_tag("span", text: "Some contact form")
                 with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
               end
             end

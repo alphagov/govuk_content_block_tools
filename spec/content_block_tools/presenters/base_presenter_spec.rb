@@ -132,7 +132,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
       embed_code: "{{embed:content_block_contact:#{content_id}/first_field/second_field/third_field}}",
     )
 
-    expect(presenter_class).to receive(:new).with("hello world") {
+    expect(presenter_class).to receive(:new).with("hello world", rendering_context: :field_names) {
       presenter_double
     }
 
@@ -165,7 +165,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
       second_field: {
         third_field: "hello world",
       },
-    }) {
+    }, rendering_context: :field_names) {
       presenter_double
     }
 

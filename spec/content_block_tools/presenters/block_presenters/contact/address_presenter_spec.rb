@@ -23,6 +23,21 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     end
   end
 
+  it "should render successfully with field_names rendering context" do
+    presenter = described_class.new(address, rendering_context: :field_names)
+
+    expect(presenter.render).to have_tag(:div, with: { class: "contact" }) do
+      with_tag(:p) do
+        with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
+        with_tag(:span, text: "Springton", with: { class: "locality" })
+        with_tag(:span, text: "Missouri", with: { class: "region" })
+        with_tag(:span, text: "TEST 123", with: { class: "postal-code" })
+        with_tag(:span, text: "USA", with: { class: "country-name" })
+        with_tag "br", count: 4
+      end
+    end
+  end
+
   describe "when some fields are missing" do
     let(:address) do
       {

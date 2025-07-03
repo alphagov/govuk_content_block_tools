@@ -300,9 +300,11 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
       presenter = described_class.new(content_block)
 
-      expect(presenter.render).to have_tag("span", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
-        with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
-        with_tag "br", count: 4
+      expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
+        with_tag(:div, with: { class: "contact" }) do
+          with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
+          with_tag "br", count: 4
+        end
       end
     end
   end

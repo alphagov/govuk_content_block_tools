@@ -8,7 +8,7 @@ module ContentBlockTools
 
         attr_reader :field
 
-        def initialize(field)
+        def initialize(field, **_args)
           @field = field
         end
 

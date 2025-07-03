@@ -1,15 +1,31 @@
+require_relative "./block_level_contact_item"
+
 module ContentBlockTools
   module Presenters
     module BlockPresenters
       module Contact
         class AddressPresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
-          def render
-            content_tag(:p, class: "adr") do
-              %i[street_address locality region postal_code country].map { |field|
-                next if item[field].blank?
+          include ContentBlockTools::Presenters::BlockPresenters::Contact::BlockLevelContactItem
 
-                content_tag(:span, item[field], { class: class_for_field_name(field) })
-              }.compact_blank.join(",<br/>").html_safe
+          def render
+            wrapper do
+              content_tag(:p, class: "adr") do
+                %i[street_address locality region postal_code country].map { |field|
+                  next if item[field].blank?
+
+                  content_tag(:span, item[field], { class: class_for_field_name(field) })
+                }.compact_blank.join(",<br/>").html_safe
+              end
+            end
+          end
+
+          def wrapper(&block)
+            if @rendering_context == :field_names
+              content_tag(:div, class: "contact") do
+                yield block
+              end
+            else
+              yield block
             end
           end
 

@@ -13,14 +13,10 @@ module ContentBlockTools
           def wrapper(&block)
             if @rendering_context == :field_names
               content_tag(:div, class: "contact") do
-                content_tag(:div, class: "email-url-number") do
-                  yield block
-                end
-              end
-            else
-              content_tag(:div, class: "email-url-number") do
                 yield block
               end
+            else
+              yield block
             end
           end
         end

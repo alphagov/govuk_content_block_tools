@@ -78,7 +78,32 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       end
     end
 
-    it "should render an email address when embed code is provided" do
+    it "should render an email address block when embed code is provided" do
+      embed_code = "{{embed:content_block_contact:#{content_id}/email_addresses/foo}}"
+
+      content_block = ContentBlockTools::ContentBlock.new(
+        document_type: "contact",
+        content_id:,
+        title: "My Contact",
+        details: { email_addresses: email_addresses, telephones: telephones },
+        embed_code:,
+      )
+
+      presenter = described_class.new(content_block)
+
+      expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code })) do
+        with_tag("div", with: { class: "contact" }) do
+          with_tag("div", with: { class: "email-url-number" }) do
+            with_tag("p") do
+              with_tag("span", text: "Some email address")
+              with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com" })
+            end
+          end
+        end
+      end
+    end
+
+    it "should render an individual email address when embed code is provided" do
       embed_code = "{{embed:content_block_contact:#{content_id}/email_addresses/foo/email_address}}"
 
       content_block = ContentBlockTools::ContentBlock.new(
@@ -184,10 +209,14 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
-        with_tag("ul") do
-          with_tag("li") do
-            with_tag("span", text: "Telephone")
-            with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
+        with_tag("div", with: { class: "contact" }) do
+          with_tag("div", with: { class: "email-url-number" }) do
+            with_tag("ul") do
+              with_tag("li") do
+                with_tag("span", text: "Telephone")
+                with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
+              end
+            end
           end
         end
       end
@@ -309,6 +338,31 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
                 with_tag("span", text: "Some contact form")
                 with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
               end
+            end
+          end
+        end
+      end
+    end
+
+    it "should render a contact form block when an embed code is provided" do
+      embed_code = "{{embed:content_block_contact:#{content_id}/contact_forms/foo}}"
+
+      content_block = ContentBlockTools::ContentBlock.new(
+        document_type: "contact",
+        content_id:,
+        title: "My Contact",
+        details: { contact_forms: contact_forms, telephones: telephones },
+        embed_code:,
+      )
+
+      presenter = described_class.new(content_block)
+
+      expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
+        with_tag("div", with: { class: "contact" }) do
+          with_tag("div", with: { class: "email-url-number" }) do
+            with_tag("p") do
+              with_tag("span", text: "Some contact form")
+              with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
             end
           end
         end

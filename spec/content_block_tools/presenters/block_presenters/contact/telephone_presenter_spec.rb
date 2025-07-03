@@ -33,24 +33,28 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     presenter = described_class.new(phone_number)
     result = presenter.render
 
-    expect(result).to have_tag("ul") do
-      with_tag("li") do
-        with_tag(:span, text: "Office")
-        with_tag(:span, text: "1234", with: { class: "tel" })
+    expect(result).to_not have_tag("div", with: { class: "contact" })
+
+    expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+      with_tag("ul") do
+        with_tag("li") do
+          with_tag(:span, text: "Office")
+          with_tag(:span, text: "1234", with: { class: "tel" })
+        end
+
+        with_tag("li") do
+          with_tag(:span, text: "International")
+          with_tag(:span, text: "5678", with: { class: "tel" })
+        end
       end
 
-      with_tag("li") do
-        with_tag(:span, text: "International")
-        with_tag(:span, text: "5678", with: { class: "tel" })
+      with_tag("ul") do
+        with_tag("li", text: "Monday to Friday, 9am to 5pm")
       end
-    end
 
-    expect(result).to have_tag("ul") do
-      with_tag("li", text: "Monday to Friday, 9am to 5pm")
+      without_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges" })
+      without_text("false")
     end
-
-    expect(result).not_to have_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges" })
-    expect(result).not_to have_tag("false")
   end
 
   describe "when there are no opening hours" do
@@ -62,38 +66,17 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
       expect(result).to have_tag("ul", count: 1)
 
-      expect(result).to have_tag("ul") do
-        with_tag("li") do
-          with_tag(:span, text: "Office")
-          with_tag(:span, text: "1234", with: { class: "tel" })
-        end
+      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+        with_tag("ul") do
+          with_tag("li") do
+            with_tag(:span, text: "Office")
+            with_tag(:span, text: "1234", with: { class: "tel" })
+          end
 
-        with_tag("li") do
-          with_tag(:span, text: "International")
-          with_tag(:span, text: "5678", with: { class: "tel" })
-        end
-      end
-    end
-  end
-
-  describe "when opening hours is nil" do
-    let(:opening_hours) { nil }
-
-    it "should render successfully" do
-      presenter = described_class.new(phone_number)
-      result = presenter.render
-
-      expect(result).to have_tag("ul", count: 1)
-
-      expect(result).to have_tag("ul") do
-        with_tag("li") do
-          with_tag(:span, text: "Office")
-          with_tag(:span, text: "1234", with: { class: "tel" })
-        end
-
-        with_tag("li") do
-          with_tag(:span, text: "International")
-          with_tag(:span, text: "5678", with: { class: "tel" })
+          with_tag("li") do
+            with_tag(:span, text: "International")
+            with_tag(:span, text: "5678", with: { class: "tel" })
+          end
         end
       end
     end
@@ -108,15 +91,42 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
       expect(result).to have_tag("ul", count: 1)
 
-      expect(result).to have_tag("ul") do
-        with_tag("li") do
-          with_tag(:span, text: "Office")
-          with_tag(:span, text: "1234", with: { class: "tel" })
-        end
+      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+        with_tag("ul") do
+          with_tag("li") do
+            with_tag(:span, text: "Office")
+            with_tag(:span, text: "1234", with: { class: "tel" })
+          end
 
-        with_tag("li") do
-          with_tag(:span, text: "International")
-          with_tag(:span, text: "5678", with: { class: "tel" })
+          with_tag("li") do
+            with_tag(:span, text: "International")
+            with_tag(:span, text: "5678", with: { class: "tel" })
+          end
+        end
+      end
+    end
+  end
+
+  describe "when opening hours is nil" do
+    let(:opening_hours) { nil }
+
+    it "should render successfully" do
+      presenter = described_class.new(phone_number)
+      result = presenter.render
+
+      expect(result).to have_tag("ul", count: 1)
+
+      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+        with_tag("ul") do
+          with_tag("li") do
+            with_tag(:span, text: "Office")
+            with_tag(:span, text: "1234", with: { class: "tel" })
+          end
+
+          with_tag("li") do
+            with_tag(:span, text: "International")
+            with_tag(:span, text: "5678", with: { class: "tel" })
+          end
         end
       end
     end
@@ -132,6 +142,17 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
       expect(result).to have_tag("p") do
         with_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges" })
+      end
+    end
+  end
+
+  describe "when rendering in the field_names context" do
+    it "should wrap in a contact class" do
+      presenter = described_class.new(phone_number, rendering_context: :field_names)
+      result = presenter.render
+
+      expect(result).to have_tag("div", with: { class: "contact" }) do
+        with_tag("div", with: { class: "email-url-number" })
       end
     end
   end

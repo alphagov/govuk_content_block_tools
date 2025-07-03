@@ -1,12 +1,14 @@
+require_relative "./block_level_contact_item"
+
 module ContentBlockTools
   module Presenters
     module BlockPresenters
       module Contact
         class TelephonePresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
-          BASE_TAG_TYPE = :div
+          include ContentBlockTools::Presenters::BlockPresenters::Contact::BlockLevelContactItem
 
           def render
-            content_tag(:div, class: "email-url-number") do
+            wrapper do
               concat number_list
               concat opening_hours_list if item[:opening_hours].present?
               concat call_charges_link

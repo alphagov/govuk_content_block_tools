@@ -8,7 +8,7 @@ module ContentBlockTools
 
         attr_reader :item
 
-        def initialize(item)
+        def initialize(item, **_args)
           @item = item
         end
 

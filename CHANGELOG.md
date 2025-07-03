@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.8.0
+
+- Add wrapper classes to contact sub-blocks ([57](https://github.com/alphagov/govuk_content_block_tools/pull/57))
+
 ## 0.7.0
 
 - Alter markup of contact ([55](https://github.com/alphagov/govuk_content_block_tools/pull/55))

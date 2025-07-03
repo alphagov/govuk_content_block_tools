@@ -14,4 +14,15 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactF
       with_tag("a", text: "http://example.com", with: { href: "http://example.com", class: "url" })
     end
   end
+
+  describe "when rendering in the field_names context" do
+    it "should wrap in a contact class" do
+      presenter = described_class.new(contact_form, rendering_context: :field_names)
+      result = presenter.render
+
+      expect(result).to have_tag("div", with: { class: "contact" }) do
+        with_tag("div", with: { class: "email-url-number" })
+      end
+    end
+  end
 end

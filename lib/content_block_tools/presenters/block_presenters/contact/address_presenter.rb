@@ -10,7 +10,7 @@ module ContentBlockTools
           def render
             wrapper do
               content_tag(:p, class: "adr") do
-                %i[street_address locality region postal_code country].map { |field|
+                %i[street_address town_or_city state_or_county postal_code country].map { |field|
                   next if item[field].blank?
 
                   content_tag(:span, item[field], { class: class_for_field_name(field) })
@@ -22,8 +22,8 @@ module ContentBlockTools
           def class_for_field_name(field_name)
             {
               street_address: "street-address",
-              locality: "locality",
-              region: "region",
+              town_or_city: "locality",
+              state_or_county: "region",
               postal_code: "postal-code",
               country: "country-name",
             }[field_name]

@@ -13,8 +13,8 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     {
       "title": "Some address",
       "street_address": "123 Fake Street",
-      "locality": "Springton",
-      "region": "Missouri",
+      "town_or_city": "Springton",
+      "state_or_county": "Missouri",
       "postal_code": "TEST 123",
       "country": "USA",
     }
@@ -54,8 +54,8 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
       {
         "title": "Some address",
         "street_address": "123 Fake Street",
-        "region": "",
-        "locality": "Springton",
+        "town_or_city": "Springton",
+        "state_or_county": "",
         "postal_code": "TEST 123",
         "country": "",
       }

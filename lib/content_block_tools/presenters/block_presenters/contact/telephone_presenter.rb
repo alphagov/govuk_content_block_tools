@@ -10,11 +10,33 @@ module ContentBlockTools
           def render
             wrapper do
               content_tag(:div, class: "email-url-number") do
+                concat title_and_description
                 concat number_list
                 concat opening_hours_list if item[:opening_hours].present?
                 concat call_charges_link
               end
             end
+          end
+
+          def title_and_description
+            items = [
+              (item_title if item[:title].present?),
+              (description if item[:description].present?),
+            ].compact
+
+            if items.any?
+              content_tag(:div, class: "govuk-!-margin-bottom-3") do
+                concat items.join("").html_safe
+              end
+            end
+          end
+
+          def item_title
+            content_tag(:p, item[:title], { class: "govuk-!-margin-bottom-0" })
+          end
+
+          def description
+            render_govspeak(item[:description], root_class: "govuk-!-margin-top-1 govuk-!-margin-bottom-0")
           end
 
           def number_list

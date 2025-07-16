@@ -1,4 +1,14 @@
 RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::TelephonePresenter do
+  let(:content_block) do
+    ContentBlockTools::ContentBlock.new(
+      document_type: "something",
+      title: "My content block",
+      details: {},
+      content_id: 123,
+      embed_code: "something",
+    )
+  end
+
   let(:show_uk_call_charges) { "false" }
   let(:opening_hours) do
     [
@@ -10,10 +20,12 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       },
     ]
   end
+  let(:description) { nil }
 
   let(:phone_number) do
     {
       "title": "Some phone number",
+      "description": description,
       "telephone_numbers": [
         {
           "label": "Office",
@@ -30,12 +42,16 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
   end
 
   it "should render successfully" do
-    presenter = described_class.new(phone_number)
+    presenter = described_class.new(phone_number, content_block:)
     result = presenter.render
 
     expect(result).to_not have_tag("div", with: { class: "contact" })
 
     expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+      with_tag("div", with: { class: 'govuk-\!-margin-bottom-3' }) do
+        with_tag(:p, text: phone_number[:title], with: { class: 'govuk-\!-margin-bottom-0' })
+      end
+
       with_tag("ul") do
         with_tag("li") do
           with_tag(:span, text: "Office")
@@ -61,7 +77,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     let(:opening_hours) { [] }
 
     it "should render successfully" do
-      presenter = described_class.new(phone_number)
+      presenter = described_class.new(phone_number, content_block:)
       result = presenter.render
 
       expect(result).to have_tag("ul", count: 1)
@@ -86,7 +102,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     let(:opening_hours) { nil }
 
     it "should render successfully" do
-      presenter = described_class.new(phone_number)
+      presenter = described_class.new(phone_number, content_block:)
       result = presenter.render
 
       expect(result).to have_tag("ul", count: 1)
@@ -111,7 +127,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     let(:opening_hours) { nil }
 
     it "should render successfully" do
-      presenter = described_class.new(phone_number)
+      presenter = described_class.new(phone_number, content_block:)
       result = presenter.render
 
       expect(result).to have_tag("ul", count: 1)
@@ -136,7 +152,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     let(:show_uk_call_charges) { "true" }
 
     it "renders a link" do
-      presenter = described_class.new(phone_number)
+      presenter = described_class.new(phone_number, content_block:)
 
       result = presenter.render
 
@@ -146,12 +162,36 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     end
   end
 
+  describe "when a description is present" do
+    let(:description) { "Some description" }
+
+    it "should include the description" do
+      presenter = described_class.new(phone_number, content_block:)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with(description, root_class: "govuk-!-margin-top-1 govuk-!-margin-bottom-0")
+                             .and_call_original
+
+      result = presenter.render
+
+      expect(result).to_not have_tag("div", with: { class: "contact" })
+
+      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+        with_tag("div", with: { class: 'govuk-\!-margin-bottom-3' }) do
+          with_tag(:p, text: phone_number[:title], with: { class: 'govuk-\!-margin-bottom-0' })
+          with_tag(:p, text: phone_number[:description], with: { class: 'govuk-\!-margin-top-1 govuk-\!-margin-bottom-0' })
+        end
+      end
+    end
+  end
+
   describe "when rendering in the field_names context" do
-    it "should wrap in a contact class" do
-      presenter = described_class.new(phone_number, rendering_context: :field_names)
+    it "should wrap in a contact class with the content block's title" do
+      presenter = described_class.new(phone_number, rendering_context: :field_names, content_block:)
       result = presenter.render
 
       expect(result).to have_tag("div", with: { class: "contact" }) do
+        with_tag("p", text: content_block.title, with: { class: 'govuk-\!-margin-bottom-3' })
         with_tag("div", with: { class: "email-url-number" })
       end
     end

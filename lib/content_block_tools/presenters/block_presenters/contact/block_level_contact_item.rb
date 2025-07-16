@@ -5,19 +5,27 @@ module ContentBlockTools
         module BlockLevelContactItem
           BASE_TAG_TYPE = :div
 
-          def initialize(item, rendering_context: :block, **_args)
+          def initialize(item, content_block:, rendering_context: :block, **_args)
             @item = item
+            @content_block = content_block
             @rendering_context = rendering_context
           end
 
           def wrapper(&block)
             if @rendering_context == :field_names
               content_tag(:div, class: "contact") do
-                yield block
+                concat title
+                concat yield block
               end
             else
               yield block
             end
+          end
+
+          def title
+            content_tag(:p,
+                        @content_block.title,
+                        class: "govuk-!-margin-bottom-3")
           end
         end
       end

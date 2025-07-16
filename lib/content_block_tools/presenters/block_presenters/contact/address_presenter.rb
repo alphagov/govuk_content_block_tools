@@ -19,16 +19,6 @@ module ContentBlockTools
             end
           end
 
-          def wrapper(&block)
-            if @rendering_context == :field_names
-              content_tag(:div, class: "contact") do
-                yield block
-              end
-            else
-              yield block
-            end
-          end
-
           def class_for_field_name(field_name)
             {
               street_address: "street-address",

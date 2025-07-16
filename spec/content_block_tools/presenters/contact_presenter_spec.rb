@@ -249,8 +249,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         "some_address": {
           "title": "Some address",
           "street_address": "123 Fake Street",
-          "locality": "Springton",
-          "region": "Missouri",
+          "town_or_city": "Springton",
+          "state_or_county": "Missouri",
           "postal_code": "TEST 123",
           "country": "USA",
         },
@@ -263,8 +263,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       expect(presenter.addresses).to eq([{
         "title": "Some address",
         "street_address": "123 Fake Street",
-        "locality": "Springton",
-        "region": "Missouri",
+        "town_or_city": "Springton",
+        "state_or_county": "Missouri",
         "postal_code": "TEST 123",
         "country": "USA",
       }])

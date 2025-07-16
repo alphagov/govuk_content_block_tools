@@ -20,10 +20,12 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       },
     ]
   end
+  let(:description) { nil }
 
   let(:phone_number) do
     {
       "title": "Some phone number",
+      "description": description,
       "telephone_numbers": [
         {
           "label": "Office",
@@ -46,6 +48,10 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     expect(result).to_not have_tag("div", with: { class: "contact" })
 
     expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+      with_tag("div", with: { class: 'govuk-\!-margin-bottom-3' }) do
+        with_tag(:p, text: phone_number[:title], with: { class: 'govuk-\!-margin-bottom-0' })
+      end
+
       with_tag("ul") do
         with_tag("li") do
           with_tag(:span, text: "Office")
@@ -152,6 +158,29 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
       expect(result).to have_tag("p") do
         with_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges" })
+      end
+    end
+  end
+
+  describe "when a description is present" do
+    let(:description) { "Some description" }
+
+    it "should include the description" do
+      presenter = described_class.new(phone_number, content_block:)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with(description, root_class: "govuk-!-margin-top-1 govuk-!-margin-bottom-0")
+                             .and_call_original
+
+      result = presenter.render
+
+      expect(result).to_not have_tag("div", with: { class: "contact" })
+
+      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
+        with_tag("div", with: { class: 'govuk-\!-margin-bottom-3' }) do
+          with_tag(:p, text: phone_number[:title], with: { class: 'govuk-\!-margin-bottom-0' })
+          with_tag(:p, text: phone_number[:description], with: { class: 'govuk-\!-margin-top-1 govuk-\!-margin-bottom-0' })
+        end
       end
     end
   end

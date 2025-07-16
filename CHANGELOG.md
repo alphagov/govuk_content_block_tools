@@ -7,6 +7,11 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.10.0
+
+- Add content block titles to individual contact blocks ([60](https://github.com/alphagov/govuk_content_block_tools/pull/60))
+- Render title and description within telephone blocks ([60](https://github.com/alphagov/govuk_content_block_tools/pull/60))
+
 ## 0.9.0
 
 - Render addresses within a `contact` div ([58](https://github.com/alphagov/govuk_content_block_tools/pull/58))

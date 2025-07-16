@@ -5,8 +5,9 @@ module ContentBlockTools
         module BlockLevelContactItem
           BASE_TAG_TYPE = :div
 
-          def initialize(item, rendering_context: :block, **_args)
+          def initialize(item, content_block:, rendering_context: :block, **_args)
             @item = item
+            @content_block = content_block
             @rendering_context = rendering_context
           end
 

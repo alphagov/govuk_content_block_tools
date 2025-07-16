@@ -1,4 +1,14 @@
 RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressPresenter do
+  let(:content_block) do
+    ContentBlockTools::ContentBlock.new(
+      document_type: "something",
+      title: "My content block",
+      details: {},
+      content_id: 123,
+      embed_code: "something",
+    )
+  end
+
   let(:address) do
     {
       "title": "Some address",
@@ -11,7 +21,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
   end
 
   it "should render successfully" do
-    presenter = described_class.new(address)
+    presenter = described_class.new(address, content_block:)
 
     expect(presenter.render).to have_tag(:p) do
       with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
@@ -24,7 +34,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
   end
 
   it "should render successfully with field_names rendering context" do
-    presenter = described_class.new(address, rendering_context: :field_names)
+    presenter = described_class.new(address, rendering_context: :field_names, content_block:)
 
     expect(presenter.render).to have_tag(:div, with: { class: "contact" }) do
       with_tag(:p) do
@@ -51,7 +61,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     end
 
     it "should ignore the missing fields" do
-      presenter = described_class.new(address)
+      presenter = described_class.new(address, content_block:)
 
       expect(presenter.render).to have_tag(:p) do
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })

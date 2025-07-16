@@ -75,7 +75,7 @@ module ContentBlockTools
           return content_block.embed_code
         end
 
-        field_or_block_presenter.new(field_or_block_content, rendering_context: :field_names).render
+        field_or_block_presenter.new(field_or_block_content, rendering_context: :field_names, content_block:).render
       end
 
       def field_names

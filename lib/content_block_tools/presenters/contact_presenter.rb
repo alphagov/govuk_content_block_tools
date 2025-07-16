@@ -27,7 +27,7 @@ module ContentBlockTools
               concat content_tag(:p, content_block.title, class: "fn org")
               embedded_objects.each do |object|
                 items = send(object)
-                concat(items.map { |item| presenter_for_object_type(object).new(item).render }.join.html_safe)
+                concat(items.map { |item| presenter_for_object_type(object).new(item, content_block:).render }.join.html_safe)
               end
             end
           end

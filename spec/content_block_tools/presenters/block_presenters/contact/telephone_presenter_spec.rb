@@ -19,6 +19,15 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     }
   end
 
+  let(:show_bsl_guidance) { false }
+
+  let(:bsl_guidance) do
+    {
+      show: show_bsl_guidance,
+      value: "BSL guidance goes here",
+    }
+  end
+
   let(:opening_hours) do
     [
       {
@@ -47,6 +56,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       ],
       "opening_hours": opening_hours,
       "call_charges": call_charges,
+      "bsl_guidance": bsl_guidance,
     }
   end
 
@@ -191,6 +201,22 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
           with_tag(:p, text: phone_number[:description], with: { class: 'govuk-\!-margin-top-1 govuk-\!-margin-bottom-0' })
         end
       end
+    end
+  end
+
+  describe "when BSL guidance should be shown" do
+    let(:show_bsl_guidance) { true }
+
+    it "should include the guidance" do
+      presenter = described_class.new(phone_number, content_block:)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with(bsl_guidance[:value], root_class: "govuk-!-margin-bottom-0")
+                             .and_call_original
+
+      result = presenter.render
+
+      expect(result).to have_tag(:p, text: bsl_guidance[:value], with: { class: 'govuk-\!-margin-bottom-0' })
     end
   end
 

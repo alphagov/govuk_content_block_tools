@@ -12,6 +12,7 @@ module ContentBlockTools
               content_tag(:div, class: "email-url-number") do
                 concat title_and_description
                 concat number_list
+                concat bsl_details
                 concat opening_hours_list if item[:opening_hours].present?
                 concat call_charges_link
               end
@@ -52,6 +53,12 @@ module ContentBlockTools
               concat content_tag(:span, number[:label])
               concat content_tag(:span, number[:telephone_number], { class: "tel" })
             end
+          end
+
+          def bsl_details
+            bsl_guidance = item[:bsl_guidance] || {}
+
+            render_govspeak(bsl_guidance[:value], root_class: "govuk-!-margin-bottom-0") if bsl_guidance[:show]
           end
 
           def opening_hours_list

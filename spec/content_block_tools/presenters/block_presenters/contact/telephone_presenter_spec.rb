@@ -9,7 +9,16 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     )
   end
 
-  let(:show_uk_call_charges) { "false" }
+  let(:show_call_charges_info_url) { false }
+
+  let(:call_charges) do
+    {
+      label: "Some label",
+      call_charges_info_url: "http://example.com",
+      show_call_charges_info_url:,
+    }
+  end
+
   let(:opening_hours) do
     [
       {
@@ -37,7 +46,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
         },
       ],
       "opening_hours": opening_hours,
-      "show_uk_call_charges": show_uk_call_charges,
+      "call_charges": call_charges,
     }
   end
 
@@ -68,7 +77,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
         with_tag("li", text: "Monday to Friday, 9am to 5pm")
       end
 
-      without_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges" })
+      without_tag("a", text: call_charges[:label], with: { href: call_charges[:call_charges_info_url] })
       without_text("false")
     end
   end
@@ -149,7 +158,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
   end
 
   describe "when it should show uk call charges" do
-    let(:show_uk_call_charges) { "true" }
+    let(:show_call_charges_info_url) { true }
 
     it "renders a link" do
       presenter = described_class.new(phone_number, content_block:)
@@ -157,7 +166,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       result = presenter.render
 
       expect(result).to have_tag("p") do
-        with_tag("a", text: "Find out about call charges", with: { href: "https://www.gov.uk/call-charges" })
+        with_tag("a", text: call_charges[:label], with: { href: call_charges[:call_charges_info_url] })
       end
     end
   end

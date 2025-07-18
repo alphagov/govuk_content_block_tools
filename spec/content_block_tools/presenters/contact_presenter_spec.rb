@@ -278,8 +278,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           with_tag("div", with: { class: "content" }) do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p") do
-                with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
-                with_tag "br", count: 4
+                with_text "Some address,123 Fake Street,Springton,Missouri,TEST 123,USA"
+                with_tag "br", count: 5
               end
             end
           end
@@ -302,8 +302,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
         with_tag(:div, with: { class: "contact" }) do
-          with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
-          with_tag "br", count: 4
+          with_text "Some address,123 Fake Street,Springton,Missouri,TEST 123,USA"
+          with_tag "br", count: 5
         end
       end
     end

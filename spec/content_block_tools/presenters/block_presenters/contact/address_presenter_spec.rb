@@ -24,12 +24,13 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     presenter = described_class.new(address, content_block:)
 
     expect(presenter.render).to have_tag(:p) do
+      with_tag(:span, text: "Some address")
       with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
       with_tag(:span, text: "Springton", with: { class: "locality" })
       with_tag(:span, text: "Missouri", with: { class: "region" })
       with_tag(:span, text: "TEST 123", with: { class: "postal-code" })
       with_tag(:span, text: "USA", with: { class: "country-name" })
-      with_tag "br", count: 4
+      with_tag "br", count: 5
     end
   end
 
@@ -37,14 +38,14 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     presenter = described_class.new(address, rendering_context: :field_names, content_block:)
 
     expect(presenter.render).to have_tag(:div, with: { class: "contact" }) do
-      with_tag("p", text: content_block.title, with: { class: 'govuk-\!-margin-bottom-3' })
       with_tag(:p) do
+        with_tag(:span, text: "Some address")
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
         with_tag(:span, text: "Springton", with: { class: "locality" })
         with_tag(:span, text: "Missouri", with: { class: "region" })
         with_tag(:span, text: "TEST 123", with: { class: "postal-code" })
         with_tag(:span, text: "USA", with: { class: "country-name" })
-        with_tag "br", count: 4
+        with_tag "br", count: 5
       end
     end
   end
@@ -65,10 +66,11 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
       presenter = described_class.new(address, content_block:)
 
       expect(presenter.render).to have_tag(:p) do
+        with_tag(:span, text: "Some address")
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
         with_tag(:span, text: "Springton", with: { class: "locality" })
         with_tag(:span, text: "TEST 123", with: { class: "postal-code" })
-        with_tag "br", count: 2
+        with_tag "br", count: 3
       end
     end
   end

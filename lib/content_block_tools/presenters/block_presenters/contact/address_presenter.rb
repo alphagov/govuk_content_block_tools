@@ -9,13 +9,19 @@ module ContentBlockTools
 
           def render
             wrapper do
-              content_tag(:p, class: "adr") do
+              output = []
+
+              output << content_tag(:p, class: "adr") do
                 %i[title street_address town_or_city state_or_county postal_code country].map { |field|
                   next if item[field].blank?
 
                   content_tag(:span, item[field], { class: class_for_field_name(field) })
                 }.compact_blank.join(",<br/>").html_safe
               end
+
+              output << render_govspeak(item[:description]) if item[:description].present?
+
+              output.join.html_safe
             end
           end
 

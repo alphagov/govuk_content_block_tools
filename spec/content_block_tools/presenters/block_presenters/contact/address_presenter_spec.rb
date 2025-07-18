@@ -17,13 +17,20 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
       "state_or_county": "Missouri",
       "postal_code": "TEST 123",
       "country": "USA",
+      "description": "Some description",
     }
   end
 
   it "should render successfully" do
     presenter = described_class.new(address, content_block:)
 
-    expect(presenter.render).to have_tag(:p) do
+    expect(presenter).to receive(:render_govspeak)
+                           .with(address[:description])
+                           .and_call_original
+
+    result = presenter.render
+
+    expect(result).to have_tag(:p) do
       with_tag(:span, text: "Some address")
       with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
       with_tag(:span, text: "Springton", with: { class: "locality" })
@@ -32,6 +39,8 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
       with_tag(:span, text: "USA", with: { class: "country-name" })
       with_tag "br", count: 5
     end
+
+    expect(result).to have_tag(:p, text: "Some description")
   end
 
   it "should render successfully with field_names rendering context with the content block's title" do

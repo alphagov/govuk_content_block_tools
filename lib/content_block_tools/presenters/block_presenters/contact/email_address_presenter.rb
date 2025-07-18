@@ -15,10 +15,19 @@ module ContentBlockTools
                   concat content_tag(:a,
                                      item[:email_address],
                                      class: "email",
-                                     href: "mailto:#{item[:email_address]}")
+                                     href: "mailto:#{item[:email_address]}#{query_params}")
                 end
               end
             end
+          end
+
+          def query_params
+            params = {
+              subject: item[:subject],
+              body: item[:body],
+            }.compact.map { |k, v| "#{k}=#{v}" }.join("&")
+
+            "?#{params}" if params.present?
           end
         end
       end

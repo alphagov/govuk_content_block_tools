@@ -12,6 +12,7 @@ module ContentBlockTools
               content_tag(:div, class: "email-url-number") do
                 concat title_and_description
                 concat number_list
+                concat video_relay_service
                 concat bsl_details
                 concat opening_hours_list if item[:opening_hours].present?
                 concat call_charges_link
@@ -52,6 +53,15 @@ module ContentBlockTools
             content_tag(:li) do
               concat content_tag(:span, number[:label])
               concat content_tag(:span, number[:telephone_number], { class: "tel" })
+            end
+          end
+
+          def video_relay_service
+            video_relay_service = item[:video_relay_service] || {}
+
+            if video_relay_service[:show]
+              content = "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}"
+              render_govspeak(content, root_class: "govuk-!-margin-bottom-0")
             end
           end
 

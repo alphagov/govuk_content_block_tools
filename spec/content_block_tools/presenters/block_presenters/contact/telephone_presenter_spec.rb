@@ -28,6 +28,16 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     }
   end
 
+  let(:show_video_relay_service) { false }
+
+  let(:video_relay_service) do
+    {
+      show: show_video_relay_service,
+      prefix: "Some prefix",
+      telephone_number: "123456",
+    }
+  end
+
   let(:opening_hours) do
     [
       {
@@ -57,6 +67,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       "opening_hours": opening_hours,
       "call_charges": call_charges,
       "bsl_guidance": bsl_guidance,
+      "video_relay_service": video_relay_service,
     }
   end
 
@@ -217,6 +228,22 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       result = presenter.render
 
       expect(result).to have_tag(:p, text: bsl_guidance[:value], with: { class: 'govuk-\!-margin-bottom-0' })
+    end
+  end
+
+  describe "when video relay service should be shown" do
+    let(:show_video_relay_service) { true }
+
+    it "should include the service" do
+      presenter = described_class.new(phone_number, content_block:)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with("#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}", root_class: "govuk-!-margin-bottom-0")
+                             .and_call_original
+
+      result = presenter.render
+
+      expect(result).to have_tag(:p, text: "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}", with: { class: 'govuk-\!-margin-bottom-0' })
     end
   end
 

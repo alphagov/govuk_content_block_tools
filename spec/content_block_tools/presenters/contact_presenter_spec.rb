@@ -4,13 +4,14 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
   let(:telephones) { {} }
   let(:addresses) { {} }
   let(:contact_forms) { {} }
+  let(:description) { nil }
 
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
       document_type: "contact",
       content_id:,
       title: "My Contact",
-      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses, contact_forms: contact_forms },
+      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses, contact_forms: contact_forms, description: },
       embed_code: "something",
     )
   end
@@ -278,8 +279,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           with_tag("div", with: { class: "content" }) do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p") do
-                with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
-                with_tag "br", count: 4
+                with_text "Some address,123 Fake Street,Springton,Missouri,TEST 123,USA"
+                with_tag "br", count: 5
               end
             end
           end
@@ -302,8 +303,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
         with_tag(:div, with: { class: "contact" }) do
-          with_text "123 Fake Street,Springton,Missouri,TEST 123,USA"
-          with_tag "br", count: 4
+          with_text "Some address,123 Fake Street,Springton,Missouri,TEST 123,USA"
+          with_tag "br", count: 5
         end
       end
     end
@@ -367,6 +368,24 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
               with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
             end
           end
+        end
+      end
+    end
+  end
+
+  context "with a description" do
+    let(:description) { "Some description" }
+
+    it "should render the description" do
+      presenter = described_class.new(content_block)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with(description)
+                             .and_call_original
+
+      expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
+        with_tag("div", with: { class: "contact" }) do
+          with_tag("p", text: description)
         end
       end
     end

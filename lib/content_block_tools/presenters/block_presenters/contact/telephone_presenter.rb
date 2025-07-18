@@ -12,6 +12,8 @@ module ContentBlockTools
               content_tag(:div, class: "email-url-number") do
                 concat title_and_description
                 concat number_list
+                concat video_relay_service
+                concat bsl_details
                 concat opening_hours_list if item[:opening_hours].present?
                 concat call_charges_link
               end
@@ -54,6 +56,21 @@ module ContentBlockTools
             end
           end
 
+          def video_relay_service
+            video_relay_service = item[:video_relay_service] || {}
+
+            if video_relay_service[:show]
+              content = "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}"
+              render_govspeak(content, root_class: "govuk-!-margin-bottom-0")
+            end
+          end
+
+          def bsl_details
+            bsl_guidance = item[:bsl_guidance] || {}
+
+            render_govspeak(bsl_guidance[:value], root_class: "govuk-!-margin-bottom-0") if bsl_guidance[:show]
+          end
+
           def opening_hours_list
             content_tag(:ul) do
               item[:opening_hours].each do |item|
@@ -67,12 +84,14 @@ module ContentBlockTools
           end
 
           def call_charges_link
-            if item[:show_uk_call_charges] == "true"
+            call_charges = item[:call_charges] || {}
+
+            if call_charges[:show_call_charges_info_url]
               content_tag(:p) do
                 concat content_tag(:a,
-                                   "Find out about call charges",
+                                   call_charges[:label],
                                    class: "govuk-link",
-                                   href: "https://www.gov.uk/call-charges")
+                                   href: call_charges[:call_charges_info_url])
               end
             end
           end

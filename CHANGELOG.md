@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.12.0
+
+- Add missing fields for contact object ([62](https://github.com/alphagov/govuk_content_block_tools/pull/62))
+
 ## 0.11.0
 
 - Update address and contact presenter to match model changes([61](https://github.com/alphagov/govuk_content_block_tools/pull/61))

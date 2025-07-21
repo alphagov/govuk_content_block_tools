@@ -32,9 +32,9 @@ module ContentBlockTools
     # The regex used to find UUIDs
     UUID_REGEX = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
     # The regex used to find content ID aliases
-    CONTENT_ID_ALIAS_REGEX = /[a-z0-9-]+/
+    CONTENT_ID_ALIAS_REGEX = /[a-z0-9-–—]+/
     # The regex to find optional field names after the UUID, begins with '/'
-    FIELD_REGEX = /(\/[a-z0-9_\-\/]*)?/
+    FIELD_REGEX = /(\/[a-z0-9_\-–—\/]*)?/
     # The regex used when scanning a document using {ContentBlockTools::ContentBlockReference.find_all_in_document}
     EMBED_REGEX = /({{embed:(#{SUPPORTED_DOCUMENT_TYPES.join('|')}):(#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})#{FIELD_REGEX}}})/
 
@@ -52,9 +52,29 @@ module ContentBlockTools
       # @return [Array<ContentBlockReference>] An array of content block references
       def find_all_in_document(document)
         document.scan(ContentBlockReference::EMBED_REGEX).map do |match|
+          match = prepare_match(match)
           ContentBlockTools.logger.info("Found Content Block Reference: #{match}")
           ContentBlockReference.new(document_type: match[1], identifier: match[2], embed_code: match[0])
         end
+      end
+
+    private
+
+      # This replaces an en / em dashes in content block references with double or triple dashes. This can occur
+      # because Kramdown (the markdown parser that Govspeak is based on) replaces double dashes with en dashes and
+      # triple dashes with em dashes
+      def prepare_match(match)
+        [
+          replace_dashes(match[0]),
+          match[1],
+          replace_dashes(match[2]),
+          match[3],
+        ]
+      end
+
+      def replace_dashes(value)
+        value&.gsub("–", "--")
+          &.gsub("—", "---")
       end
     end
   end

@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.12.1
+
+- Fix when content block codes include special dashes ([64](https://github.com/alphagov/govuk_content_block_tools/pull/64))
+
 ## 0.12.0
 
 - Add missing fields for contact object ([62](https://github.com/alphagov/govuk_content_block_tools/pull/62))

@@ -65,7 +65,7 @@ module ContentBlockTools
       # triple dashes with em dashes
       def prepare_match(match)
         [
-          replace_dashes(match[0]),
+          match[0],
           match[1],
           replace_dashes(match[2]),
           match[3],

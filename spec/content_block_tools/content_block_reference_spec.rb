@@ -198,11 +198,11 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
         expect(result[0].document_type).to eq("contact")
         expect(result[0].identifier).to eq("contact-alias--1")
-        expect(result[0].embed_code).to eq("{{embed:contact:contact-alias--1}}")
+        expect(result[0].embed_code).to eq("{{embed:contact:contact-alias–1}}")
 
         expect(result[1].document_type).to eq("content_block_pension")
         expect(result[1].identifier).to eq("email-address-alias---1")
-        expect(result[1].embed_code).to eq("{{embed:content_block_pension:email-address-alias---1}}")
+        expect(result[1].embed_code).to eq("{{embed:content_block_pension:email-address-alias—1}}")
       end
     end
   end

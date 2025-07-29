@@ -14,10 +14,10 @@ module ContentBlockTools
         addresses: ContentBlockTools::Presenters::BlockPresenters::Contact::AddressPresenter,
         telephones: ContentBlockTools::Presenters::BlockPresenters::Contact::TelephonePresenter,
         email_addresses: ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAddressPresenter,
-        contact_forms: ContentBlockTools::Presenters::BlockPresenters::Contact::ContactFormPresenter,
+        contact_links: ContentBlockTools::Presenters::BlockPresenters::Contact::ContactLinkPresenter,
       }.freeze
 
-      has_embedded_objects :addresses, :email_addresses, :telephones, :contact_forms
+      has_embedded_objects :addresses, :email_addresses, :telephones, :contact_links
 
     private
 

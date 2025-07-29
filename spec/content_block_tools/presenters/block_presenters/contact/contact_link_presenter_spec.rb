@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactFormPresenter do
+RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactLinkPresenter do
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
       document_type: "something",
@@ -9,7 +9,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactF
     )
   end
 
-  let(:contact_form) do
+  let(:contact_link) do
     {
       "title": "Contact us",
       "url": "http://example.com",
@@ -17,7 +17,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactF
   end
 
   it "should render successfully" do
-    presenter = described_class.new(contact_form, content_block:)
+    presenter = described_class.new(contact_link, content_block:)
 
     expect(presenter.render).to have_tag("p") do
       with_tag("span", text: "Contact us")
@@ -27,7 +27,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactF
 
   describe "when rendering in the field_names context" do
     it "should wrap in a contact class with the content block's title" do
-      presenter = described_class.new(contact_form, rendering_context: :field_names, content_block:)
+      presenter = described_class.new(contact_link, rendering_context: :field_names, content_block:)
       result = presenter.render
 
       expect(result).to have_tag("div", with: { class: "contact" }) do

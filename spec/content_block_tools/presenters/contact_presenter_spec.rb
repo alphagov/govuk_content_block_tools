@@ -3,7 +3,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
   let(:email_addresses) { {} }
   let(:telephones) { {} }
   let(:addresses) { {} }
-  let(:contact_forms) { {} }
+  let(:contact_links) { {} }
   let(:description) { nil }
 
   let(:content_block) do
@@ -11,7 +11,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       document_type: "contact",
       content_id:,
       title: "My Contact",
-      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses, contact_forms: contact_forms, description: },
+      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses, contact_links: contact_links, description: },
       embed_code: "something",
     )
   end
@@ -310,8 +310,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
     end
   end
 
-  describe "when contact forms are present" do
-    let(:contact_forms) do
+  describe "when contact links are present" do
+    let(:contact_links) do
       {
         "foo": {
           "title": "Some contact form",
@@ -320,10 +320,10 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       }
     end
 
-    it "should return the contact forms" do
+    it "should return the contact links" do
       presenter = described_class.new(content_block)
 
-      expect(presenter.contact_forms).to eq([{
+      expect(presenter.contact_links).to eq([{
         "title": "Some contact form",
         "url": "http://example.com",
       }])
@@ -348,13 +348,13 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
     end
 
     it "should render a contact form block when an embed code is provided" do
-      embed_code = "{{embed:content_block_contact:#{content_id}/contact_forms/foo}}"
+      embed_code = "{{embed:content_block_contact:#{content_id}/contact_links/foo}}"
 
       content_block = ContentBlockTools::ContentBlock.new(
         document_type: "contact",
         content_id:,
         title: "My Contact",
-        details: { contact_forms: contact_forms, telephones: telephones },
+        details: { contact_links: contact_links, telephones: telephones },
         embed_code:,
       )
 

@@ -4,7 +4,7 @@ module ContentBlockTools
   module Presenters
     module BlockPresenters
       module Contact
-        class ContactFormPresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
+        class ContactLinkPresenter < ContentBlockTools::Presenters::BlockPresenters::BasePresenter
           include ContentBlockTools::Presenters::BlockPresenters::Contact::BlockLevelContactItem
 
           def render

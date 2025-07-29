@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.13.0
+
+- Rename Contact Form to Contact Link ([70](https://github.com/alphagov/govuk_content_block_tools/pull/70))
+
 ## 0.12.3
 
 - Only replace special dashes in identifiers ([69](https://github.com/alphagov/govuk_content_block_tools/pull/69))

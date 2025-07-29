@@ -11,7 +11,7 @@ require "content_block_tools/presenters/field_presenters/contact/email_address_p
 
 require "content_block_tools/presenters/block_presenters/base_presenter"
 require "content_block_tools/presenters/block_presenters/contact/address_presenter"
-require "content_block_tools/presenters/block_presenters/contact/contact_form_presenter"
+require "content_block_tools/presenters/block_presenters/contact/contact_link_presenter"
 require "content_block_tools/presenters/block_presenters/contact/email_address_presenter"
 require "content_block_tools/presenters/block_presenters/contact/telephone_presenter"
 

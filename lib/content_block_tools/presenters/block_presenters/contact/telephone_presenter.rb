@@ -14,7 +14,7 @@ module ContentBlockTools
                 concat number_list
                 concat video_relay_service
                 concat bsl_details
-                concat opening_hours_list if item[:opening_hours].present?
+                concat opening_hours
                 concat call_charges_link
               end
             end
@@ -71,12 +71,10 @@ module ContentBlockTools
             render_govspeak(bsl_guidance[:value], root_class: "govuk-!-margin-bottom-0") if bsl_guidance[:show]
           end
 
-          def opening_hours_list
-            content_tag(:ul) do
-              item[:opening_hours].each do |item|
-                concat opening_hours_list_item(item)
-              end
-            end
+          def opening_hours
+            opening_hours = item[:opening_hours] || {}
+
+            render_govspeak(opening_hours[:opening_hours], root_class: "govuk-!-margin-bottom-0") if opening_hours[:show_opening_hours]
           end
 
           def opening_hours_list_item(item)

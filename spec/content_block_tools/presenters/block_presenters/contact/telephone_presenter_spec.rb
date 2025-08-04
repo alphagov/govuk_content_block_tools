@@ -38,15 +38,13 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     }
   end
 
+  let(:show_opening_hours) { false }
+
   let(:opening_hours) do
-    [
-      {
-        "day_from": "Monday",
-        "day_to": "Friday",
-        "time_from": "9am",
-        "time_to": "5pm",
-      },
-    ]
+    {
+      show_opening_hours: show_opening_hours,
+      opening_hours: "Monday to Friday, 9am to 5pm",
+    }
   end
   let(:description) { nil }
 
@@ -94,17 +92,13 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
         end
       end
 
-      with_tag("ul") do
-        with_tag("li", text: "Monday to Friday, 9am to 5pm")
-      end
-
       without_tag("a", text: call_charges[:label], with: { href: call_charges[:call_charges_info_url] })
       without_text("false")
     end
   end
 
   describe "when there are no opening hours" do
-    let(:opening_hours) { [] }
+    let(:opening_hours) { {} }
 
     it "should render successfully" do
       presenter = described_class.new(phone_number, content_block:)
@@ -153,28 +147,19 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
     end
   end
 
-  describe "when opening hours is nil" do
-    let(:opening_hours) { nil }
+  describe "when it should show opening hours" do
+    let(:show_opening_hours) { true }
 
     it "should render successfully" do
       presenter = described_class.new(phone_number, content_block:)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with(opening_hours[:opening_hours], root_class: "govuk-!-margin-bottom-0")
+                             .and_call_original
+
       result = presenter.render
 
-      expect(result).to have_tag("ul", count: 1)
-
-      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
-        with_tag("ul") do
-          with_tag("li") do
-            with_tag(:span, text: "Office")
-            with_tag(:span, text: "1234", with: { class: "tel" })
-          end
-
-          with_tag("li") do
-            with_tag(:span, text: "International")
-            with_tag(:span, text: "5678", with: { class: "tel" })
-          end
-        end
-      end
+      expect(result).to have_tag("p", text: opening_hours[:opening_hours])
     end
   end
 

@@ -11,7 +11,8 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactL
 
   let(:contact_link) do
     {
-      "title": "Contact us",
+      "title": "Contact form",
+      "label": "Contact us",
       "url": "http://example.com",
     }
   end
@@ -20,8 +21,45 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactL
     presenter = described_class.new(contact_link, content_block:)
 
     expect(presenter.render).to have_tag("p") do
-      with_tag("span", text: "Contact us")
-      with_tag("a", text: "http://example.com", with: { href: "http://example.com", class: "url" })
+      with_tag("a", text: "Contact us", with: { href: "http://example.com", class: "url" })
+    end
+  end
+
+  describe "when the label is missing" do
+    let(:contact_link) do
+      {
+        "title": "Contact form",
+        "url": "http://example.com",
+      }
+    end
+
+    it "uses the url as the link text" do
+      presenter = described_class.new(contact_link, content_block:)
+
+      expect(presenter.render).to have_tag("p") do
+        with_tag("a", text: "http://example.com", with: { href: "http://example.com", class: "url" })
+      end
+    end
+  end
+
+  describe "when description is present" do
+    let(:contact_link) do
+      {
+        "title": "Contact form",
+        "label": "Contact us",
+        "url": "http://example.com",
+        "description": "Some description",
+      }
+    end
+
+    it "should render successfully" do
+      presenter = described_class.new(contact_link, content_block:)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with(contact_link[:description])
+                             .and_call_original
+
+      expect(presenter.render).to have_tag("p", text: contact_link[:description])
     end
   end
 

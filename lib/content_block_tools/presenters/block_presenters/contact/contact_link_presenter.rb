@@ -10,15 +10,27 @@ module ContentBlockTools
           def render
             wrapper do
               content_tag(:div, class: "email-url-number") do
-                content_tag(:p) do
-                  concat content_tag(:span, item[:title])
-                  concat content_tag(:a,
-                                     item[:url],
-                                     class: "url",
-                                     href: item[:url])
-                end
+                concat link
+                concat description if item[:description]
               end
             end
+          end
+
+          def link
+            content_tag(:p) do
+              content_tag(:a,
+                          link_text,
+                          class: "url",
+                          href: item[:url])
+            end
+          end
+
+          def link_text
+            item[:label] || item[:url]
+          end
+
+          def description
+            render_govspeak(item[:description])
           end
         end
       end

@@ -7,6 +7,12 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.16.0
+
+- Use label as link text for contact link ([74](https://github.com/alphagov/govuk_content_block_tools/pull/74))
+- Add description to contact link ([74](https://github.com/alphagov/govuk_content_block_tools/pull/74))
+- Use label as link text for contact link ([74](https://github.com/alphagov/govuk_content_block_tools/pull/74))
+
 ## 0.15.0
 
 - Rename content block classes ([72](https://github.com/alphagov/govuk_content_block_tools/pull/72))

@@ -13,7 +13,7 @@
 
 ## 0.14.0
 
-- Update telephone to support simple opening hours ([71](https://github.com/alphagov/govuk_content_block_tools/pull/70))
+- Update telephone to support simple opening hours ([71](https://github.com/alphagov/govuk_content_block_tools/pull/71))
 
 ## 0.13.0
 

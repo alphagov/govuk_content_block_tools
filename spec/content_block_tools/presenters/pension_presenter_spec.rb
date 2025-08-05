@@ -22,7 +22,7 @@ RSpec.describe ContentBlockTools::Presenters::PensionPresenter do
     presenter = described_class.new(content_block)
 
     expect(presenter.render).to have_tag("span", text: title, with: {
-      class: "content-embed content-embed__something",
+      class: "content-block content-block--something",
       "data-content-block" => "",
       "data-document-type" => "something",
       "data-content-id" => content_id,
@@ -45,7 +45,7 @@ RSpec.describe ContentBlockTools::Presenters::PensionPresenter do
       presenter = described_class.new(content_block_with_fields)
 
       expect(presenter.render).to have_tag("span", text: "description of pension", with: {
-        class: "content-embed content-embed__something",
+        class: "content-block content-block--something",
         "data-content-block" => "",
         "data-document-type" => "something",
         "data-content-id" => content_id,

@@ -18,7 +18,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
   let(:expected_wrapper_attributes) do
     {
-      class: "content-embed content-embed__contact",
+      class: "content-block content-block--contact",
       "data-content-block" => "",
       "data-document-type" => "contact",
       "data-content-id" => content_id,

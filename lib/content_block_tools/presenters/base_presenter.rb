@@ -41,10 +41,10 @@ module ContentBlockTools
         content_tag(
           base_tag,
           content,
-          class: %W[content-embed content-embed__#{content_block.document_type}],
+          class: %W[content-block content-block--#{document_type}],
           data: {
             content_block: "",
-            document_type: content_block.document_type,
+            document_type: document_type,
             content_id: content_block.content_id,
             embed_code: content_block.embed_code,
           },
@@ -128,6 +128,10 @@ module ContentBlockTools
 
       def embedded_objects
         self.class.instance_variable_get("@embedded_objects")
+      end
+
+      def document_type
+        content_block.document_type.delete_prefix("content_block_")
       end
     end
   end

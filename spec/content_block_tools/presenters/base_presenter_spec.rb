@@ -3,7 +3,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
 
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
-      document_type: "something",
+      document_type: "content_block_something",
       content_id:,
       title: "My content block",
       details: {},
@@ -13,7 +13,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
 
   let(:expected_wrapper_attributes) do
     {
-      class: "content-embed content-embed__something",
+      class: "content-block content-block--something",
       "data-content-block" => "",
       "data-document-type" => "something",
       "data-content-id" => content_id,

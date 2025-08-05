@@ -31,5 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-govuk", "5.1.18"
 
   spec.add_dependency "actionview", ">= 6"
-  spec.add_dependency "govspeak", "10.6.0"
+  spec.add_dependency "govspeak", "10.6.1"
 end

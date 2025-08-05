@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 0.15.0
+
+- Rename content block classes ([72](https://github.com/alphagov/govuk_content_block_tools/pull/72))
+
 ## 0.14.0
 
 - Update telephone to support simple opening hours ([71](https://github.com/alphagov/govuk_content_block_tools/pull/70))

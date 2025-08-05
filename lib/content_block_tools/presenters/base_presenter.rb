@@ -41,7 +41,7 @@ module ContentBlockTools
         content_tag(
           base_tag,
           content,
-          class: %W[content-embed content-embed__#{content_block.document_type}],
+          class: %W[content-block content-block--#{content_block.document_type}],
           data: {
             content_block: "",
             document_type: content_block.document_type,

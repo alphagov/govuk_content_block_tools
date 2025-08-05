@@ -236,7 +236,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
     let(:addresses) do
       {
         "some_address": {
-          "title": "Some address",
+          "title": "Address",
+          "recipient": "Department of something",
           "street_address": "123 Fake Street",
           "town_or_city": "Springton",
           "state_or_county": "Missouri",
@@ -250,7 +251,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.addresses).to eq([{
-        "title": "Some address",
+        "title": "Address",
+        "recipient": "Department of something",
         "street_address": "123 Fake Street",
         "town_or_city": "Springton",
         "state_or_county": "Missouri",
@@ -267,7 +269,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           with_tag("div", with: { class: "content" }) do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p") do
-                with_text "Some address,123 Fake Street,Springton,Missouri,TEST 123,USA"
+                with_text "Department of something,123 Fake Street,Springton,Missouri,TEST 123,USA"
                 with_tag "br", count: 5
               end
             end
@@ -291,7 +293,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
         with_tag(:div, with: { class: "contact" }) do
-          with_text "Some address,123 Fake Street,Springton,Missouri,TEST 123,USA"
+          with_text "Department of something,123 Fake Street,Springton,Missouri,TEST 123,USA"
           with_tag "br", count: 5
         end
       end

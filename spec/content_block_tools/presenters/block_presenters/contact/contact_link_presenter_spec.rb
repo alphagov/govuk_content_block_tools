@@ -42,6 +42,27 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactL
     end
   end
 
+  describe "when description is present" do
+    let(:contact_link) do
+      {
+        "title": "Contact form",
+        "label": "Contact us",
+        "url": "http://example.com",
+        "description": "Some description",
+      }
+    end
+
+    it "should render successfully" do
+      presenter = described_class.new(contact_link, content_block:)
+
+      expect(presenter).to receive(:render_govspeak)
+                             .with(contact_link[:description])
+                             .and_call_original
+
+      expect(presenter.render).to have_tag("p", text: contact_link[:description])
+    end
+  end
+
   describe "when rendering in the field_names context" do
     it "should wrap in a contact class with the content block's title" do
       presenter = described_class.new(contact_link, rendering_context: :field_names, content_block:)

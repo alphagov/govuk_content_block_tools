@@ -11,14 +11,17 @@ module ContentBlockTools
             wrapper do
               content_tag(:div, class: "email-url-number") do
                 content_tag(:p) do
-                  concat content_tag(:span, item[:title])
                   concat content_tag(:a,
-                                     item[:url],
+                                     link_text,
                                      class: "url",
                                      href: item[:url])
                 end
               end
             end
+          end
+
+          def link_text
+            item[:label] || item[:url]
           end
         end
       end

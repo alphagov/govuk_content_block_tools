@@ -328,7 +328,6 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p", text: "My Contact")
               with_tag("p") do
-                with_tag("span", text: "Some contact form")
                 with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
               end
             end
@@ -354,7 +353,6 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         with_tag("div", with: { class: "contact" }) do
           with_tag("div", with: { class: "email-url-number" }) do
             with_tag("p") do
-              with_tag("span", text: "Some contact form")
               with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
             end
           end

@@ -3,7 +3,7 @@ RSpec.describe ContentBlockTools::Presenters::BasePresenter do
 
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
-      document_type: "something",
+      document_type: "content_block_something",
       content_id:,
       title: "My content block",
       details: {},

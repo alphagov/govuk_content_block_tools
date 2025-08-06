@@ -11,7 +11,8 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
 
   let(:address) do
     {
-      "title": "Some address",
+      "title": "Address",
+      "recipient": "Department of something",
       "street_address": "123 Fake Street",
       "town_or_city": "Springton",
       "state_or_county": "Missouri",
@@ -31,7 +32,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     result = presenter.render
 
     expect(result).to have_tag(:p) do
-      with_tag(:span, text: "Some address")
+      with_tag(:span, text: "Department of something", with: { class: "organization-name" })
       with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
       with_tag(:span, text: "Springton", with: { class: "locality" })
       with_tag(:span, text: "Missouri", with: { class: "region" })
@@ -48,7 +49,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
 
     expect(presenter.render).to have_tag(:div, with: { class: "contact" }) do
       with_tag(:p) do
-        with_tag(:span, text: "Some address")
+        with_tag(:span, text: "Department of something", with: { class: "organization-name" })
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
         with_tag(:span, text: "Springton", with: { class: "locality" })
         with_tag(:span, text: "Missouri", with: { class: "region" })
@@ -62,7 +63,6 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
   describe "when some fields are missing" do
     let(:address) do
       {
-        "title": "Some address",
         "street_address": "123 Fake Street",
         "town_or_city": "Springton",
         "state_or_county": "",
@@ -75,11 +75,10 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
       presenter = described_class.new(address, content_block:)
 
       expect(presenter.render).to have_tag(:p) do
-        with_tag(:span, text: "Some address")
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
         with_tag(:span, text: "Springton", with: { class: "locality" })
         with_tag(:span, text: "TEST 123", with: { class: "postal-code" })
-        with_tag "br", count: 3
+        with_tag "br", count: 2
       end
     end
   end

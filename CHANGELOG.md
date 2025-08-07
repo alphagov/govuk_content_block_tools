@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.0.1
+
+- Include `node_modules` directory in published gem ([78](https://github.com/alphagov/govuk_content_block_tools/pull/78))
+
 ## 1.0.0
 
 - Add portable styling to the gem ([76](https://github.com/alphagov/govuk_content_block_tools/pull/76))

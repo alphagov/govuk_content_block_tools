@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.0.3
+
+- Import govuk-links ([80](https://github.com/alphagov/govuk_content_block_tools/pull/80))
+
 ## 1.0.2
 
 - Only add paths to assets if `assets` is defined ([79](https://github.com/alphagov/govuk_content_block_tools/pull/79))

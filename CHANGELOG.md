@@ -7,6 +7,11 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.0.0
+
+- Add portable styling to the gem ([76](https://github.com/alphagov/govuk_content_block_tools/pull/76))
+- Update contact blocks to match design system ([76](https://github.com/alphagov/govuk_content_block_tools/pull/76))
+
 ## 0.17.0
 
 - Use recipient field in address ([75](https://github.com/alphagov/govuk_content_block_tools/pull/75))

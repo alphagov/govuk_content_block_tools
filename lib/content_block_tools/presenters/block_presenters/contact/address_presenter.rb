@@ -11,7 +11,7 @@ module ContentBlockTools
             wrapper do
               output = []
 
-              output << content_tag(:p, class: "adr") do
+              output << content_tag(:p, class: "adr content-block__body") do
                 %i[recipient street_address town_or_city state_or_county postal_code country].map { |field|
                   next if item[field].blank?
 
@@ -34,12 +34,6 @@ module ContentBlockTools
               postal_code: "postal-code",
               country: "country-name",
             }[field_name]
-          end
-
-        private
-
-          def show_title_in_field_names_context?
-            false
           end
         end
       end

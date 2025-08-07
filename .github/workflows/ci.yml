@@ -44,12 +44,32 @@ jobs:
       - run: echo "All matrix tests have passed 🚀"
 
   publish:
-    needs: test_matrix
+    needs: test
+    runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
     permissions:
       contents: write
-    uses: alphagov/govuk-infrastructure/.github/workflows/publish-rubygem.yml@main
-    with:
-      gem_name: content_block_tools
-    secrets:
-      GEM_HOST_API_KEY: ${{ secrets.ALPHAGOV_RUBYGEMS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          rubygems: latest
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: lts/* # use the latest LTS release
+      - run: yarn install
+      - env:
+          GEM_HOST_API_KEY: ${{ secrets.ALPHAGOV_RUBYGEMS_API_KEY }}
+        run: |
+          VERSION=$(ruby -e "puts eval(File.read('content_block_tools.gemspec')).version")
+          GEM_VERSION=$(gem list --exact --remote content_block_tools)
+          
+          if [ "${GEM_VERSION}" != "content_block_tools (${VERSION})" ]; then
+            gem build content_block_tools.gemspec
+            gem push "content_block_tools-${VERSION}.gem"
+          fi
+          
+          if ! git ls-remote --tags --exit-code origin v"${VERSION}"; then
+            git tag v"${VERSION}"
+            git push --tags
+          fi

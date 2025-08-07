@@ -20,8 +20,10 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAdd
   it "should render successfully" do
     presenter = described_class.new(email_address, content_block:)
 
-    expect(presenter.render).to have_tag("p") do
-      with_tag("a", text: "Email us", with: { href: "mailto:foo@example.com", class: "email" })
+    expect(presenter.render).to have_tag("ul", with: { class: "content-block__list" }) do
+      with_tag("li") do
+        with_tag("a", text: "Email us", with: { href: "mailto:foo@example.com", class: "email content-block__link" })
+      end
     end
   end
 
@@ -36,8 +38,10 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAdd
     it "uses the email address as the link text" do
       presenter = described_class.new(email_address, content_block:)
 
-      expect(presenter.render).to have_tag("p") do
-        with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com", class: "email" })
+      expect(presenter.render).to have_tag("ul", with: { class: "content-block__list" }) do
+        with_tag("li") do
+          with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com", class: "email content-block__link" })
+        end
       end
     end
   end
@@ -55,10 +59,10 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAdd
     it "should render successfully" do
       presenter = described_class.new(email_address, content_block:)
 
-      result = presenter.render
-
-      expect(result).to have_tag("p") do
-        with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com?subject=My email&body=Body text here", class: "email" })
+      expect(presenter.render).to have_tag("ul", with: { class: "content-block__list" }) do
+        with_tag("li") do
+          with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com?subject=My email&body=Body text here", class: "email content-block__link" })
+        end
       end
     end
   end
@@ -80,14 +84,14 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAdd
                              .with("Description text")
                              .and_call_original
 
-      result = presenter.render
-
-      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
-        with_tag("p") do
-          with_tag("a", text: "Some email address", with: { href: "mailto:foo@example.com", class: "email" })
+      expect(presenter.render).to have_tag("ul", with: { class: "content-block__list" }) do
+        with_tag("li") do
+          with_tag("a", text: "Some email address", with: { href: "mailto:foo@example.com", class: "email content-block__link" })
         end
 
-        with_tag("p", text: "Description text")
+        with_tag("li") do
+          with_tag("p", text: "Description text")
+        end
       end
     end
   end
@@ -97,9 +101,9 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::EmailAdd
       presenter = described_class.new(email_address, rendering_context: :field_names, content_block:)
       result = presenter.render
 
-      expect(result).to have_tag("div", with: { class: "contact" }) do
-        with_tag("p", text: content_block.title, with: { class: 'govuk-\!-margin-bottom-3' })
-        with_tag("div", with: { class: "email-url-number" })
+      expect(result).to have_tag("div") do
+        with_tag("p", text: content_block.title, with: { class: "content-block__title" })
+        with_tag("ul", with: { class: "content-block__list" })
       end
     end
   end

@@ -22,16 +22,12 @@ module ContentBlockTools
     private
 
       def default_content
-        content_tag(:div, class: "contact") do
-          content_tag(:div, class: "content") do
-            content_tag(:div, class: "vcard contact-inner") do
-              concat content_tag(:p, content_block.title, class: "fn org")
-              concat render_govspeak(content_block.details[:description]) if content_block.details[:description]
-              embedded_objects.each do |object|
-                items = send(object)
-                concat(items.map { |item| presenter_for_object_type(object).new(item, content_block:).render }.join.html_safe)
-              end
-            end
+        content_tag(:div, class: "vcard") do
+          concat content_tag(:p, content_block.title, class: "fn org content-block__title")
+          concat render_govspeak(content_block.details[:description]) if content_block.details[:description]
+          embedded_objects.each do |object|
+            items = send(object)
+            concat(items.map { |item| presenter_for_object_type(object).new(item, content_block:).render }.join.html_safe)
           end
         end
       end

@@ -22,6 +22,8 @@ require "content_block_tools/presenters/pension_presenter"
 require "content_block_tools/content_block"
 require "content_block_tools/content_block_reference"
 
+require "content_block_tools/engine"
+
 require "content_block_tools/version"
 
 module ContentBlockTools
@@ -33,14 +35,6 @@ module ContentBlockTools
 
     def logger
       @logger ||= Logger.new($stdout)
-    end
-  end
-
-  if defined?(Rails::Railtie)
-    class Railtie < Rails::Railtie
-      initializer "content_block_tools.initialize_logger" do
-        ContentBlockTools.logger = Rails.logger
-      end
     end
   end
 end

@@ -9,18 +9,18 @@ module ContentBlockTools
 
           def render
             wrapper do
-              content_tag(:div, class: "email-url-number") do
+              content_tag(:ul, class: "content-block__list") do
                 concat email
-                concat render_govspeak(item[:description]) if item[:description].present?
+                concat description if item[:description].present?
               end
             end
           end
 
           def email
-            content_tag(:p) do
+            content_tag(:li) do
               concat content_tag(:a,
                                  link_text,
-                                 class: "email",
+                                 class: "email content-block__link",
                                  href: "mailto:#{item[:email_address]}#{query_params}")
             end
           end
@@ -36,6 +36,12 @@ module ContentBlockTools
 
           def link_text
             item[:label] || item[:email_address]
+          end
+
+          def description
+            content_tag(:li) do
+              render_govspeak(item[:description])
+            end
           end
         end
       end

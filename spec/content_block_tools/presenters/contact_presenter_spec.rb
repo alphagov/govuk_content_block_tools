@@ -31,12 +31,8 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
-        with_tag("div", with: { class: "contact" }) do
-          with_tag("div", with: { class: "content" }) do
-            with_tag("div", with: { class: "vcard contact-inner" }) do
-              with_tag("p", text: "My Contact", with: { class: "fn org" })
-            end
-          end
+        with_tag("div", with: { class: "vcard" }) do
+          with_tag("p", text: "My Contact", with: { class: "fn org" })
         end
       end
     end
@@ -65,15 +61,12 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
-        with_tag("div", with: { class: "contact" }) do
-          with_tag("div", with: { class: "content" }) do
-            with_tag("div", with: { class: "vcard contact-inner" }) do
-              with_tag("p", text: "My Contact")
-              with_tag("ul", with: { class: "content-block__list" }) do
-                with_tag("li") do
-                  with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com" })
-                end
-              end
+        with_tag("div", with: { class: "vcard" }) do
+          with_tag("p", text: "My Contact")
+          with_tag("p", text: "Some email address", with: { class: "content-block__subtitle" })
+          with_tag("ul", with: { class: "content-block__list" }) do
+            with_tag("li") do
+              with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com" })
             end
           end
         end
@@ -94,7 +87,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code })) do
-        with_tag("div", with: { class: "contact" }) do
+        with_tag("div") do
           with_tag("ul", with: { class: "content-block__list" }) do
             with_tag("li") do
               with_tag("a", text: "foo@example.com", with: { href: "mailto:foo@example.com" })
@@ -168,20 +161,17 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
-        with_tag("div", with: { class: "contact" }) do
-          with_tag("div", with: { class: "content" }) do
-            with_tag("div", with: { class: "vcard contact-inner" }) do
-              with_tag("p", text: "My Contact")
-              with_tag("ul", with: { class: "content-block__list" }) do
-                with_tag("li") do
-                  with_tag("span", text: "Telephone: ")
-                  with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
-                end
-              end
-
-              with_tag("p", text: "Monday to Friday, 9am to 5pm")
+        with_tag("div", with: { class: "vcard" }) do
+          with_tag("p", text: "My Contact")
+          with_tag("p", text: "Some phone number", with: { class: "content-block__subtitle" })
+          with_tag("ul", with: { class: "content-block__list" }) do
+            with_tag("li") do
+              with_tag("span", text: "Telephone: ")
+              with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
             end
           end
+
+          with_tag("p", text: "Monday to Friday, 9am to 5pm")
         end
       end
     end
@@ -200,7 +190,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
-        with_tag("div", with: { class: "contact" }) do
+        with_tag("div") do
           with_tag("ul", with: { class: "content-block__list" }) do
             with_tag("li") do
               with_tag("span", text: "Telephone: ")
@@ -265,14 +255,11 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
-        with_tag("div", with: { class: "contact" }) do
-          with_tag("div", with: { class: "content" }) do
-            with_tag("div", with: { class: "vcard contact-inner" }) do
-              with_tag("p", with: { class: "content-block__body" }) do
-                with_text "Department of something,123 Fake Street,Springton,Missouri,TEST 123,USA"
-                with_tag "br", count: 5
-              end
-            end
+        with_tag("div", with: { class: "vcard" }) do
+          with_tag("p", text: "Address", with: { class: "content-block__subtitle" })
+          with_tag("p", with: { class: "content-block__body" }) do
+            with_text "Department of something,123 Fake Street,Springton,Missouri,TEST 123,USA"
+            with_tag "br", count: 5
           end
         end
       end
@@ -292,7 +279,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
-        with_tag(:div, with: { class: "contact" }) do
+        with_tag(:div) do
           with_text "Department of something,123 Fake Street,Springton,Missouri,TEST 123,USA"
           with_tag "br", count: 5
         end
@@ -323,14 +310,11 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
-        with_tag("div", with: { class: "contact" }) do
-          with_tag("div", with: { class: "content" }) do
-            with_tag("div", with: { class: "vcard contact-inner" }) do
-              with_tag("p", text: "My Contact")
-              with_tag("ul") do
-                with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
-              end
-            end
+        with_tag("div", with: { class: "vcard" }) do
+          with_tag("p", text: "Some contact form", with: { class: "content-block__subtitle" })
+          with_tag("p", text: "My Contact")
+          with_tag("ul") do
+            with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
           end
         end
       end
@@ -350,7 +334,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
       presenter = described_class.new(content_block)
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
-        with_tag("div", with: { class: "contact" }) do
+        with_tag("div") do
           with_tag("ul", with: { class: "content-block__list" }) do
             with_tag("li") do
               with_tag("a", text: "http://example.com", with: { href: "http://example.com" })
@@ -372,7 +356,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
                              .and_call_original
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes) do
-        with_tag("div", with: { class: "contact" }) do
+        with_tag("div") do
           with_tag("p", text: description)
         end
       end

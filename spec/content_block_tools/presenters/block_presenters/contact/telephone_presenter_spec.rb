@@ -230,8 +230,8 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       presenter = described_class.new(phone_number, rendering_context: :field_names, content_block:)
       result = presenter.render
 
-      expect(result).to have_tag("div", with: { class: "contact" }) do
-        with_tag("p", text: content_block.title, with: { class: 'govuk-\!-margin-bottom-3' })
+      expect(result).to have_tag("div") do
+        with_tag("p", text: content_block.title, with: { class: "content-block__title" })
         with_tag("ul", with: { class: "content-block__list" })
       end
     end

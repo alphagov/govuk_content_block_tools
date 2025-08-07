@@ -12,26 +12,20 @@ module ContentBlockTools
           end
 
           def wrapper(&block)
-            if @rendering_context == :field_names
-              content_tag(:div, class: "contact") do
-                concat title if show_title_in_field_names_context?
-                concat yield block
-              end
-            else
-              yield block
+            content_tag(:div) do
+              concat title
+              concat yield block
             end
           end
 
           def title
-            content_tag(:p,
-                        @content_block.title,
-                        class: "govuk-!-margin-bottom-3")
-          end
-
-        private
-
-          def show_title_in_field_names_context?
-            true
+            if @rendering_context == :field_names
+              content_tag(:p,
+                          @content_block.title,
+                          class: "content-block__title")
+            else
+              content_tag(:p, item[:title], class: "content-block__subtitle")
+            end
           end
         end
       end

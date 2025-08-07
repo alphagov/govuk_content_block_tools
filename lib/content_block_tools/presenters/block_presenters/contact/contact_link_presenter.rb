@@ -9,7 +9,7 @@ module ContentBlockTools
 
           def render
             wrapper do
-              content_tag(:div, class: "email-url-number") do
+              content_tag(:ul, class: "content-block__list") do
                 concat link
                 concat description if item[:description]
               end
@@ -17,10 +17,10 @@ module ContentBlockTools
           end
 
           def link
-            content_tag(:p) do
+            content_tag(:li) do
               content_tag(:a,
                           link_text,
-                          class: "url",
+                          class: "url content-block__link",
                           href: item[:url])
             end
           end
@@ -30,7 +30,9 @@ module ContentBlockTools
           end
 
           def description
-            render_govspeak(item[:description])
+            content_tag(:li) do
+              render_govspeak(item[:description])
+            end
           end
         end
       end

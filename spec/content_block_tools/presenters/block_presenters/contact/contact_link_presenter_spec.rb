@@ -20,8 +20,10 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactL
   it "should render successfully" do
     presenter = described_class.new(contact_link, content_block:)
 
-    expect(presenter.render).to have_tag("p") do
-      with_tag("a", text: "Contact us", with: { href: "http://example.com", class: "url" })
+    expect(presenter.render).to have_tag("ul", with: { class: "content-block__list" }) do
+      with_tag("li") do
+        with_tag("a", text: "Contact us", with: { href: "http://example.com", class: "url content-block__link" })
+      end
     end
   end
 
@@ -36,8 +38,10 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactL
     it "uses the url as the link text" do
       presenter = described_class.new(contact_link, content_block:)
 
-      expect(presenter.render).to have_tag("p") do
-        with_tag("a", text: "http://example.com", with: { href: "http://example.com", class: "url" })
+      expect(presenter.render).to have_tag("ul", with: { class: "content-block__list" }) do
+        with_tag("li") do
+          with_tag("a", text: "http://example.com", with: { href: "http://example.com", class: "url content-block__link" })
+        end
       end
     end
   end
@@ -58,8 +62,9 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactL
       expect(presenter).to receive(:render_govspeak)
                              .with(contact_link[:description])
                              .and_call_original
-
-      expect(presenter.render).to have_tag("p", text: contact_link[:description])
+      expect(presenter.render).to have_tag("ul", with: { class: "content-block__list" }) do
+        with_tag("li", text: contact_link[:description])
+      end
     end
   end
 
@@ -70,7 +75,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::ContactL
 
       expect(result).to have_tag("div", with: { class: "contact" }) do
         with_tag("p", text: content_block.title, with: { class: 'govuk-\!-margin-bottom-3' })
-        with_tag("div", with: { class: "email-url-number" })
+        with_tag("ul", with: { class: "content-block__list" })
       end
     end
   end

@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "content_block_tools",
+  "description": "A suite of tools for working with GOV.UK Content Blocks",
+  "license": "MIT",
+  "dependencies": {
+    "govuk-frontend": "^5.11.1"
+  }
+}

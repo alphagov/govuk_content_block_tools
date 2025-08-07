@@ -1,0 +1,24 @@
+@import "govuk/core/lists";
+@import "govuk/core/typography";
+
+@import "blocks/contact";
+
+.content-block {
+  &__body {
+    @extend %govuk-body-m;
+  }
+
+  ul#{&}__list {
+    @extend %govuk-list;
+    margin-left: 0;
+
+    & > li {
+      list-style: none;
+      margin-bottom: govuk-spacing(1);
+    }
+  }
+
+  &__link {
+    @extend %govuk-link;
+  }
+}

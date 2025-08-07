@@ -268,7 +268,7 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
         with_tag("div", with: { class: "contact" }) do
           with_tag("div", with: { class: "content" }) do
             with_tag("div", with: { class: "vcard contact-inner" }) do
-              with_tag("p") do
+              with_tag("p", with: { class: "content-block__body" }) do
                 with_text "Department of something,123 Fake Street,Springton,Missouri,TEST 123,USA"
                 with_tag "br", count: 5
               end

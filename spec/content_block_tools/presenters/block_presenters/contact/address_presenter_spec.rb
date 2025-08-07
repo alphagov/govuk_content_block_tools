@@ -31,7 +31,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
 
     result = presenter.render
 
-    expect(result).to have_tag(:p) do
+    expect(result).to have_tag(:p, with: { class: "content-block__body" }) do
       with_tag(:span, text: "Department of something", with: { class: "organization-name" })
       with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
       with_tag(:span, text: "Springton", with: { class: "locality" })
@@ -48,7 +48,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     presenter = described_class.new(address, rendering_context: :field_names, content_block:)
 
     expect(presenter.render).to have_tag(:div, with: { class: "contact" }) do
-      with_tag(:p) do
+      with_tag(:p, with: { class: "content-block__body" }) do
         with_tag(:span, text: "Department of something", with: { class: "organization-name" })
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
         with_tag(:span, text: "Springton", with: { class: "locality" })
@@ -74,7 +74,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::AddressP
     it "should ignore the missing fields" do
       presenter = described_class.new(address, content_block:)
 
-      expect(presenter.render).to have_tag(:p) do
+      expect(presenter.render).to have_tag(:p, with: { class: "content-block__body" }) do
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
         with_tag(:span, text: "Springton", with: { class: "locality" })
         with_tag(:span, text: "TEST 123", with: { class: "postal-code" })

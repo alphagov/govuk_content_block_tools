@@ -75,19 +75,15 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
     expect(result).to_not have_tag("div", with: { class: "contact" })
 
-    expect(result).to have_tag("div", with: { class: "email-url-number" }) do
-      with_tag("div", with: { class: 'govuk-\!-margin-bottom-3' }) do
-        with_tag(:p, text: phone_number[:title], with: { class: 'govuk-\!-margin-bottom-0' })
-      end
-
-      with_tag("ul") do
+    expect(result).to have_tag("div") do
+      with_tag("ul", with: { class: "content-block__list" }) do
         with_tag("li") do
-          with_tag(:span, text: "Office")
+          with_tag(:span, text: "Office: ")
           with_tag(:span, text: "1234", with: { class: "tel" })
         end
 
         with_tag("li") do
-          with_tag(:span, text: "International")
+          with_tag(:span, text: "International: ")
           with_tag(:span, text: "5678", with: { class: "tel" })
         end
       end
@@ -106,15 +102,15 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
       expect(result).to have_tag("ul", count: 1)
 
-      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
-        with_tag("ul") do
+      expect(result).to have_tag("div") do
+        with_tag("ul", with: { class: "content-block__list" }) do
           with_tag("li") do
-            with_tag(:span, text: "Office")
+            with_tag(:span, text: "Office: ")
             with_tag(:span, text: "1234", with: { class: "tel" })
           end
 
           with_tag("li") do
-            with_tag(:span, text: "International")
+            with_tag(:span, text: "International: ")
             with_tag(:span, text: "5678", with: { class: "tel" })
           end
         end
@@ -131,15 +127,15 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
       expect(result).to have_tag("ul", count: 1)
 
-      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
-        with_tag("ul") do
+      expect(result).to have_tag("div") do
+        with_tag("ul", with: { class: "content-block__list" }) do
           with_tag("li") do
-            with_tag(:span, text: "Office")
+            with_tag(:span, text: "Office: ")
             with_tag(:span, text: "1234", with: { class: "tel" })
           end
 
           with_tag("li") do
-            with_tag(:span, text: "International")
+            with_tag(:span, text: "International: ")
             with_tag(:span, text: "5678", with: { class: "tel" })
           end
         end
@@ -154,7 +150,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       presenter = described_class.new(phone_number, content_block:)
 
       expect(presenter).to receive(:render_govspeak)
-                             .with(opening_hours[:opening_hours], root_class: "govuk-!-margin-bottom-0")
+                             .with(opening_hours[:opening_hours], root_class: "content-block__body")
                              .and_call_original
 
       result = presenter.render
@@ -184,18 +180,15 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       presenter = described_class.new(phone_number, content_block:)
 
       expect(presenter).to receive(:render_govspeak)
-                             .with(description, root_class: "govuk-!-margin-top-1 govuk-!-margin-bottom-0")
+                             .with(description, root_class: "content-block__body")
                              .and_call_original
 
       result = presenter.render
 
       expect(result).to_not have_tag("div", with: { class: "contact" })
 
-      expect(result).to have_tag("div", with: { class: "email-url-number" }) do
-        with_tag("div", with: { class: 'govuk-\!-margin-bottom-3' }) do
-          with_tag(:p, text: phone_number[:title], with: { class: 'govuk-\!-margin-bottom-0' })
-          with_tag(:p, text: phone_number[:description], with: { class: 'govuk-\!-margin-top-1 govuk-\!-margin-bottom-0' })
-        end
+      expect(result).to have_tag("div") do
+        with_tag(:p, text: phone_number[:description], with: { class: "content-block__body" })
       end
     end
   end
@@ -207,12 +200,12 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       presenter = described_class.new(phone_number, content_block:)
 
       expect(presenter).to receive(:render_govspeak)
-                             .with(bsl_guidance[:value], root_class: "govuk-!-margin-bottom-0")
+                             .with(bsl_guidance[:value], root_class: "content-block__body")
                              .and_call_original
 
       result = presenter.render
 
-      expect(result).to have_tag(:p, text: bsl_guidance[:value], with: { class: 'govuk-\!-margin-bottom-0' })
+      expect(result).to have_tag(:p, text: bsl_guidance[:value], with: { class: "content-block__body" })
     end
   end
 
@@ -223,12 +216,12 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
       presenter = described_class.new(phone_number, content_block:)
 
       expect(presenter).to receive(:render_govspeak)
-                             .with("#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}", root_class: "govuk-!-margin-bottom-0")
+                             .with("#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}", root_class: "content-block__body")
                              .and_call_original
 
       result = presenter.render
 
-      expect(result).to have_tag(:p, text: "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}", with: { class: 'govuk-\!-margin-bottom-0' })
+      expect(result).to have_tag(:p, text: "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}", with: { class: "content-block__body" })
     end
   end
 
@@ -239,7 +232,7 @@ RSpec.describe ContentBlockTools::Presenters::BlockPresenters::Contact::Telephon
 
       expect(result).to have_tag("div", with: { class: "contact" }) do
         with_tag("p", text: content_block.title, with: { class: 'govuk-\!-margin-bottom-3' })
-        with_tag("div", with: { class: "email-url-number" })
+        with_tag("ul", with: { class: "content-block__list" })
       end
     end
   end

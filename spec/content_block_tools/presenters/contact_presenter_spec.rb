@@ -172,9 +172,9 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
           with_tag("div", with: { class: "content" }) do
             with_tag("div", with: { class: "vcard contact-inner" }) do
               with_tag("p", text: "My Contact")
-              with_tag("ul") do
+              with_tag("ul", with: { class: "content-block__list" }) do
                 with_tag("li") do
-                  with_tag("span", text: "Telephone")
+                  with_tag("span", text: "Telephone: ")
                   with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
                 end
               end
@@ -201,12 +201,10 @@ RSpec.describe ContentBlockTools::Presenters::ContactPresenter do
 
       expect(presenter.render).to have_tag("div", with: expected_wrapper_attributes.merge({ "data-embed-code" => embed_code, "data-document-type" => "contact" })) do
         with_tag("div", with: { class: "contact" }) do
-          with_tag("div", with: { class: "email-url-number" }) do
-            with_tag("ul") do
-              with_tag("li") do
-                with_tag("span", text: "Telephone")
-                with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
-              end
+          with_tag("ul", with: { class: "content-block__list" }) do
+            with_tag("li") do
+              with_tag("span", text: "Telephone: ")
+              with_tag("span", text: "0891 50 50 50", with: { class: "tel" })
             end
           end
         end

@@ -9,6 +9,7 @@ require "view_component/base"
 require "content_block_tools/helpers/govspeak"
 
 require "content_block_tools/components/base_component"
+require "content_block_tools/components/contact_component"
 require "content_block_tools/components/contacts/address_component"
 require "content_block_tools/components/contacts/contact_link_component"
 require "content_block_tools/components/contacts/email_address_component"

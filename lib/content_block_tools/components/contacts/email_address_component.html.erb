@@ -1,0 +1,12 @@
+<ul class="content-block__list">
+  <li>
+    <a href="<%= "mailto:#{item[:email_address]}#{query_params}" %>" class="email content-block__link">
+      <%= link_text %>
+    </a>
+  </li>
+  <% if item[:description] %>
+    <li>
+      <%= render_govspeak(item[:description]) %>
+    </li>
+  <% end %>
+</ul>

@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Components::Contacts::ContactLinkComponent do
+RSpec.describe ContentBlockTools::Contacts::ContactLinkComponent do
   let(:contact_link) do
     {
       "title": "Contact form",

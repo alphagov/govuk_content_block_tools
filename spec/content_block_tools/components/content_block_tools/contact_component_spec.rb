@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Components::ContactComponent do
+RSpec.describe ContentBlockTools::ContactComponent do
   let(:content_id) { SecureRandom.uuid }
   let(:email_addresses) { {} }
   let(:telephones) { {} }
@@ -37,7 +37,7 @@ RSpec.describe ContentBlockTools::Components::ContactComponent do
     end
 
     before do
-      expect(ContentBlockTools::Components::Contacts::EmailAddressComponent)
+      expect(ContentBlockTools::Contacts::EmailAddressComponent)
         .to receive_message_chain(:new, :render)
               .with(item: email_addresses[:foo])
               .with(no_args)
@@ -85,7 +85,7 @@ RSpec.describe ContentBlockTools::Components::ContactComponent do
     end
 
     before do
-      expect(ContentBlockTools::Components::Contacts::TelephoneComponent)
+      expect(ContentBlockTools::Contacts::TelephoneComponent)
         .to receive_message_chain(:new, :render)
               .with(item: telephones[:foo])
               .with(no_args)
@@ -129,7 +129,7 @@ RSpec.describe ContentBlockTools::Components::ContactComponent do
     end
 
     before do
-      expect(ContentBlockTools::Components::Contacts::AddressComponent)
+      expect(ContentBlockTools::Contacts::AddressComponent)
         .to receive_message_chain(:new, :render)
               .with(item: addresses[:some_address])
               .with(no_args)
@@ -168,7 +168,7 @@ RSpec.describe ContentBlockTools::Components::ContactComponent do
     end
 
     before do
-      expect(ContentBlockTools::Components::Contacts::ContactLinkComponent)
+      expect(ContentBlockTools::Contacts::ContactLinkComponent)
         .to receive_message_chain(:new, :render)
               .with(item: contact_links[:foo])
               .with(no_args)

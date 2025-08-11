@@ -4,4 +4,4 @@ inherit_gem:
 
 Lint/MissingSuper:
   Exclude:
-    - 'lib/content_block_tools/components/**/*.rb'
+    - 'app/components/**/*.rb'

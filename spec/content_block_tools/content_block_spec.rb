@@ -67,7 +67,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
         let(:embed_code) { "{{embed:content_block_contact:contact}}" }
 
         it "renders with the component" do
-          expect(ContentBlockTools::Components::ContactComponent)
+          expect(ContentBlockTools::ContactComponent)
             .to receive_message_chain(:new, :render)
                   .with(content_block:)
                   .with(no_args)
@@ -81,7 +81,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
         let(:embed_code) { "{{embed:content_block_contact:contact/email_addresses/something}}" }
 
         it "initializes the component with the block type and block name and renders" do
-          expect(ContentBlockTools::Components::ContactComponent)
+          expect(ContentBlockTools::ContactComponent)
             .to receive_message_chain(:new, :render)
                   .with(content_block:, block_type: "email_addresses", block_name: "something")
                   .with(no_args)

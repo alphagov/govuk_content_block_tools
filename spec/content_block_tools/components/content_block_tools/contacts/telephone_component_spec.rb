@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Components::Contacts::TelephoneComponent do
+RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
   let(:show_call_charges_info_url) { false }
 
   let(:call_charges) do

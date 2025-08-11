@@ -1,6 +1,14 @@
+require "rails/engine"
+require "view_component"
+require "view_component/version"
+
 module ContentBlockTools
   class Engine < ::Rails::Engine
     isolate_namespace ContentBlockTools
+
+    config.autoload_paths = %W[
+      "#{root}/app/components"
+    ]
 
     initializer "content_block_tools.assets" do
       if defined? Rails.application.config.assets

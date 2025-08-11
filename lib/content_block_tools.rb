@@ -16,7 +16,7 @@ require "content_block_tools/components/contacts/email_address_component"
 require "content_block_tools/components/contacts/telephone_component"
 
 require "content_block_tools/presenters/field_presenters/base_presenter"
-require "content_block_tools/presenters/field_presenters/contact/email_address_presenter"
+require "content_block_tools/presenters/field_presenters/contact/email_presenter"
 
 require "content_block_tools/presenters/block_presenters/base_presenter"
 require "content_block_tools/presenters/block_presenters/contact/address_presenter"

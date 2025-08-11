@@ -4,7 +4,7 @@ require "bundler/setup"
 require "securerandom"
 require "rspec-html-matchers"
 
-require "content_block_tools"
+require File.expand_path("dummy/config/environment", __dir__)
 
 RSpec.configure do |config|
   config.include RSpecHtmlMatchers

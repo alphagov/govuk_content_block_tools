@@ -1,0 +1,5 @@
+<p class="adr content-block__body">
+  <%= lines.map { |field, value| address_line(field, value) }.join(",<br />").html_safe %>
+</p>
+
+<%= render_govspeak(item[:description]) if item[:description].present? %>

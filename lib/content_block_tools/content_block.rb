@@ -1,6 +1,4 @@
 module ContentBlockTools
-  ContentBlock = Data.define(:content_id, :title, :document_type, :details, :embed_code)
-
   # Defines a Content Block
   #
   # @api public
@@ -40,25 +38,100 @@ module ContentBlockTools
   #    content_block_reference.embed_code #=> "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}"
   #    content_block_reference.embed_code #=> "{{embed:content_block_contact:2b92cade-549c-4449-9796-e7a3957f3a86/field_name}}"
   #  @return [String]
-  class ContentBlock < Data
-    # A lookup of presenters for particular content block types
-    CONTENT_PRESENTERS = {
-      "content_block_contact" => ContentBlockTools::Presenters::ContactPresenter,
-      "content_block_pension" => ContentBlockTools::Presenters::PensionPresenter,
-    }.freeze
+  class ContentBlock
+    include ActionView::Helpers::TagHelper
+
+    CONTENT_BLOCK_PREFIX = "content_block_".freeze
+
+    attr_reader :content_id, :title, :embed_code
+
+    def initialize(content_id:, title:, document_type:, details:, embed_code:)
+      @content_id = content_id
+      @title = title
+      @document_type = document_type
+      @details = details
+      @embed_code = embed_code
+    end
 
     # Calls the appropriate presenter class to return a HTML representation of a content
     # block. Defaults to {Presenters::BasePresenter}
     #
     # @return [string] A HTML representation of the content block
     def render
-      CONTENT_PRESENTERS
-        .fetch(document_type, Presenters::BasePresenter)
-        .new(self).render
+      content_tag(
+        base_tag,
+        content,
+        class: %W[content-block content-block--#{document_type}],
+        data: {
+          content_block: "",
+          document_type: document_type,
+          content_id: content_id,
+          embed_code: embed_code,
+        },
+      )
     end
 
     def details
-      to_h[:details].deep_symbolize_keys
+      @details.deep_symbolize_keys
+    end
+
+    def document_type
+      @document_type.delete_prefix(CONTENT_BLOCK_PREFIX)
+    end
+
+  private
+
+    def base_tag
+      rendering_block? ? :div : :span
+    end
+
+    def content
+      field_names.present? ? field_or_block_content : component.new(content_block: self).render
+    rescue NameError
+      title
+    end
+
+    def field_or_block_content
+      content = details.dig(*field_names)
+      case content
+      when String
+        field_presenter(field_names.last).new(content).render
+      when Hash
+        component.new(content_block: self, block_type: field_names.first, block_name: field_names.last).render
+      else
+        ContentBlockTools.logger.warn("Content not found for content block #{content_id} and fields #{field_names}")
+        embed_code
+      end
+    end
+
+    def rendering_block?
+      !field_names.present? || details.dig(*field_names).is_a?(Hash)
+    end
+
+    def component
+      "ContentBlockTools::Components::#{document_type.camelize}Component".constantize
+    end
+
+    def field_presenter(field)
+      "ContentBlockTools::Presenters::FieldPresenters::#{document_type.camelize}::#{field.to_s.camelize}Presenter".constantize
+    rescue NameError
+      ContentBlockTools::Presenters::FieldPresenters::BasePresenter
+    end
+
+    def field_names
+      @field_names ||= begin
+        embed_code_match = ContentBlockReference::EMBED_REGEX.match(embed_code)
+        if embed_code_match.present?
+          all_fields = embed_code_match[4]&.reverse&.chomp("/")&.reverse
+          all_fields&.split("/")&.map do |item|
+            is_number?(item) ? item.to_i : item.to_sym
+          end
+        end
+      end
+    end
+
+    def is_number?(item)
+      Float(item, exception: false)
     end
   end
 end

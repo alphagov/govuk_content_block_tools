@@ -1,0 +1,32 @@
+<% if item[:description] %>
+  <%= render_govspeak(item[:description], root_class: "content-block__body") %>
+<% end %>
+
+<ul class="content-block__list">
+  <% item[:telephone_numbers].each do |number| %>
+    <li>
+      <span><%= number[:label] %>: </span>
+      <span class="tel"><%= number[:telephone_number] %></span>
+    </li>
+  <% end %>
+</ul>
+
+<% if show_video_relay_service? %>
+  <%= render_govspeak(video_relay_service_content) %>
+<% end %>
+
+<% if show_bsl_guidance? %>
+  <%= render_govspeak(bsl_guidance[:value], root_class: "content-block__body") %>
+<% end %>
+
+<% if show_opening_hours? %>
+  <%= render_govspeak(opening_hours[:opening_hours], root_class: "content-block__body") %>
+<% end %>
+
+<% if show_call_charges? %>
+  <p class="content-block__body">
+    <a href="<%= call_charges[:call_charges_info_url] %>" class="content-block__link">
+      <%= call_charges[:label] %>
+    </a>
+  </p>
+<% end %>

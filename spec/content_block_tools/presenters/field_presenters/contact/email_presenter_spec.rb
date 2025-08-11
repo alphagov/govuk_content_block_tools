@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Presenters::FieldPresenters::Contact::EmailAddressPresenter do
+RSpec.describe ContentBlockTools::Presenters::FieldPresenters::Contact::EmailPresenter do
   it "presents an email address" do
     email_address = "foo@example.com"
 

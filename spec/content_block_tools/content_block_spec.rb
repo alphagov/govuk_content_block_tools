@@ -1,7 +1,7 @@
 RSpec.describe ContentBlockTools::ContentBlock do
   let(:content_id) { SecureRandom.uuid }
   let(:title) { "Some Title" }
-  let(:document_type) { "content_block_pension" }
+  let(:document_type) { "pension" }
   let(:details) { { some: "details" } }
   let(:embed_code) { "something" }
 
@@ -39,32 +39,140 @@ RSpec.describe ContentBlockTools::ContentBlock do
   end
 
   describe ".render" do
-    let(:render_response) { "SOME_HTML" }
-    let(:presenter_double) { double(presenter_class, render: render_response) }
+    context "with a contact block" do
+      let(:expected_wrapper_attributes) do
+        {
+          class: "content-block content-block--contact",
+          "data-content-block" => "",
+          "data-document-type" => "contact",
+          "data-content-id" => content_id,
+          "data-embed-code" => embed_code,
+        }
+      end
 
-    before do
-      expect(presenter_class).to receive(:new).with(content_block) {
-        presenter_double
-      }
-    end
+      let(:details) do
+        {
+          "email_addresses": {
+            "something": {
+              "title" => "Title",
+              "email" => "foo@bar.com",
+            },
+          },
+        }
+      end
 
-    context "when a contact" do
       let(:document_type) { "content_block_contact" }
-      let(:presenter_class) { ContentBlockTools::Presenters::ContactPresenter }
 
-      it "calls the contact presenter" do
-        expect(content_block.render).to eq(render_response)
-        expect(presenter_double).to have_received(:render)
+      context "embed code does not include any field or block references" do
+        let(:embed_code) { "{{embed:content_block_contact:contact}}" }
+
+        it "renders with the component" do
+          expect(ContentBlockTools::Components::ContactComponent)
+            .to receive_message_chain(:new, :render)
+                  .with(content_block:)
+                  .with(no_args)
+                  .and_return("CONTENT_BLOCK_CONTENT")
+
+          expect(content_block.render).to have_tag("div", text: "CONTENT_BLOCK_CONTENT", with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references a block" do
+        let(:embed_code) { "{{embed:content_block_contact:contact/email_addresses/something}}" }
+
+        it "initializes the component with the block type and block name and renders" do
+          expect(ContentBlockTools::Components::ContactComponent)
+            .to receive_message_chain(:new, :render)
+                  .with(content_block:, block_type: "email_addresses", block_name: "something")
+                  .with(no_args)
+                  .and_return("CONTENT_BLOCK_CONTENT")
+
+          expect(content_block.render).to have_tag("div", text: "CONTENT_BLOCK_CONTENT", with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references an email field" do
+        let(:embed_code) { "{{embed:content_block_contact:contact/email_addresses/something/email}}" }
+
+        it "uses the presenter to render the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::Contact::EmailPresenter)
+            .to receive_message_chain(:new, :render)
+                  .with("foo@bar.com")
+                  .with(no_args)
+                  .and_return("foo@bar.com")
+
+          expect(content_block.render).to have_tag("span", text: "foo@bar.com", with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references another field" do
+        let(:embed_code) { "{{embed:content_block_contact:contact/email_addresses/something/title}}" }
+
+        it "uses the presenter to render the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::BasePresenter)
+            .to receive_message_chain(:new, :render)
+                  .with("title")
+                  .with(no_args)
+                  .and_return("title")
+
+          expect(content_block.render).to have_tag("span", text: "title", with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references a non-existent field" do
+        let(:embed_code) { "{{embed:content_block_contact:contact/email_addresses/something/bleh}}" }
+
+        it "uses the presenter to render the field" do
+          expect(ContentBlockTools.logger).to receive(:warn).with("Content not found for content block #{content_id} and fields [:email_addresses, :something, :bleh]")
+
+          expect(content_block.render).to have_tag("span", text: embed_code, with: expected_wrapper_attributes)
+        end
       end
     end
 
-    context "when presenter can't be found" do
-      let(:document_type) { "contact" }
-      let(:presenter_class) { ContentBlockTools::Presenters::BasePresenter }
+    context "with a pension block" do
+      let(:document_type) { "content_block_pension" }
 
-      it "calls the base presenter" do
-        expect(content_block.render).to eq(render_response)
-        expect(presenter_double).to have_received(:render)
+      let(:expected_wrapper_attributes) do
+        {
+          class: "content-block content-block--pension",
+          "data-content-block" => "",
+          "data-document-type" => "pension",
+          "data-content-id" => content_id,
+          "data-embed-code" => embed_code,
+        }
+      end
+
+      let(:details) do
+        {
+          "rates" => {
+            "full-basic-state-pension" => {
+              "amount" => "£123.45",
+            },
+          },
+        }
+      end
+
+      context "embed code does not include any field or block references" do
+        let(:embed_code) { "{{embed:content_block_contact:pension}}" }
+
+        it "returns the content block's title" do
+          expect(content_block.render).to have_tag("div", text: content_block.title, with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references a field" do
+        let(:embed_code) { "{{embed:content_block_contact:pension/rates/full-basic-state-pension/amount}}" }
+
+        it "calls the base presenter and returns the value of the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::BasePresenter)
+            .to receive_message_chain(:new, :render)
+                  .with("title")
+                  .with(no_args)
+                  .and_return("£123.45")
+
+          expect(content_block.render).to have_tag("span", text: "£123.45", with: expected_wrapper_attributes)
+        end
       end
     end
   end

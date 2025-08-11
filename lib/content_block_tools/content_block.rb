@@ -1,6 +1,4 @@
 module ContentBlockTools
-  ContentBlock = Data.define(:content_id, :title, :document_type, :details, :embed_code)
-
   # Defines a Content Block
   #
   # @api public
@@ -40,7 +38,18 @@ module ContentBlockTools
   #    content_block_reference.embed_code #=> "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}"
   #    content_block_reference.embed_code #=> "{{embed:content_block_contact:2b92cade-549c-4449-9796-e7a3957f3a86/field_name}}"
   #  @return [String]
-  class ContentBlock < Data
+  class ContentBlock
+
+    attr_reader :content_id, :title, :embed_code
+
+    def initialize(content_id:, title:, document_type:, details:, embed_code:)
+      @content_id = content_id
+      @title = title
+      @document_type = document_type
+      @details = details
+      @embed_code = embed_code
+    end
+
     # A lookup of presenters for particular content block types
     CONTENT_PRESENTERS = {
       "content_block_contact" => ContentBlockTools::Presenters::ContactPresenter,
@@ -58,7 +67,8 @@ module ContentBlockTools
     end
 
     def details
-      to_h[:details].deep_symbolize_keys
+      @details.deep_symbolize_keys
+    end
     end
   end
 end

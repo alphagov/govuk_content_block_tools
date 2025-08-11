@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 require "action_view"
+require "rails"
 require "uri"
 require "govspeak"
+require "view_component/base"
 
 require "content_block_tools/helpers/govspeak"
 

@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.1.0
+
+- Replace block-level presenters with Components ([81](https://github.com/alphagov/govuk_content_block_tools/pull/81))
+
 ## 1.0.3
 
 - Import govuk-links ([80](https://github.com/alphagov/govuk_content_block_tools/pull/80))

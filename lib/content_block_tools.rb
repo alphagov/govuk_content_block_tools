@@ -8,6 +8,7 @@ require "view_component/base"
 
 require "content_block_tools/helpers/govspeak"
 
+require "content_block_tools/components/base_component"
 require "content_block_tools/presenters/field_presenters/base_presenter"
 require "content_block_tools/presenters/field_presenters/contact/email_address_presenter"
 
@@ -31,6 +32,10 @@ require "content_block_tools/version"
 module ContentBlockTools
   class Error < StandardError; end
   module Presenters; end
+
+  module Components
+    module Contacts; end
+  end
 
   class << self
     attr_writer :logger

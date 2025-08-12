@@ -50,6 +50,29 @@ RSpec.describe ContentBlockTools::ContactComponent do
         with_tag("p", text: description)
       end
     end
+
+    described_class::BLOCK_TYPES.each do |block_type|
+      context "when a #{block_type} block type is given" do
+        let(:component) { described_class.new(content_block:, block_type:, block_name: "foo") }
+        let(:component_for_block_type) { double("Component", new: double(render: "")) }
+
+        before do
+          expect(component)
+            .to receive(:component_for_block_type)
+                  .with(block_type)
+                  .and_return(component_for_block_type)
+        end
+
+        it "should not include the description" do
+          expect(component).not_to receive(:render_govspeak)
+                                 .with(description)
+
+          expect(component.render).to have_tag("div", with: { class: "vcard" }) do
+            without_tag("p", text: description)
+          end
+        end
+      end
+    end
   end
 
   describe "when an email address is present" do

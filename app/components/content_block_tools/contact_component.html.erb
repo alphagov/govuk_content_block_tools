@@ -1,7 +1,7 @@
 <div class="vcard">
   <p class="fn org content-block__title"><%= content_block.title %></p>
 
-  <% if block_type.present? && content_block.details[:description] %>
+  <% if !block_type.present? && content_block.details[:description] %>
     <%= render_govspeak(content_block.details[:description])  %>
   <% end %>
 

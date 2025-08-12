@@ -40,6 +40,7 @@ module ContentBlockTools
   #  @return [String]
   class ContentBlock
     include ActionView::Helpers::TagHelper
+    class UnknownComponentError < StandardError; end
 
     CONTENT_BLOCK_PREFIX = "content_block_".freeze
 
@@ -87,7 +88,7 @@ module ContentBlockTools
 
     def content
       field_names.present? ? field_or_block_content : component.new(content_block: self).render
-    rescue NameError
+    rescue UnknownComponentError
       title
     end
 
@@ -110,6 +111,8 @@ module ContentBlockTools
 
     def component
       "ContentBlockTools::#{document_type.camelize}Component".constantize
+    rescue NameError
+      raise UnknownComponentError
     end
 
     def field_presenter(field)

@@ -18,3 +18,4 @@ spec/.DS_Store
 lib/content_block_tools/.DS_Store
 spec/content_block_tools/.DS_Store
 /node_modules
+/spec/dummy/log/development.log

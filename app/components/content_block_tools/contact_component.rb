@@ -16,10 +16,8 @@ module ContentBlockTools
       "ContentBlockTools::Contacts::#{block_type.to_s.singularize.camelize}Component".constantize
     end
 
-    def content_by_block_type
-      @content_by_block_type ||= content_block.details.keys.map { |key|
-        [key, content_block.details[key]&.values]
-      }.to_h
+    def content_for_block_type(block_type)
+      content_block.details.fetch(block_type, {}).values
     end
 
     def item_to_render

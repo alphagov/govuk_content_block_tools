@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.1.2
+
+- Fix errors in the rendering of components ([83](https://github.com/alphagov/govuk_content_block_tools/pull/83))
+
 ## 1.1.1
 
 - Move components into the Rails engine ([82](https://github.com/alphagov/govuk_content_block_tools/pull/82))

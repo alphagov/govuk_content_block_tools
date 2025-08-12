@@ -1,8 +1,6 @@
 module ContentBlockTools
   module Contacts
     class EmailAddressComponent < ContentBlockTools::BaseComponent
-      include ContentBlockTools::Govspeak
-
       def initialize(item:)
         @item = item
       end

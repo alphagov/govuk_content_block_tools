@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+require "simplecov"
+SimpleCov.start do
+  minimum_coverage 100
+  add_filter "spec/dummy"
+  add_filter "lib/content_block_tools/engine.rb"
+end
+
 require "bundler/setup"
 require "securerandom"
 require "rspec-html-matchers"

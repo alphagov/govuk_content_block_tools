@@ -77,6 +77,22 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
     end
   end
 
+  describe "when show_video_relay_service is true" do
+    let(:show_video_relay_service) { true }
+
+    it "should show relay details" do
+      component = described_class.new(item: phone_number)
+
+      video_relay_service_content = "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}"
+
+      expect(component).to receive(:render_govspeak)
+                             .with(video_relay_service_content)
+                             .and_call_original
+
+      expect(component.render).to have_tag("p", text: video_relay_service_content)
+    end
+  end
+
   describe "when there are no opening hours" do
     let(:opening_hours) { {} }
 

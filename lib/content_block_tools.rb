@@ -1,19 +1,10 @@
 # frozen_string_literal: true
 
 require "action_view"
-require "rails"
 require "uri"
 require "govspeak"
-require "view_component/base"
 
 require "content_block_tools/helpers/govspeak"
-
-require "content_block_tools/components/base_component"
-require "content_block_tools/components/contact_component"
-require "content_block_tools/components/contacts/address_component"
-require "content_block_tools/components/contacts/contact_link_component"
-require "content_block_tools/components/contacts/email_address_component"
-require "content_block_tools/components/contacts/telephone_component"
 
 require "content_block_tools/presenters/field_presenters/base_presenter"
 require "content_block_tools/presenters/field_presenters/contact/email_presenter"

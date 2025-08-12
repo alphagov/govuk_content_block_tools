@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Components::Contacts::EmailAddressComponent do
+RSpec.describe ContentBlockTools::Contacts::EmailAddressComponent do
   let(:email_address) do
     {
       "title": "Email",

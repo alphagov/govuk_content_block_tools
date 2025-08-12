@@ -109,7 +109,7 @@ module ContentBlockTools
     end
 
     def component
-      "ContentBlockTools::Components::#{document_type.camelize}Component".constantize
+      "ContentBlockTools::#{document_type.camelize}Component".constantize
     end
 
     def field_presenter(field)

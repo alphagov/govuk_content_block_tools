@@ -1,4 +1,4 @@
-RSpec.describe ContentBlockTools::Components::Contacts::AddressComponent do
+RSpec.describe ContentBlockTools::Contacts::AddressComponent do
   let(:address) do
     {
       "title": "Address",

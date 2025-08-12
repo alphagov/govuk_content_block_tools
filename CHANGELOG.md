@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.1.1
+
+- Move components into the Rails engine ([82](https://github.com/alphagov/govuk_content_block_tools/pull/82))
+
 ## 1.1.0
 
 - Replace block-level presenters with Components ([81](https://github.com/alphagov/govuk_content_block_tools/pull/81))

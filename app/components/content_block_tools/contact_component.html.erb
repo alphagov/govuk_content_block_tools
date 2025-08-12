@@ -7,7 +7,7 @@
 
   <% if block_type.nil? %>
     <% BLOCK_TYPES.each do |block_type| %>
-     <% content_by_block_type[block_type].each do |item| %>
+     <% content_for_block_type(block_type).each do |item| %>
         <p class="content-block__subtitle"><%= item[:title] %></p>
         <%= component_for_block_type(block_type).new(item:).render.html_safe %>
       <% end %>

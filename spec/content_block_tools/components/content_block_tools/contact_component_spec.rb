@@ -6,12 +6,22 @@ RSpec.describe ContentBlockTools::ContactComponent do
   let(:contact_links) { {} }
   let(:description) { nil }
 
+  let(:details) do
+    {
+      email_addresses: email_addresses,
+      telephones: telephones,
+      addresses: addresses,
+      contact_links: contact_links,
+      description:,
+    }
+  end
+
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
       document_type: "contact",
       content_id:,
       title: "My Contact",
-      details: { email_addresses: email_addresses, telephones: telephones, addresses: addresses, contact_links: contact_links, description: },
+      details:,
       embed_code: "something",
     )
   end
@@ -22,6 +32,22 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("p", text: "My Contact", with: { class: "fn org" })
+      end
+    end
+  end
+
+  describe "when a description is present" do
+    let(:description) { "Something" }
+
+    it "should include the description" do
+      component = described_class.new(content_block:)
+
+      expect(component).to receive(:render_govspeak)
+                             .with(description)
+                             .and_call_original
+
+      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
+        with_tag("p", text: description)
       end
     end
   end

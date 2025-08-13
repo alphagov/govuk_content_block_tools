@@ -1,18 +1,23 @@
-<div class="vcard">
-  <p class="fn org content-block__title"><%= content_block.title %></p>
-
-  <% if !block_type.present? && content_block.details[:description] %>
-    <%= render_govspeak(content_block.details[:description])  %>
-  <% end %>
+<dl class="vcard content-block__contact-list">
+  <dt class="content-block__contact-key fn org"><%= content_block.title %></dt>
 
   <% if block_type.nil? %>
-    <% BLOCK_TYPES.each do |block_type| %>
-     <% content_for_block_type(block_type).each do |item| %>
-        <p class="content-block__subtitle"><%= item[:title] %></p>
-        <%= component_for_block_type(block_type).new(item:).render.html_safe %>
-      <% end %>
-    <% end %>
+    <dd class="content-block__contact-value">
+      <%= render_govspeak(content_block.details[:description]) if content_block.details[:description] %>
+      <dl class="content-block__contact-list--nested">
+        <% BLOCK_TYPES.each do |block_type| %>
+         <% content_for_block_type(block_type).each do |item| %>
+            <dt class="content-block__contact-key"><%= item[:title] %></dt>
+            <dd class="content-block__contact-value">
+              <%= component_for_block_type(block_type).new(item:).render.html_safe %>
+            </dd>
+          <% end %>
+        <% end %>
+      </dl>
+    </dd>
   <% else %>
-    <%= component_for_block_type(block_type).new(item: item_to_render).render.html_safe %>
+    <dd class="content-block__contact-value">
+      <%= component_for_block_type(block_type).new(item: item_to_render).render.html_safe %>
+    </dd>
   <% end %>
-</div>
+</dl>

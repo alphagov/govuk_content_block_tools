@@ -144,7 +144,7 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
       component = described_class.new(item: phone_number)
 
       expect(component).to receive(:render_govspeak)
-                             .with(opening_hours[:opening_hours], root_class: "content-block__body")
+                             .with(opening_hours[:opening_hours])
                              .and_call_original
 
       result = component.render
@@ -174,14 +174,14 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
       component = described_class.new(item: phone_number)
 
       expect(component).to receive(:render_govspeak)
-                             .with(description, root_class: "content-block__body")
+                             .with(description)
                              .and_call_original
 
       result = component.render
 
       expect(result).to_not have_tag("div", with: { class: "contact" })
 
-      expect(result).to have_tag(:p, text: /#{phone_number[:description]}/, with: { class: "content-block__body" })
+      expect(result).to have_tag(:p, text: /#{phone_number[:description]}/)
     end
   end
 
@@ -192,12 +192,12 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
       component = described_class.new(item: phone_number)
 
       expect(component).to receive(:render_govspeak)
-                             .with(bsl_guidance[:value], root_class: "content-block__body")
+                             .with(bsl_guidance[:value])
                              .and_call_original
 
       result = component.render
 
-      expect(result).to have_tag(:p, text: /#{bsl_guidance[:value]}/, with: { class: "content-block__body" })
+      expect(result).to have_tag(:p, text: /#{bsl_guidance[:value]}/)
     end
   end
 end

@@ -1,25 +1,26 @@
-@import "govuk/core/links";
 @import "govuk/core/lists";
 @import "govuk/core/typography";
 
-@import "blocks/contact";
-
 .content-block {
-  &__body {
-    @extend %govuk-body-m;
+  &__contact-key, &__contact-value, &__contact-list {
+    margin: 0;
+    padding: 0;
   }
 
-  ul#{&}__list {
-    @extend %govuk-list;
-    margin-left: 0;
+  &__contact-list {
+    .content-block__contact-key {
+      @extend %govuk-heading-m;
+    }
 
-    & > li {
-      list-style: none;
-      margin-bottom: govuk-spacing(1);
+    &--nested {
+      .content-block__contact-key {
+        @extend %govuk-heading-s;
+      }
     }
   }
 
-  &__link {
-    @extend %govuk-link;
+  ul.content-block__list {
+    @extend %govuk-list;
+    margin-left: 0;
   }
 }

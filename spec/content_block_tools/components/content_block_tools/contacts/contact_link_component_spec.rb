@@ -12,7 +12,7 @@ RSpec.describe ContentBlockTools::Contacts::ContactLinkComponent do
 
     expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
       with_tag("li") do
-        with_tag("a", text: /Contact us/, with: { href: "http://example.com", class: "url content-block__link" })
+        with_tag("a", text: /Contact us/, with: { href: "http://example.com", class: "url" })
       end
     end
   end
@@ -30,7 +30,7 @@ RSpec.describe ContentBlockTools::Contacts::ContactLinkComponent do
 
       expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
         with_tag("li") do
-          with_tag("a", text: /http:\/\/example.com/, with: { href: "http://example.com", class: "url content-block__link" })
+          with_tag("a", text: /http:\/\/example.com/, with: { href: "http://example.com", class: "url" })
         end
       end
     end

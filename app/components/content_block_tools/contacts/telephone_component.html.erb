@@ -1,5 +1,5 @@
 <% if item[:description] %>
-  <%= render_govspeak(item[:description], root_class: "content-block__body") %>
+  <%= render_govspeak(item[:description]) %>
 <% end %>
 
 <ul class="content-block__list">
@@ -16,16 +16,16 @@
 <% end %>
 
 <% if show_bsl_guidance? %>
-  <%= render_govspeak(bsl_guidance[:value], root_class: "content-block__body") %>
+  <%= render_govspeak(bsl_guidance[:value]) %>
 <% end %>
 
 <% if show_opening_hours? %>
-  <%= render_govspeak(opening_hours[:opening_hours], root_class: "content-block__body") %>
+  <%= render_govspeak(opening_hours[:opening_hours]) %>
 <% end %>
 
 <% if show_call_charges? %>
-  <p class="content-block__body">
-    <a href="<%= call_charges[:call_charges_info_url] %>" class="content-block__link">
+  <p>
+    <a href="<%= call_charges[:call_charges_info_url] %>">
       <%= call_charges[:label] %>
     </a>
   </p>

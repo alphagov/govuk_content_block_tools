@@ -15,7 +15,7 @@ RSpec.describe ContentBlockTools::Contacts::AddressComponent do
   it "renders an address" do
     result = described_class.new(item: address).render
 
-    expect(result).to have_tag(:p, with: { class: "content-block__body" }) do
+    expect(result).to have_tag(:p) do
       with_tag(:span, text: "Department of something", with: { class: "organization-name" })
       with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
       with_tag(:span, text: "Springton", with: { class: "locality" })
@@ -42,7 +42,7 @@ RSpec.describe ContentBlockTools::Contacts::AddressComponent do
     it "should ignore the missing fields" do
       result = described_class.new(item: address).render
 
-      expect(result).to have_tag(:p, with: { class: "content-block__body" }) do
+      expect(result).to have_tag(:p) do
         with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
         with_tag(:span, text: "Springton", with: { class: "locality" })
         with_tag(:span, text: "TEST 123", with: { class: "postal-code" })

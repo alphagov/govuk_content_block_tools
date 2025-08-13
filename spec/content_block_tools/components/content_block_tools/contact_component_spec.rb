@@ -30,8 +30,8 @@ RSpec.describe ContentBlockTools::ContactComponent do
     it "should render successfully" do
       component = described_class.new(content_block:)
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
+      expect(component.render).to have_tag("dl", with: { class: "content-block__contact-list vcard" }) do
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
       end
     end
   end
@@ -46,7 +46,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
                              .with(description)
                              .and_call_original
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
         with_tag("p", text: description)
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
           expect(component).not_to receive(:render_govspeak)
                                  .with(description)
 
-          expect(component.render).to have_tag("div", with: { class: "vcard" }) do
+          expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
             without_tag("p", text: description)
           end
         end
@@ -96,20 +96,27 @@ RSpec.describe ContentBlockTools::ContactComponent do
     it "should render successfully" do
       component = described_class.new(content_block:)
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        with_tag("p", text: email_addresses[:foo][:title])
-        with_tag("p", text: "EMAIL ADDRESS")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        with_tag("dl", with: { class: "content-block__contact-list--nested" }) do
+          with_tag("dt", text: email_addresses[:foo][:title])
+          with_tag("dd", with: { class: "content-block__contact-value" }) do
+            with_tag("p", text: "EMAIL ADDRESS")
+          end
+        end
       end
     end
 
     it "should render an individual block" do
       component = described_class.new(content_block:, block_type: "email_address", block_name: "foo")
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        without_tag("p", text: email_addresses[:foo][:title])
-        with_tag("p", text: "EMAIL ADDRESS")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        without_tag("dl", with: { class: "content-block__contact-list--nested" })
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        without_tag("dt", text: email_addresses[:foo][:title])
+        with_tag("dd", with: { class: "content-block__contact-value" }) do
+          with_tag("p", text: "EMAIL ADDRESS")
+        end
       end
     end
   end
@@ -144,20 +151,27 @@ RSpec.describe ContentBlockTools::ContactComponent do
     it "should render successfully" do
       component = described_class.new(content_block:)
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        with_tag("p", text: telephones[:foo][:title])
-        with_tag("p", text: "TELEPHONE")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        with_tag("dl", with: { class: "content-block__contact-list--nested" }) do
+          with_tag("dt", text: telephones[:foo][:title])
+          with_tag("dd", with: { class: "content-block__contact-value" }) do
+            with_tag("p", text: "TELEPHONE")
+          end
+        end
       end
     end
 
     it "should render an individual block" do
       component = described_class.new(content_block:, block_type: "telephone", block_name: "foo")
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        without_tag("p", text: telephones[:foo][:title])
-        with_tag("p", text: "TELEPHONE")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        without_tag("dl", with: { class: "content-block__contact-list--nested" })
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        without_tag("dt", text: telephones[:foo][:title])
+        with_tag("dd", with: { class: "content-block__contact-value" }) do
+          with_tag("p", text: "TELEPHONE")
+        end
       end
     end
   end
@@ -188,20 +202,27 @@ RSpec.describe ContentBlockTools::ContactComponent do
     it "should render successfully" do
       component = described_class.new(content_block:)
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        with_tag("p", text: addresses[:some_address][:title])
-        with_tag("p", text: "ADDRESS")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        with_tag("dl", with: { class: "content-block__contact-list--nested" }) do
+          with_tag("dt", text: addresses[:some_address][:title])
+          with_tag("dd", with: { class: "content-block__contact-value" }) do
+            with_tag("p", text: "ADDRESS")
+          end
+        end
       end
     end
 
     it "should render an individual block" do
       component = described_class.new(content_block:, block_type: "address", block_name: "some_address")
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        without_tag("p", text: addresses[:some_address][:title])
-        with_tag("p", text: "ADDRESS")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        without_tag("dl", with: { class: "content-block__contact-list--nested" })
+        without_tag("dt", text: addresses[:some_address][:title])
+        with_tag("dd", with: { class: "content-block__contact-value" }) do
+          with_tag("p", text: "ADDRESS")
+        end
       end
     end
   end
@@ -227,20 +248,27 @@ RSpec.describe ContentBlockTools::ContactComponent do
     it "should render successfully" do
       component = described_class.new(content_block:)
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        with_tag("p", text: contact_links[:foo][:title])
-        with_tag("p", text: "CONTACT LINK")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        with_tag("dl", with: { class: "content-block__contact-list--nested" }) do
+          with_tag("dt", text: contact_links[:foo][:title])
+          with_tag("dd", with: { class: "content-block__contact-value" }) do
+            with_tag("p", text: "CONTACT LINK")
+          end
+        end
       end
     end
 
     it "should render an individual block" do
       component = described_class.new(content_block:, block_type: "contact_link", block_name: "foo")
 
-      expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: "My Contact", with: { class: "fn org" })
-        without_tag("p", text: contact_links[:foo][:title])
-        with_tag("p", text: "CONTACT LINK")
+      expect(component.render).to have_tag("dl", with: { class: "vcard" }) do
+        with_tag("dt", text: "My Contact", with: { class: "content-block__contact-key fn org" })
+        without_tag("dl", with: { class: "content-block__contact-list--nested" })
+        without_tag("dt", text: contact_links[:foo][:title])
+        with_tag("dd", with: { class: "content-block__contact-value" }) do
+          with_tag("p", text: "CONTACT LINK")
+        end
       end
     end
   end

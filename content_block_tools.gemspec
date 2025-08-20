@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov"
 
   spec.add_dependency "actionview", ">= 6"
-  spec.add_dependency "govspeak", "10.6.1"
+  spec.add_dependency "govspeak", "10.6.2"
   spec.add_dependency "rails"
   spec.add_dependency "view_component", "4.0.1"
 end

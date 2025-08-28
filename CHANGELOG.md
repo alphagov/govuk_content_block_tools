@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.2.1
+
+- Update govspeak dependency
+
 ## 1.2.0
 
 - Render contact blocks inside a definition list ([86](https://github.com/alphagov/govuk_content_block_tools/pull/86))

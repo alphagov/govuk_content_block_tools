@@ -13,11 +13,15 @@ module ContentBlockTools
     attr_reader :content_block, :block_type, :block_name
 
     def items
-      BLOCK_TYPES.each_with_object([]) do |block_type, items|
+      BLOCK_TYPES.each_with_object([]) { |block_type, items|
         content_block.details.fetch(block_type, {}).each do |key, item|
           items << [block_type, key, item]
         end
-      end
+      }.sort_by { |block_type, key| order.find_index("#{block_type}.#{key}") || Float::INFINITY }
+    end
+
+    def order
+      @order ||= content_block.details[:order] || []
     end
 
     def component_for_block_type(block_type)

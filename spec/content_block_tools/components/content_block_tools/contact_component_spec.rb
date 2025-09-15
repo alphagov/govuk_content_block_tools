@@ -1,20 +1,52 @@
 RSpec.describe ContentBlockTools::ContactComponent do
   let(:content_id) { SecureRandom.uuid }
-  let(:email_addresses) { {} }
-  let(:telephones) { {} }
-  let(:addresses) { {} }
-  let(:contact_links) { {} }
-  let(:description) { nil }
-
-  let(:details) do
+  let(:email_addresses) do
     {
-      email_addresses: email_addresses,
-      telephones: telephones,
-      addresses: addresses,
-      contact_links: contact_links,
-      description:,
+      "foo": {
+        "title": "Some email address",
+        "email_address": "foo@example.com",
+      },
     }
   end
+  let(:telephones) do
+    {
+      "foo": {
+        "title": "Some phone number",
+        "telephone_numbers": [
+          {
+            label: "Telephone",
+            telephone_number: "0891 50 50 50",
+          },
+        ],
+        "opening_hours": {
+          "show_opening_hours": true,
+          "opening_hours": "Monday to Friday, 9am to 5pm",
+        },
+      },
+    }
+  end
+  let(:addresses) do
+    {
+      "some_address": {
+        "title": "Address",
+        "recipient": "Department of something",
+        "street_address": "123 Fake Street",
+        "town_or_city": "Springton",
+        "state_or_county": "Missouri",
+        "postal_code": "TEST 123",
+        "country": "USA",
+      },
+    }
+  end
+  let(:contact_links) do
+    {
+      "foo": {
+        "title": "Some contact form",
+        "url": "http://example.com",
+      },
+    }
+  end
+  let(:description) { "Something" }
 
   let(:content_block) do
     ContentBlockTools::ContentBlock.new(
@@ -27,6 +59,16 @@ RSpec.describe ContentBlockTools::ContactComponent do
   end
 
   describe "when no content items are present" do
+    let(:details) do
+      {
+        email_addresses: {},
+        telephones: {},
+        addresses: {},
+        contact_links: {},
+        description: nil,
+      }
+    end
+
     it "should render successfully" do
       component = described_class.new(content_block:)
 
@@ -37,7 +79,15 @@ RSpec.describe ContentBlockTools::ContactComponent do
   end
 
   describe "when a description is present" do
-    let(:description) { "Something" }
+    let(:details) do
+      {
+        email_addresses: {},
+        telephones: {},
+        addresses: {},
+        contact_links: {},
+        description: description,
+      }
+    end
 
     it "should include the description" do
       component = described_class.new(content_block:)
@@ -76,12 +126,13 @@ RSpec.describe ContentBlockTools::ContactComponent do
   end
 
   describe "when an email address is present" do
-    let(:email_addresses) do
+    let(:details) do
       {
-        "foo": {
-          "title": "Some email address",
-          "email_address": "foo@example.com",
-        },
+        email_addresses:,
+        telephones: {},
+        addresses: {},
+        contact_links: {},
+        description: nil,
       }
     end
 
@@ -122,21 +173,13 @@ RSpec.describe ContentBlockTools::ContactComponent do
   end
 
   describe "when a telephone is present" do
-    let(:telephones) do
+    let(:details) do
       {
-        "foo": {
-          "title": "Some phone number",
-          "telephone_numbers": [
-            {
-              label: "Telephone",
-              telephone_number: "0891 50 50 50",
-            },
-          ],
-          "opening_hours": {
-            "show_opening_hours": true,
-            "opening_hours": "Monday to Friday, 9am to 5pm",
-          },
-        },
+        email_addresses: {},
+        telephones:,
+        addresses: {},
+        contact_links: {},
+        description: nil,
       }
     end
 
@@ -177,17 +220,13 @@ RSpec.describe ContentBlockTools::ContactComponent do
   end
 
   describe "when a address is present" do
-    let(:addresses) do
+    let(:details) do
       {
-        "some_address": {
-          "title": "Address",
-          "recipient": "Department of something",
-          "street_address": "123 Fake Street",
-          "town_or_city": "Springton",
-          "state_or_county": "Missouri",
-          "postal_code": "TEST 123",
-          "country": "USA",
-        },
+        email_addresses: {},
+        telephones: {},
+        addresses:,
+        contact_links: {},
+        description: nil,
       }
     end
 
@@ -228,12 +267,13 @@ RSpec.describe ContentBlockTools::ContactComponent do
   end
 
   describe "when a contact link is present" do
-    let(:contact_links) do
+    let(:details) do
       {
-        "foo": {
-          "title": "Some contact form",
-          "url": "http://example.com",
-        },
+        email_addresses: {},
+        telephones: {},
+        addresses: {},
+        contact_links:,
+        description: nil,
       }
     end
 
@@ -269,6 +309,134 @@ RSpec.describe ContentBlockTools::ContactComponent do
         with_tag("dd", with: { class: "content-block__contact-value" }) do
           with_tag("p", text: "CONTACT LINK")
         end
+      end
+    end
+  end
+
+  describe "when multiple types are present" do
+    let(:details) do
+      {
+        email_addresses:,
+        telephones:,
+        addresses:,
+        contact_links:,
+        description: nil,
+        order:,
+      }
+    end
+
+    let(:component_double) { double(:component, render: "") }
+
+    context "when an order is not given" do
+      let(:order) { nil }
+
+      it "should call the components in the default order" do
+        expect(ContentBlockTools::Contacts::AddressComponent)
+          .to receive(:new).ordered.with(item: addresses.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::EmailAddressComponent)
+          .to receive(:new).ordered.with(item: email_addresses.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::TelephoneComponent)
+          .to receive(:new).ordered.with(item: telephones.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::ContactLinkComponent)
+          .to receive(:new).ordered.with(item: contact_links.values.first)
+                           .and_return(component_double)
+
+        described_class.new(content_block:).render
+      end
+    end
+
+    context "when an order is given" do
+      let(:order) {  %w[telephones.foo addresses.some_address contact_links.foo email_addresses.foo] }
+
+      it "calls the components in the specified order" do
+        expect(ContentBlockTools::Contacts::TelephoneComponent)
+          .to receive(:new).ordered.with(item: telephones.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::AddressComponent)
+          .to receive(:new).ordered.with(item: addresses.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::ContactLinkComponent)
+          .to receive(:new).ordered.with(item: contact_links.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::EmailAddressComponent)
+          .to receive(:new).ordered.with(item: email_addresses.values.first)
+                           .and_return(component_double)
+
+        described_class.new(content_block:).render
+      end
+    end
+
+    context "when some items are missing" do
+      let(:order) { %w[contact_links.foo email_addresses.foo] }
+
+      it "calls the excluded items last" do
+        expect(ContentBlockTools::Contacts::ContactLinkComponent)
+          .to receive(:new).ordered.with(item: contact_links.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::EmailAddressComponent)
+          .to receive(:new).ordered.with(item: email_addresses.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::AddressComponent)
+          .to receive(:new).ordered.with(item: addresses.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::TelephoneComponent)
+          .to receive(:new).ordered.with(item: telephones.values.first)
+                           .and_return(component_double)
+
+        described_class.new(content_block:).render
+      end
+    end
+
+    context "when there are multiple items of the same type" do
+      let(:email_addresses) do
+        {
+          "foo": {
+            "title": "Some email address",
+            "email_address": "foo@example.com",
+          },
+          "bar": {
+            "title": "Other email address",
+            "email_address": "bar@example.com",
+          },
+        }
+      end
+
+      let(:order) { %w[email_addresses.foo addresses.some_address contact_links.foo telephones.foo email_addresses.bar] }
+
+      it "calls the components in the specified order" do
+        expect(ContentBlockTools::Contacts::EmailAddressComponent)
+          .to receive(:new).ordered.with(item: email_addresses.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::AddressComponent)
+          .to receive(:new).ordered.with(item: addresses.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::ContactLinkComponent)
+          .to receive(:new).ordered.with(item: contact_links.values.first)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::TelephoneComponent)
+          .to receive(:new).ordered.with(item: telephones.values.last)
+                           .and_return(component_double)
+
+        expect(ContentBlockTools::Contacts::EmailAddressComponent)
+          .to receive(:new).ordered.with(item: email_addresses.values.last)
+                           .and_return(component_double)
+
+        described_class.new(content_block:).render
       end
     end
   end

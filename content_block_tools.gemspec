@@ -28,8 +28,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-govuk", "5.1.20"
   spec.add_development_dependency "simplecov"
 
-  spec.add_dependency "actionview", ">= 6"
-  spec.add_dependency "govspeak", "10.6.3"
-  spec.add_dependency "rails"
-  spec.add_dependency "view_component", "4.0.2"
+  spec.add_dependency "actionview", ">= 6", "< 8.0.3"
+  spec.add_dependency "govspeak", ">= 10.6.3"
+  spec.add_dependency "rails", ">= 6", "< 8.0.3"
+  spec.add_dependency "view_component", "~> 4"
 end

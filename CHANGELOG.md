@@ -1,15 +1,19 @@
 # Changelog
 
-## 1.2.2
-
-* Update dependencies
-
 - We use the [GOV.UK versioning guidelines](https://docs.publishing.service.gov.uk/manual/publishing-a-ruby-gem.html#versioning).
 - Mark breaking changes with `BREAKING:`. Be sure to include instructions on how applications should be upgraded.
 - Include a link to your pull request.
 - Don't include changes that are purely internal. The CHANGELOG should be a
   useful summary for people upgrading their application, not a replication
   of the commit log.
+
+## 1.2.3
+
+* Tweak Gemspec dependencies ([94](https://github.com/alphagov/govuk_content_block_tools/pull/93))
+
+## 1.2.2
+
+* Update dependencies
 
 ## 1.2.1
 

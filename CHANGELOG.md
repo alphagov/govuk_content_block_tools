@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.3.0
+
+* Allow composed blocks to be sorted ([95](https://github.com/alphagov/govuk_content_block_tools/pull/95))
+
 ## 1.2.3
 
 * Tweak Gemspec dependencies ([94](https://github.com/alphagov/govuk_content_block_tools/pull/93))

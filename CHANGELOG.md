@@ -13,7 +13,7 @@
 
 ## 1.2.3
 
-* Tweak Gemspec dependencies ([94](https://github.com/alphagov/govuk_content_block_tools/pull/93))
+* Tweak Gemspec dependencies ([94](https://github.com/alphagov/govuk_content_block_tools/pull/94))
 
 ## 1.2.2
 

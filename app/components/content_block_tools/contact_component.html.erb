@@ -5,13 +5,11 @@
     <dd class="content-block__contact-value">
       <%= render_govspeak(content_block.details[:description]) if content_block.details[:description] %>
       <dl class="content-block__contact-list--nested">
-        <% BLOCK_TYPES.each do |block_type| %>
-         <% content_for_block_type(block_type).each do |item| %>
-            <dt class="content-block__contact-key"><%= item[:title] %></dt>
-            <dd class="content-block__contact-value">
-              <%= component_for_block_type(block_type).new(item:).render.html_safe %>
-            </dd>
-          <% end %>
+        <% items.each do |block_type, _, item| %>
+          <dt class="content-block__contact-key"><%= item[:title] %></dt>
+          <dd class="content-block__contact-value">
+            <%= component_for_block_type(block_type).new(item:).render.html_safe %>
+          </dd>
         <% end %>
       </dl>
     </dd>

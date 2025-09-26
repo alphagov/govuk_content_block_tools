@@ -30,6 +30,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "actionview", ">= 6", "< 8.0.3"
   spec.add_dependency "govspeak", ">= 10.6.3"
-  spec.add_dependency "rails", ">= 6", "< 8.0.3"
+  spec.add_dependency "rails", ">= 6", "< 8.0.4"
   spec.add_dependency "view_component", "~> 4"
 end

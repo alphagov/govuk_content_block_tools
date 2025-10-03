@@ -1,5 +1,5 @@
 <p class="adr">
-  <%= lines.map { |field, value| address_line(field, value) }.join(",<br />").html_safe %>
+  <%= lines.map { |field, value| address_line(field, value) }.join("<br />").html_safe %>
 </p>
 
 <%= render_govspeak(item[:description]) if item[:description].present? %>

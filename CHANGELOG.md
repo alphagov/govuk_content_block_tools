@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.3.1
+
+* Tweak rendering of Address and Telephone blocks ([100](https://github.com/alphagov/govuk_content_block_tools/pull/100))
+
 ## 1.3.0
 
 * Allow composed blocks to be sorted ([95](https://github.com/alphagov/govuk_content_block_tools/pull/95))

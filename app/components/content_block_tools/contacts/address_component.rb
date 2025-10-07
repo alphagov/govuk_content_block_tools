@@ -22,7 +22,7 @@ module ContentBlockTools
       end
 
       def address_line(field, value)
-        content_tag(:span, value, { class: class_for_field_name(field) })
+        simple_format(value, { class: class_for_field_name(field) }, wrapper_tag: "span")
       end
 
       def class_for_field_name(field_name)

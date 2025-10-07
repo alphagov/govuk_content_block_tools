@@ -3,7 +3,7 @@ RSpec.describe ContentBlockTools::Contacts::AddressComponent do
     {
       "title": "Address",
       "recipient": "Department of something",
-      "street_address": "123 Fake Street",
+      "street_address": "Abandoned House\n123 Fake Street",
       "town_or_city": "Springton",
       "state_or_county": "Missouri",
       "postal_code": "TEST 123",
@@ -17,12 +17,15 @@ RSpec.describe ContentBlockTools::Contacts::AddressComponent do
 
     expect(result).to have_tag(:p) do
       with_tag(:span, text: "Department of something", with: { class: "organization-name" })
-      with_tag(:span, text: "123 Fake Street", with: { class: "street-address" })
+      with_tag(:span, text: "Abandoned House\n123 Fake Street", with: { class: "street-address" })
+      with_tag(:span, with: { class: "street-address" }) do
+        with_tag("br") # make sure the address contains real line breaks
+      end
       with_tag(:span, text: "Springton", with: { class: "locality" })
       with_tag(:span, text: "Missouri", with: { class: "region" })
       with_tag(:span, text: "TEST 123", with: { class: "postal-code" })
       with_tag(:span, text: "USA", with: { class: "country-name" })
-      with_tag "br", count: 5
+      with_tag "br", count: 6
     end
 
     expect(result).to have_tag(:p, text: "Some description")

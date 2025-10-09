@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+* Update dependencies
+
 - We use the [GOV.UK versioning guidelines](https://docs.publishing.service.gov.uk/manual/publishing-a-ruby-gem.html#versioning).
 - Mark breaking changes with `BREAKING:`. Be sure to include instructions on how applications should be upgraded.
 - Include a link to your pull request.

@@ -206,4 +206,28 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
       end
     end
   end
+
+  describe ".from_string" do
+    it "converts an embed code to a ContentBlockReference" do
+      embed_code = "{{embed:content_block_pension:my-pension}}"
+
+      result = described_class.from_string(embed_code)
+
+      expect(result.document_type).to eq("content_block_pension")
+      expect(result.identifier).to eq("my-pension")
+      expect(result.embed_code).to eq(embed_code)
+    end
+
+    it "raises an error if the embed code is not valid" do
+      embed_code = "INVALID"
+
+      expect { described_class.from_string(embed_code) }.to raise_error(ContentBlockTools::InvalidEmbedCodeError)
+    end
+
+    it "raises an error if the embed code is surrounded by other characters" do
+      embed_code = "** {{embed:content_block_pension:my-pension}} some text {{embed:content_block_pension:another-pension}}"
+
+      expect { described_class.from_string(embed_code) }.to raise_error(ContentBlockTools::InvalidEmbedCodeError)
+    end
+  end
 end

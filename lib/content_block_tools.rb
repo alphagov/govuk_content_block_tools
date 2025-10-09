@@ -18,6 +18,8 @@ require "content_block_tools/version"
 
 module ContentBlockTools
   class Error < StandardError; end
+  class InvalidEmbedCodeError < StandardError; end
+
   module Presenters; end
 
   module Components

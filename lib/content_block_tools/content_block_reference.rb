@@ -51,11 +51,55 @@ module ContentBlockTools
       #
       # @return [Array<ContentBlockReference>] An array of content block references
       def find_all_in_document(document)
-        document.scan(ContentBlockReference::EMBED_REGEX).map do |match|
-          match = prepare_match(match)
-          ContentBlockTools.logger.info("Found Content Block Reference: #{match}")
-          ContentBlockReference.new(document_type: match[1], identifier: match[2], embed_code: match[0])
+        document.scan(EMBED_REGEX).map do |match_data|
+          ContentBlockReference.from_match_data(match_data)
         end
+      end
+
+      # Converts a single embed code string into a ContentBlockReference object
+      #
+      # Parses an embed code string using {EMBED_REGEX} to extract the document type,
+      # identifier, and embed code, then creates a ContentBlockReference instance.
+      #
+      # @param embed_code [String] the embed code to parse
+      # @example Parse an embed code with a UUID
+      #   ContentBlockReference.from_string("{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}")
+      #   #=> #<ContentBlockReference document_type="content_block_pension" identifier="2b92cade-549c-4449-9796-e7a3957f3a86" embed_code="{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}">
+      # @example Parse an embed code with a slug
+      #   ContentBlockReference.from_string("{{embed:content_block_contact:some-slug}}")
+      #   #=> #<ContentBlockReference document_type="content_block_contact" identifier="some-slug" embed_code="{{embed:content_block_contact:some-slug}}">
+      # @return [ContentBlockReference] a new ContentBlockReference instance
+      # @raise [InvalidEmbedCodeError] if the embed_code doesn't match {EMBED_REGEX} (match_data will be nil)
+      # @see from_match_data
+      def from_string(embed_code)
+        match_data = embed_code.match(/^#{EMBED_REGEX}$/)
+        raise InvalidEmbedCodeError unless match_data
+
+        ContentBlockReference.from_match_data(match_data.captures)
+      end
+
+      # Converts match data from a regex scan into a ContentBlockReference object
+      #
+      # This method is used internally by {find_all_in_document} and {from_string} to create
+      # ContentBlockReference instances from regex match data. It normalizes the match data
+      # by replacing en/em dashes with double/triple dashes (which can occur due to Kramdown's
+      # markdown parsing) before creating the object.
+      #
+      # @param match_data [MatchData, Array] the match data from scanning with {EMBED_REGEX}
+      #   Expected to contain: [full_match, document_type, identifier, field]
+      # @example Creating from match data
+      #   match_data = "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}".match(EMBED_REGEX)
+      #   ContentBlockReference.from_match_data(match_data)
+      #   #=> #<ContentBlockReference document_type="content_block_pension" identifier="2b92cade-549c-4449-9796-e7a3957f3a86" embed_code="{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}">
+      # @return [ContentBlockReference] a new ContentBlockReference instance
+      # @api private
+      # @see find_all_in_document
+      # @see from_string
+      # @see prepare_match
+      def from_match_data(match_data)
+        match = prepare_match(match_data)
+        ContentBlockTools.logger.info("Found Content Block Reference: #{match}")
+        ContentBlockReference.new(document_type: match[1], identifier: match[2], embed_code: match[0])
       end
 
     private

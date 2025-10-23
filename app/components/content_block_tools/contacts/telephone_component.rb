@@ -18,7 +18,11 @@ module ContentBlockTools
       end
 
       def video_relay_service_content
-        "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}"
+        [
+          video_relay_service[:label],
+          video_relay_service[:telephone_number],
+          video_relay_service[:source],
+        ].join(" ")
       end
 
       def bsl_guidance

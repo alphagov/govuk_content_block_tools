@@ -23,8 +23,9 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
   let(:video_relay_service) do
     {
       show: show_video_relay_service,
-      prefix: "Some prefix",
-      telephone_number: "123456",
+      label: "Some label",
+      telephone_number: "0800 1234 1122",
+      source: "Provider link",
     }
   end
 
@@ -83,7 +84,10 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
     it "should show relay details" do
       component = described_class.new(item: phone_number)
 
-      video_relay_service_content = "#{video_relay_service[:prefix]} #{video_relay_service[:telephone_number]}"
+      video_relay_service_content =
+        "#{video_relay_service[:label]} " \
+          "#{video_relay_service[:telephone_number]} " \
+          "#{video_relay_service[:source]}"
 
       expect(component).to receive(:render_govspeak)
                              .with(video_relay_service_content)

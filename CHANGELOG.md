@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.5.1
+
+* Change schema of `telephone.video_relay_service`.
+
 ## 1.5.0
 
 * Add a `.from_string` method to `ContentBlockReference` ([102](https://github.com/alphagov/govuk_content_block_tools/pull/102))

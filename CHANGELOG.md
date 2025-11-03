@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## 1.6.0
+
+* Add a method to fetch a content block by its embed code ([111](https://github.com/alphagov/govuk_content_block_tools/pull/111))
+
 ## 1.5.1
 
 * Change schema of `telephone.video_relay_service`.

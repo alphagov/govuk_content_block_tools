@@ -2,6 +2,7 @@
 
 require "action_view"
 require "uri"
+require "gds-api-adapters"
 require "govspeak"
 
 require "content_block_tools/helpers/govspeak"

@@ -45,6 +45,21 @@ module ContentBlockTools
       !identifier.match?(UUID_REGEX)
     end
 
+    # Returns the content store path for this content block reference
+    #
+    # Constructs a path used to identify and retrieve the content block from the content store.
+    # The path follows the format `/content-blocks/{document_type}/{identifier}`.
+    #
+    # @example
+    #   reference = ContentBlockReference.new(document_type: "content_block_contact", identifier: "some-slug", embed_code: "...")
+    #   reference.content_store_identifier
+    #   #=> "/content-blocks/content_block_contact/some-slug"
+    #
+    # @return [String] the content store path for this content block
+    def content_store_identifier
+      "/content-blocks/#{document_type}/#{identifier}"
+    end
+
     class << self
       # Finds all content block references within a document, using `ContentBlockReference::EMBED_REGEX`
       # to scan through the document

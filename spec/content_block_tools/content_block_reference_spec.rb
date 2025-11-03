@@ -37,6 +37,18 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
     end
   end
 
+  describe "#content_store_identifier" do
+    it "returns the identifier" do
+      content_block = described_class.new(
+        document_type:,
+        identifier: "some-alias",
+        embed_code:,
+      )
+
+      expect(content_block.content_store_identifier).to eq("/content-blocks/content_block_pension/some-alias")
+    end
+  end
+
   describe ".find_all_in_document" do
     let(:result) { described_class.find_all_in_document(document) }
 

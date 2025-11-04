@@ -22,6 +22,51 @@ RSpec.describe ContentBlockTools::ContentBlock do
     expect(content_block.details).to eq(details)
   end
 
+  describe "#from_embed_code" do
+    let(:embed_code) { "{{embed:content_block_pension:my-pension}}" }
+    let(:api_response) do
+      {
+        "content_id" => "my-pension",
+        "title" => "My Pension",
+        "details" => { "some" => "details" },
+        "document_type" => "content_block_pension",
+      }
+    end
+    let(:reference) do
+      double(ContentBlockTools::ContentBlockReference,
+             document_type: "content_block_pension",
+             identifier: "my-pension",
+             embed_code: embed_code)
+    end
+    let(:content_store_identifier) { "/content-blocks/content_block_pension/my-pension" }
+    let(:content_block) { double(ContentBlockTools::ContentBlock) }
+    let(:content_store) { double(GdsApi::ContentStore) }
+
+    before do
+      allow(GdsApi).to receive(:content_store).and_return(content_store)
+    end
+
+    it "returns a content block" do
+      expect(ContentBlockTools::ContentBlockReference).to receive(:from_string)
+                                                            .with(embed_code)
+                                                            .and_return(reference)
+
+      expect(reference).to receive(:content_store_identifier)
+                             .and_return(content_store_identifier)
+
+      expect(content_store).to receive(:content_item)
+                                 .with(content_store_identifier)
+                                 .and_return(api_response)
+
+      content_block = ContentBlockTools::ContentBlock.from_embed_code(embed_code)
+
+      expect(content_block.content_id).to eq(api_response["content_id"])
+      expect(content_block.title).to eq(api_response["title"])
+      expect(content_block.details).to eq(api_response["details"].deep_symbolize_keys)
+      expect(content_block.document_type).to eq("pension")
+    end
+  end
+
   describe ".details" do
     let(:details) do
       {

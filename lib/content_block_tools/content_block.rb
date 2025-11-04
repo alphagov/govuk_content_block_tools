@@ -46,6 +46,38 @@ module ContentBlockTools
 
     attr_reader :content_id, :title, :embed_code
 
+    # Creates a ContentBlock instance from an embed code string by fetching
+    # the content item data from the Content Store API.
+    #
+    # @param embed_code [String] The embed code string to parse and fetch content for
+    #   @example
+    #     ContentBlock.from_embed_code("{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}")
+    #
+    # @return [ContentBlock] A new ContentBlock instance populated with data from the Content Store
+    #
+    # @raise [ContentBlockTools::InvalidEmbedCodeError] if the embed code format is invalid
+    # @raise [GdsApi::HTTPErrorResponse] if the API request fails
+    #
+    # @example Create a ContentBlock from an embed code
+    #   embed_code = "{{embed:content_block_email:123e4567-e89b-12d3-a456-426614174000}}"
+    #   content_block = ContentBlock.from_embed_code(embed_code)
+    #   content_block.title #=> "Contact Email"
+    #   content_block.document_type #=> "email"
+    #
+    # @see ContentBlockReference.from_string
+    # @see GdsApi.content_store
+    def self.from_embed_code(embed_code)
+      reference = ContentBlockReference.from_string(embed_code)
+      api_response = GdsApi.content_store.content_item(reference.content_store_identifier)
+      new(
+        content_id: api_response["content_id"],
+        title: api_response["title"],
+        document_type: api_response["document_type"],
+        details: api_response["details"],
+        embed_code:,
+      )
+    end
+
     def initialize(content_id:, title:, document_type:, details:, embed_code:)
       @content_id = content_id
       @title = title

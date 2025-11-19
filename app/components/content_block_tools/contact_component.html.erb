@@ -1,21 +1,15 @@
-<dl class="vcard content-block__contact-list">
-  <dt class="content-block__contact-key fn org"><%= content_block.title %></dt>
-
+<div class="vcard">
   <% if block_type.nil? %>
-    <dd class="content-block__contact-value">
-      <%= render_govspeak(content_block.details[:description]) if content_block.details[:description] %>
-      <dl class="content-block__contact-list--nested">
-        <% items.each do |block_type, _, item| %>
-          <dt class="content-block__contact-key"><%= item[:title] %></dt>
-          <dd class="content-block__contact-value">
-            <%= component_for_block_type(block_type).new(item:).render.html_safe %>
-          </dd>
-        <% end %>
-      </dl>
-    </dd>
+    <%= render_govspeak(content_block.details[:description]) if content_block.details[:description] %>
+    <dl class="content-block__contact-list">
+      <% items.each do |block_type, _, item| %>
+        <dt class="content-block__contact-key"><%= item[:title] %></dt>
+        <dd class="content-block__contact-value">
+          <%= component_for_block_type(block_type).new(item:).render.html_safe %>
+        </dd>
+      <% end %>
+    </dl>
   <% else %>
-    <dd class="content-block__contact-value">
-      <%= component_for_block_type(block_type).new(item: item_to_render).render.html_safe %>
-    </dd>
+    <%= component_for_block_type(block_type).new(item: item_to_render).render.html_safe %>
   <% end %>
-</dl>
+</div>

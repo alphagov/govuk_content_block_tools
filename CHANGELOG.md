@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+
+* Remove headings from contact blocks ([114](https://github.com/alphagov/govuk_content_block_tools/pull/114))
+
 ## 1.6.2
 
 * Update dependencies
@@ -7,13 +11,6 @@
 ## 1.6.1
 
 * Update dependencies
-
-- We use the [GOV.UK versioning guidelines](https://docs.publishing.service.gov.uk/manual/publishing-a-ruby-gem.html#versioning).
-- Mark breaking changes with `BREAKING:`. Be sure to include instructions on how applications should be upgraded.
-- Include a link to your pull request.
-- Don't include changes that are purely internal. The CHANGELOG should be a
-  useful summary for people upgrading their application, not a replication
-  of the commit log.
 
 ## 1.6.0
 

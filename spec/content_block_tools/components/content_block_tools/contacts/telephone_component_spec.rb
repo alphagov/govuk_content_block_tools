@@ -1,4 +1,6 @@
 RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
+  include ContentBlockTools::OverrideClasses
+
   let(:show_call_charges_info_url) { false }
 
   let(:call_charges) do
@@ -65,7 +67,7 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
 
     expect(result).to_not have_tag("div", with: { class: "contact" })
 
-    expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+    expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0)}']") do
       with_tag("li") do
         with_tag(:span, text: "Office: ")
         with_tag(:span, text: "1234", with: { class: "tel" })
@@ -105,7 +107,7 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
 
       expect(result).to have_tag("ul", count: 1)
 
-      expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+      expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0)}']") do
         with_tag("li") do
           with_tag(:span, text: "Office: ")
           with_tag(:span, text: "1234", with: { class: "tel" })
@@ -127,7 +129,7 @@ RSpec.describe ContentBlockTools::Contacts::TelephoneComponent do
 
       expect(result).to have_tag("ul", count: 1)
 
-      expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+      expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0)}']") do
         with_tag("li") do
           with_tag(:span, text: "Office: ")
           with_tag(:span, text: "1234", with: { class: "tel" })

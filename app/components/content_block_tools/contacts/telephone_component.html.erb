@@ -2,7 +2,7 @@
   <%= render_govspeak(item[:description]) %>
 <% end %>
 
-<ul class="content-block__list govuk-!-margin-bottom-0">
+<ul class="govuk-list list-no-bullets <%= margin_classes(0) %>">
   <% item[:telephone_numbers].each do |number| %>
     <li class="govuk-!-margin-bottom-1">
       <span><%= number[:label] %>: </span>

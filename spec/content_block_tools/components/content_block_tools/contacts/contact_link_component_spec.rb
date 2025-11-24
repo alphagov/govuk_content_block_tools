@@ -1,4 +1,6 @@
 RSpec.describe ContentBlockTools::Contacts::ContactLinkComponent do
+  include ContentBlockTools::OverrideClasses
+
   let(:contact_link) do
     {
       "title": "Contact form",
@@ -10,7 +12,7 @@ RSpec.describe ContentBlockTools::Contacts::ContactLinkComponent do
   it "should render successfully" do
     result = described_class.new(item: contact_link).render
 
-    expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+    expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0, 0, 6, 0)}']") do
       with_tag("li") do
         with_tag("a", text: /Contact us/, with: { href: "http://example.com", class: "url" })
       end
@@ -28,7 +30,7 @@ RSpec.describe ContentBlockTools::Contacts::ContactLinkComponent do
     it "uses the url as the link text" do
       result = described_class.new(item: contact_link).render
 
-      expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+      expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0, 0, 6, 0)}']") do
         with_tag("li") do
           with_tag("a", text: /http:\/\/example.com/, with: { href: "http://example.com", class: "url" })
         end
@@ -53,7 +55,7 @@ RSpec.describe ContentBlockTools::Contacts::ContactLinkComponent do
                              .with(contact_link[:description])
                              .and_call_original
 
-      expect(component.render).to have_tag("ul", with: { class: "content-block__list" }) do
+      expect(component.render).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0, 0, 6, 0)}']") do
         with_tag("li", text: contact_link[:description])
       end
     end

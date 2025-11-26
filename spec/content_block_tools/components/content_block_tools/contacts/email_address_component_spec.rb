@@ -1,4 +1,6 @@
 RSpec.describe ContentBlockTools::Contacts::EmailAddressComponent do
+  include ContentBlockTools::OverrideClasses
+
   let(:email_address) do
     {
       "title": "Email",
@@ -10,7 +12,7 @@ RSpec.describe ContentBlockTools::Contacts::EmailAddressComponent do
   it "should render successfully" do
     result = described_class.new(item: email_address).render
 
-    expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+    expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0, 0, 6, 0)}']") do
       with_tag("li") do
         with_tag("a", text: /Email us/, with: { href: "mailto:foo@example.com", class: "email" })
       end
@@ -28,7 +30,7 @@ RSpec.describe ContentBlockTools::Contacts::EmailAddressComponent do
     it "uses the email address as the link text" do
       result = described_class.new(item: email_address).render
 
-      expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+      expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0, 0, 6, 0)}']") do
         with_tag("li") do
           with_tag("a", text: /foo@example.com/, with: { href: "mailto:foo@example.com", class: "email" })
         end
@@ -49,7 +51,7 @@ RSpec.describe ContentBlockTools::Contacts::EmailAddressComponent do
     it "should render successfully" do
       result = described_class.new(item: email_address).render
 
-      expect(result).to have_tag("ul", with: { class: "content-block__list" }) do
+      expect(result).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0, 0, 6, 0)}']") do
         with_tag("li") do
           with_tag("a", text: /foo@example.com/, with: { href: "mailto:foo@example.com?subject=My email&body=Body text here", class: "email" })
         end
@@ -74,7 +76,7 @@ RSpec.describe ContentBlockTools::Contacts::EmailAddressComponent do
                              .with("Description text")
                              .and_call_original
 
-      expect(component.render).to have_tag("ul", with: { class: "content-block__list" }) do
+      expect(component.render).to have_tag("ul[class='govuk-list list-no-bullets #{margin_classes(0, 0, 6, 0)}']") do
         with_tag("li") do
           with_tag("a", text: /Some email address/, with: { href: "mailto:foo@example.com", class: "email" })
         end

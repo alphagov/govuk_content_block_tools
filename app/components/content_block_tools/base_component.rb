@@ -1,6 +1,8 @@
 module ContentBlockTools
   class BaseComponent < ViewComponent::Base
     include ContentBlockTools::Govspeak
+    include ContentBlockTools::OverrideClasses
+
     def render
       render_in(view_context)
     end

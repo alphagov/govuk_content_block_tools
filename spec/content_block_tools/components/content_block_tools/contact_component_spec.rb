@@ -13,7 +13,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
     end
 
     it "adds the correct override classes to the description definitions" do
-      expect(component.render).to have_tag("dd[class='#{margin_classes(0)}']")
+      expect(component.render).to have_tag("dd[class='#{margin_classes(0, 0, 6, 0)}']")
     end
   end
 

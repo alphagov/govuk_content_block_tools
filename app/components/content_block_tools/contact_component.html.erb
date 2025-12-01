@@ -6,7 +6,7 @@
         <dt class="<%= margin_classes(0, 0, 4, 0) %> <%= padding_classes(0) %> <%= font_classes(19, "bold") %>">
           <%= item[:title] %>
         </dt>
-        <dd class="<%= margin_classes(0) %>">
+        <dd class="<%= margin_classes(0, 0, 6, 0) %>">
           <%= component_for_block_type(block_type).new(item:).render.html_safe %>
         </dd>
       <% end %>

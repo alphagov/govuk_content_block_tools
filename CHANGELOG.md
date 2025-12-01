@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.1
+
+* Fix error in contact block styling ([#117](https://github.com/alphagov/govuk_content_block_tools/pull/117))
+
 ## 1.7.0
 
 * Remove headings from contact blocks ([114](https://github.com/alphagov/govuk_content_block_tools/pull/114))

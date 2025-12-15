@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.2
+
+* Update dependencies
+
 ## 1.7.1
 
 * Fix error in contact block styling ([#117](https://github.com/alphagov/govuk_content_block_tools/pull/117))

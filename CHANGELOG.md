@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.0
+
+* Add tax as a supported block type ([#123](https://github.com/alphagov/govuk_content_block_tools/pull/123))
+
 ## 1.7.2
 
 * Update dependencies

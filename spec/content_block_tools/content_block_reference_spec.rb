@@ -1,18 +1,24 @@
 RSpec.describe ContentBlockTools::ContentBlockReference do
   let(:content_id) { SecureRandom.uuid }
   let(:document_type) { "content_block_pension" }
-  let(:embed_code) { "{{embed:content_block_pension:#{SecureRandom.uuid}}}" }
+  let(:embed_code) { "{{embed:#{document_type}:#{SecureRandom.uuid}}}" }
 
-  it "initializes correctly" do
-    content_block = described_class.new(
-      document_type:,
-      identifier: content_id,
-      embed_code:,
-    )
+  %w[pension contact tax].each do |document_type|
+    context "with a #{document_type} block" do |document_type|
+      let(:document_type) { "content_block_#{document_type}" }
 
-    expect(content_block.document_type).to eq(document_type)
-    expect(content_block.identifier).to eq(content_id)
-    expect(content_block.embed_code).to eq(embed_code)
+      it "initializes correctly" do
+        content_block = described_class.new(
+          document_type:,
+          identifier: content_id,
+          embed_code:,
+        )
+
+        expect(content_block.document_type).to eq(document_type)
+        expect(content_block.identifier).to eq(content_id)
+        expect(content_block.embed_code).to eq(embed_code)
+      end
+    end
   end
 
   describe "#identifier_is_alias?" do

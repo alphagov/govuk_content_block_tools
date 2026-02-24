@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.9.1
+
+* Render time period times in GOV.UK format ([#130](https://github.com/alphagov/govuk_content_block_tools/pull/130))
+
 # 1.9.0
 
 * Add time period as a supported block type ([#129](https://github.com/alphagov/govuk_content_block_tools/pull/129))

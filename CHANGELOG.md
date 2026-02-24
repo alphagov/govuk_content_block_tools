@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.9.0
+
+* Add time period as a supported block type ([#129](https://github.com/alphagov/govuk_content_block_tools/pull/129))
+
 ## 1.8.2
 
 * Update dependencies

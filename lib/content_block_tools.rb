@@ -10,6 +10,7 @@ require "content_block_tools/helpers/override_classes"
 
 require "content_block_tools/presenters/field_presenters/base_presenter"
 require "content_block_tools/presenters/field_presenters/contact/email_presenter"
+require "content_block_tools/presenters/field_presenters/time_period/date_presenter"
 
 require "content_block_tools/content_block"
 require "content_block_tools/content_block_reference"

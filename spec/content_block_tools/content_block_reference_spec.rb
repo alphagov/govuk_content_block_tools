@@ -3,7 +3,7 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
   let(:document_type) { "content_block_pension" }
   let(:embed_code) { "{{embed:#{document_type}:#{SecureRandom.uuid}}}" }
 
-  %w[pension contact tax].each do |document_type|
+  %w[pension contact tax time_period].each do |document_type|
     context "with a #{document_type} block" do |document_type|
       let(:document_type) { "content_block_#{document_type}" }
 

@@ -175,6 +175,91 @@ RSpec.describe ContentBlockTools::ContentBlock do
       end
     end
 
+    context "with a time period block" do
+      let(:document_type) { "content_block_time_period" }
+
+      let(:expected_wrapper_attributes) do
+        {
+          class: "content-block content-block--time_period",
+          "data-content-block" => "",
+          "data-document-type" => "time_period",
+          "data-content-id" => content_id,
+          "data-embed-code" => embed_code,
+        }
+      end
+
+      let(:details) do
+        {
+          "date_range" => {
+            "start" => {
+              "date" => "2022-01-01",
+              "time" => "00:00",
+            },
+            "end" => {
+              "date" => "2022-12-31",
+              "time" => "23:59",
+            },
+          },
+        }
+      end
+
+      context "embed code references the start date" do
+        let(:embed_code) { "{{embed:content_block_time_period:current-calendar-year/date_range/start/date}}" }
+
+        it "uses the presenter to render the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::TimePeriod::DatePresenter)
+            .to receive_message_chain(:new, :render)
+                  .with("2022-01-01")
+                  .with(no_args)
+                  .and_return("1 January 2022")
+
+          expect(content_block.render).to have_tag("span", text: "1 January 2022", with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references the start time" do
+        let(:embed_code) { "{{embed:content_block_time_period:current-calendar-year/date_range/start/time}}" }
+
+        it "calls the base presenter and returns the value of the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::BasePresenter)
+            .to receive_message_chain(:new, :render)
+                  .with("00:00")
+                  .with(no_args)
+                  .and_return("00:00")
+
+          expect(content_block.render).to have_tag("span", text: "00:00", with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references the end date" do
+        let(:embed_code) { "{{embed:content_block_time_period:current-calendar-year/date_range/end/date}}" }
+
+        it "uses the presenter to render the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::TimePeriod::DatePresenter)
+            .to receive_message_chain(:new, :render)
+                  .with("2022-12-31")
+                  .with(no_args)
+                  .and_return("31 December 2022")
+
+          expect(content_block.render).to have_tag("span", text: "31 December 2022", with: expected_wrapper_attributes)
+        end
+      end
+
+      context "embed code references the end time" do
+        let(:embed_code) { "{{embed:content_block_time_period:current-calendar-year/date_range/end/time}}" }
+
+        it "calls the base presenter and returns the value of the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::BasePresenter)
+            .to receive_message_chain(:new, :render)
+                  .with("00:00")
+                  .with(no_args)
+                  .and_return("00:00")
+
+          expect(content_block.render).to have_tag("span", text: "00:00", with: expected_wrapper_attributes)
+        end
+      end
+    end
+
     context "with a pension block" do
       let(:document_type) { "content_block_pension" }
 

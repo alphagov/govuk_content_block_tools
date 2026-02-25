@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.9.2
+
+* Define default block component for Time period ([#131](https://github.com/alphagov/govuk_content_block_tools/pull/131))
+
 # 1.9.1
 
 * Render time period times in GOV.UK format ([#130](https://github.com/alphagov/govuk_content_block_tools/pull/130))

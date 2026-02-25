@@ -220,14 +220,14 @@ RSpec.describe ContentBlockTools::ContentBlock do
       context "embed code references the start time" do
         let(:embed_code) { "{{embed:content_block_time_period:current-calendar-year/date_range/start/time}}" }
 
-        it "calls the base presenter and returns the value of the field" do
-          expect(ContentBlockTools::Presenters::FieldPresenters::BasePresenter)
+        it "calls the time presenter and returns the value of the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::TimePeriod::TimePresenter)
             .to receive_message_chain(:new, :render)
                   .with("00:00")
                   .with(no_args)
-                  .and_return("00:00")
+                  .and_return("midnight")
 
-          expect(content_block.render).to have_tag("span", text: "00:00", with: expected_wrapper_attributes)
+          expect(content_block.render).to have_tag("span", text: "midnight", with: expected_wrapper_attributes)
         end
       end
 
@@ -248,14 +248,14 @@ RSpec.describe ContentBlockTools::ContentBlock do
       context "embed code references the end time" do
         let(:embed_code) { "{{embed:content_block_time_period:current-calendar-year/date_range/end/time}}" }
 
-        it "calls the base presenter and returns the value of the field" do
-          expect(ContentBlockTools::Presenters::FieldPresenters::BasePresenter)
+        it "calls the time presenter and returns the value of the field" do
+          expect(ContentBlockTools::Presenters::FieldPresenters::TimePeriod::TimePresenter)
             .to receive_message_chain(:new, :render)
-                  .with("00:00")
+                  .with("23:59")
                   .with(no_args)
-                  .and_return("00:00")
+                  .and_return("11:59pm")
 
-          expect(content_block.render).to have_tag("span", text: "00:00", with: expected_wrapper_attributes)
+          expect(content_block.render).to have_tag("span", text: "11:59pm", with: expected_wrapper_attributes)
         end
       end
     end

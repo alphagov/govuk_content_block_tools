@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.10.0
+
+* Add `data-diff-key` attributes to each part of a contact block ([#132](https://github.com/alphagov/govuk_content_block_tools/pull/132))
+
 # 1.9.2
 
 * Define default block component for Time period ([#131](https://github.com/alphagov/govuk_content_block_tools/pull/131))

@@ -113,7 +113,9 @@ RSpec.describe ContentBlockTools::ContactComponent do
                              .and_call_original
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("p", text: description)
+        with_tag("div", with: { "data-diff-key" => "description" }) do
+          with_tag("p", text: description)
+        end
       end
     end
 
@@ -167,9 +169,11 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("dt", text: /#{email_addresses[:foo][:title]}/)
-          with_tag("dd") do
-            with_tag("p", text: "EMAIL ADDRESS")
+          with_tag("div", with: { "data-diff-key" => "email_addresses-foo" }) do
+            with_tag("dt", text: /#{email_addresses[:foo][:title]}/)
+            with_tag("dd") do
+              with_tag("p", text: "EMAIL ADDRESS")
+            end
           end
         end
       end
@@ -180,6 +184,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
+        without_tag("div", with: { "data-diff-key" => "email_addresses-foo" })
         without_tag("dt", text: email_addresses[:foo][:title])
         with_tag("p", text: "EMAIL ADDRESS")
       end
@@ -212,9 +217,11 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("dt", text: /#{telephones[:foo][:title]}/)
-          with_tag("dd") do
-            with_tag("p", text: "TELEPHONE")
+          with_tag("div", with: { "data-diff-key" => "telephones-foo" }) do
+            with_tag("dt", text: /#{telephones[:foo][:title]}/)
+            with_tag("dd") do
+              with_tag("p", text: "TELEPHONE")
+            end
           end
         end
       end
@@ -225,6 +232,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
+        without_tag("div", with: { "data-diff-key" => "telephones-foo" })
         without_tag("dt", text: telephones[:foo][:title])
         with_tag("p", text: "TELEPHONE")
       end
@@ -257,9 +265,11 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("dt", text: /#{addresses[:some_address][:title]}/)
-          with_tag("dd") do
-            with_tag("p", text: "ADDRESS")
+          with_tag("div", with: { "data-diff-key" => "addresses-some_address" }) do
+            with_tag("dt", text: /#{addresses[:some_address][:title]}/)
+            with_tag("dd") do
+              with_tag("p", text: "ADDRESS")
+            end
           end
         end
       end
@@ -270,6 +280,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
+        without_tag("div", with: { "data-diff-key" => "addresses-some_address" })
         without_tag("dt", text: /#{addresses[:some_address][:title]}/)
         with_tag("p", text: "ADDRESS")
       end
@@ -302,9 +313,11 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("dt", text: /#{contact_links[:foo][:title]}/)
-          with_tag("dd") do
-            with_tag("p", text: "CONTACT LINK")
+          with_tag("div", with: { "data-diff-key" => "contact_links-foo" }) do
+            with_tag("dt", text: /#{contact_links[:foo][:title]}/)
+            with_tag("dd") do
+              with_tag("p", text: "CONTACT LINK")
+            end
           end
         end
       end
@@ -315,6 +328,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
+        without_tag("div", with: { "data-diff-key" => "contact_links-foo" })
         without_tag("dt", text: /#{contact_links[:foo][:title]}/)
         with_tag("p", text: "CONTACT LINK")
       end

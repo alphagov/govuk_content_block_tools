@@ -1,14 +1,20 @@
 <div class="vcard">
   <% if block_type.nil? %>
-    <%= render_govspeak(content_block.details[:description]) if content_block.details[:description] %>
+    <% if content_block.details[:description] %>
+      <div data-diff-key="description">
+        <%= render_govspeak(content_block.details[:description]) %>
+      </div>
+    <% end %>
     <dl class="<%= margin_classes(0) %> <%= padding_classes(0) %>">
-      <% items.each do |block_type, _, item| %>
-        <dt class="<%= margin_classes(0, 0, 4, 0) %> <%= padding_classes(0) %> <%= font_classes(19, "bold") %>">
-          <%= item[:title] %>
-        </dt>
-        <dd class="<%= margin_classes(0, 0, 6, 0) %>">
-          <%= component_for_block_type(block_type).new(item:).render.html_safe %>
-        </dd>
+      <% items.each do |block_type, key, item| %>
+        <div data-diff-key="<%= block_type %>-<%= key %>">
+          <dt class="<%= margin_classes(0, 0, 4, 0) %> <%= padding_classes(0) %> <%= font_classes(19, "bold") %>">
+            <%= item[:title] %>
+          </dt>
+          <dd class="<%= margin_classes(0, 0, 6, 0) %>">
+            <%= component_for_block_type(block_type).new(item:).render.html_safe %>
+          </dd>
+        </div>
       <% end %>
     </dl>
   <% else %>

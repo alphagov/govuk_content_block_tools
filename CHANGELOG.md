@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.10.1
+
+* Add field presenter for `TimePeriod#date_range` ([#133](https://github.com/alphagov/govuk_content_block_tools/pull/133))
+* Handle one-to-one embedded object with field formatter (e.g. TimePeriod#date_range)
+
 # 1.10.0
 
 * Add `data-diff-key` attributes to each part of a contact block ([#132](https://github.com/alphagov/govuk_content_block_tools/pull/132))

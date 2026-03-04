@@ -126,15 +126,24 @@ module ContentBlockTools
 
     def field_or_block_content
       content = details.dig(*field_names)
+
       case content
       when String
         field_presenter(field_names.last).new(content).render
       when Hash
-        component.new(content_block: self, block_type: field_names.first, block_name: field_names.last).render
+        if embedded_object_in_one_to_one_relationship?
+          field_presenter(field_names.last).new(content).render
+        else
+          component.new(content_block: self, block_type: field_names.first, block_name: field_names.last).render
+        end
       else
         ContentBlockTools.logger.warn("Content not found for content block #{content_id} and fields #{field_names}")
         embed_code
       end
+    end
+
+    def embedded_object_in_one_to_one_relationship?
+      field_names.one?
     end
 
     def rendering_block?

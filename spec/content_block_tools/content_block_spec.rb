@@ -260,6 +260,57 @@ RSpec.describe ContentBlockTools::ContentBlock do
       end
     end
 
+    context "with a time period's date_range" do
+      let(:title) { "Tax year" }
+      let(:document_type) { "content_block_time_period" }
+      let(:details) do
+        {
+          "date_range" => {
+            "start" => { "date" => "2025-04-06", "time" => "00:00" },
+            "end" => { "date" => "2026-04-05", "time" => "23:59" },
+          },
+        }
+      end
+
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year/date_range/}}" }
+
+      let(:expected_wrapper_attributes) do
+        {
+          class: "content-block content-block--time_period",
+          "data-content-block" => "",
+          "data-document-type" => "time_period",
+          "data-content-id" => content_id,
+          "data-embed-code" => embed_code,
+        }
+      end
+
+      let(:content_block) do
+        described_class.new(
+          document_type: document_type,
+          content_id: content_id,
+          title: title,
+          details: details,
+          embed_code: embed_code,
+        )
+      end
+
+      before do
+        expect(ContentBlockTools::Presenters::FieldPresenters::TimePeriod::DateRangePresenter)
+          .to receive_message_chain(:new, :render)
+            .with(details.fetch("date_range"))
+            .with(no_args)
+            .and_return("6 April 2025 to 5 April 2026")
+      end
+
+      it "returns the rendered presentation of the date_range field" do
+        expect(content_block.render).to have_tag(
+          "div",
+          text: "6 April 2025 to 5 April 2026",
+          with: expected_wrapper_attributes,
+        )
+      end
+    end
+
     context "with a pension block" do
       let(:document_type) { "content_block_pension" }
 

@@ -4,6 +4,8 @@ module ContentBlockTools
       module TimePeriod
         class DatePresenter < BasePresenter
           def render
+            return unless field.present?
+
             date = Date.parse(field)
             date.strftime("%e %B %Y").strip
           end

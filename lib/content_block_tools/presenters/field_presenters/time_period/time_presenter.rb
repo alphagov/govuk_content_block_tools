@@ -4,6 +4,8 @@ module ContentBlockTools
       module TimePeriod
         class TimePresenter < BasePresenter
           def render
+            return unless field.present?
+
             time = Time.parse(field)
             hour = time.strftime("%H")
             minute = time.strftime("%M")

@@ -6,6 +6,8 @@ module ContentBlockTools
 
         class DateRangePresenter < BasePresenter
           def render
+            return unless start_date.present? && end_date.present?
+
             "#{start_date} to #{end_date}"
           rescue Date::Error, TypeError
             raise TimePeriodPresenterError, "Not a valid date range: #{field}"

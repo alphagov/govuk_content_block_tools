@@ -18,6 +18,14 @@ RSpec.describe ContentBlockTools::Presenters::FieldPresenters::TimePeriod::DateR
     expect(presenter.render).to eq("6 April 2025 to 5 April 2026")
   end
 
+  context "when the date range is not defined" do
+    it "renders nothing" do
+      presenter = described_class.new({})
+
+      expect(presenter.render).to be_nil
+    end
+  end
+
   describe "error handling" do
     context "when the expected start/end date key isn't found" do
       let(:date_range) do
@@ -29,13 +37,10 @@ RSpec.describe ContentBlockTools::Presenters::FieldPresenters::TimePeriod::DateR
         }
       end
 
-      it "raises an error with an informative message" do
+      it "renders nothing" do
         presenter = described_class.new(date_range)
 
-        expect { presenter.render }.to raise_error(
-          ContentBlockTools::Presenters::FieldPresenters::TimePeriod::TimePeriodPresenterError,
-          "Not a valid date range: #{date_range}",
-        )
+        expect(presenter.render).to be_nil
       end
     end
 

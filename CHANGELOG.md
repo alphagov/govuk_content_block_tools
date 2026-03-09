@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.10.2
+
+* Handle `TimePeriod` missing its `date_range` gracefully
+
 # 1.10.1
 
 * Add field presenter for `TimePeriod#date_range` ([#133](https://github.com/alphagov/govuk_content_block_tools/pull/133))

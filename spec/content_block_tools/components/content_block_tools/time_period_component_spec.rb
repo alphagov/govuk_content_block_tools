@@ -30,5 +30,13 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
         seen: "6 April 2025 to 5 April 2026",
       )
     end
+
+    context "when the date range is not defined" do
+      let(:details) { {} }
+
+      it "renders nothing" do
+        expect(component.render).not_to have_tag("p")
+      end
+    end
   end
 end

@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.10.3
+
+* Remove pessimistic version constraint on `gds-api-adapters`
+
 # 1.10.2
 
 * Handle `TimePeriod` missing its `date_range` gracefully

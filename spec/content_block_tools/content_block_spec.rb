@@ -22,7 +22,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
     expect(content_block.details).to eq(details)
   end
 
-  describe "#from_embed_code" do
+  describe "::from_embed_code" do
     let(:embed_code) { "{{embed:content_block_pension:my-pension}}" }
     let(:api_response) do
       {
@@ -67,7 +67,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
     end
   end
 
-  describe ".details" do
+  describe "#details" do
     let(:details) do
       {
         "foo" => {
@@ -83,7 +83,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
     end
   end
 
-  describe ".render" do
+  describe "#render" do
     context "with a contact block" do
       let(:expected_wrapper_attributes) do
         {

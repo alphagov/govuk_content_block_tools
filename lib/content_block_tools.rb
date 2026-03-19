@@ -16,6 +16,7 @@ require "content_block_tools/presenters/field_presenters/time_period/time_presen
 
 require "content_block_tools/content_block"
 require "content_block_tools/content_block_reference"
+require "content_block_tools/format"
 
 require "content_block_tools/engine"
 

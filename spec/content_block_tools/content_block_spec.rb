@@ -41,9 +41,13 @@ RSpec.describe ContentBlockTools::ContentBlock do
     let(:content_store_identifier) { "/content-blocks/content_block_pension/my-pension" }
     let(:content_block) { double(ContentBlockTools::ContentBlock) }
     let(:content_store) { double(GdsApi::ContentStore) }
+    let(:expected_format) { double("expected_format") }
 
     before do
       allow(GdsApi).to receive(:content_store).and_return(content_store)
+      allow(ContentBlockTools::Format).to receive(:from_embed_code).and_return(
+        expected_format,
+      )
     end
 
     it "returns a content block" do
@@ -64,6 +68,43 @@ RSpec.describe ContentBlockTools::ContentBlock do
       expect(content_block.title).to eq(api_response["title"])
       expect(content_block.details).to eq(api_response["details"].deep_symbolize_keys)
       expect(content_block.document_type).to eq("pension")
+      expect(content_block.format).to eql(expected_format)
+    end
+  end
+
+  describe "#format" do
+    context "when a format is provided" do
+      let(:content_block) do
+        described_class.new(
+          document_type: document_type,
+          content_id: content_id,
+          title: title,
+          details: details,
+          embed_code: embed_code,
+          format: "years_short",
+        )
+      end
+
+      it "returns the format provided" do
+        expect(content_block.format).to eq("years_short")
+      end
+    end
+
+    context "when a format is NOT provided" do
+      let(:content_block) do
+        described_class.new(
+          document_type: document_type,
+          content_id: content_id,
+          title: title,
+          details: details,
+          embed_code: embed_code,
+          format: nil,
+        )
+      end
+
+      it "returns the ContentBlockTools::Format::DEFAULT_FORMAT" do
+        expect(content_block.format).to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+      end
     end
   end
 

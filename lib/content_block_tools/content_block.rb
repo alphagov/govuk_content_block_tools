@@ -44,7 +44,7 @@ module ContentBlockTools
 
     CONTENT_BLOCK_PREFIX = "content_block_".freeze
 
-    attr_reader :content_id, :title, :embed_code
+    attr_reader :content_id, :title, :embed_code, :format
 
     # Creates a ContentBlock instance from an embed code string by fetching
     # the content item data from the Content Store API.
@@ -75,15 +75,17 @@ module ContentBlockTools
         document_type: api_response["document_type"],
         details: api_response["details"],
         embed_code:,
+        format: Format.from_embed_code(embed_code),
       )
     end
 
-    def initialize(content_id:, title:, document_type:, details:, embed_code:)
+    def initialize(content_id:, title:, document_type:, details:, embed_code:, format: nil)
       @content_id = content_id
       @title = title
       @document_type = document_type
       @details = details
       @embed_code = embed_code
+      @format = format || ContentBlockTools::Format::DEFAULT_FORMAT
     end
 
     # Calls the appropriate presenter class to return a HTML representation of a content

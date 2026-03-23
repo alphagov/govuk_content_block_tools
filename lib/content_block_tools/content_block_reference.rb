@@ -42,6 +42,8 @@ module ContentBlockTools
     CONTENT_ID_ALIAS_REGEX = /[a-z0-9\-–—]+/
     # The regex to find optional field names after the UUID, begins with '/'
     FIELD_REGEX = /(?<fields>\/[a-z0-9_\-–—\/]*)?/
+    # The regex to find optional format specifier, begins with '|'
+    FORMAT_REGEX = /(?:\|(?<format>[a-z0-9_]+))?/
     # The regex used when scanning a document
     # @see ContentBlockReference.find_all_in_document
     EMBED_REGEX = %r{
@@ -50,6 +52,7 @@ module ContentBlockTools
         (?<document_type>#{SUPPORTED_DOCUMENT_TYPES.join('|')}):
         (?<identifier>#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})
         #{FIELD_REGEX}
+        #{FORMAT_REGEX}
         \}\}
       )
     }x

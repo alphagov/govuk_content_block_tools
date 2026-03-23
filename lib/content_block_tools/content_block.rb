@@ -39,9 +39,6 @@ module ContentBlockTools
   #    content_block_reference.embed_code #=> "{{embed:content_block_contact:2b92cade-549c-4449-9796-e7a3957f3a86/field_name}}"
   #  @return [String]
   class ContentBlock
-    include ActionView::Helpers::TagHelper
-    class UnknownComponentError < StandardError; end
-
     CONTENT_BLOCK_PREFIX = "content_block_".freeze
 
     attr_reader :content_id, :title, :embed_code, :format
@@ -68,7 +65,9 @@ module ContentBlockTools
     # @see GdsApi.content_store
     def self.from_embed_code(embed_code)
       reference = ContentBlockReference.from_string(embed_code)
-      api_response = GdsApi.content_store.content_item(reference.content_store_identifier)
+      api_response = GdsApi.content_store.content_item(
+        reference.content_store_identifier,
+      )
       parsed_embed_code = EmbedCode.new(embed_code)
       new(
         content_id: api_response["content_id"],
@@ -80,7 +79,9 @@ module ContentBlockTools
       )
     end
 
-    def initialize(content_id:, title:, document_type:, details:, embed_code:, format: nil)
+    def initialize(
+      content_id:, title:, document_type:, details:, embed_code:, format: nil
+    )
       @content_id = content_id
       @title = title
       @document_type = document_type
@@ -89,22 +90,12 @@ module ContentBlockTools
       @format = format || ContentBlockTools::Format::DEFAULT_FORMAT
     end
 
-    # Calls the appropriate presenter class to return a HTML representation of a content
-    # block. Defaults to {Presenters::BasePresenter}
+    # Renders the content block to HTML using the appropriate component or presenter
     #
-    # @return [string] A HTML representation of the content block
+    # @return [String] A HTML representation of the content block
+    # @see Renderer
     def render
-      content_tag(
-        base_tag,
-        content,
-        class: %W[content-block content-block--#{document_type}],
-        data: {
-          content_block: "",
-          document_type: document_type,
-          content_id: content_id,
-          embed_code: embed_code,
-        },
-      )
+      Renderer.new(self).render
     end
 
     def details
@@ -113,60 +104,6 @@ module ContentBlockTools
 
     def document_type
       @document_type.delete_prefix(CONTENT_BLOCK_PREFIX)
-    end
-
-  private
-
-    def base_tag
-      rendering_block? ? :div : :span
-    end
-
-    def content
-      field_names.present? ? field_or_block_content : component.new(content_block: self).render
-    rescue UnknownComponentError
-      title
-    end
-
-    def field_or_block_content
-      content = details.dig(*field_names)
-
-      case content
-      when String
-        field_presenter(field_names.last).new(content).render
-      when Hash
-        if embedded_object_in_one_to_one_relationship?
-          field_presenter(field_names.last).new(content).render
-        else
-          component.new(content_block: self, block_type: field_names.first, block_name: field_names.last).render
-        end
-      else
-        ContentBlockTools.logger.warn("Content not found for content block #{content_id} and fields #{field_names}")
-        embed_code
-      end
-    end
-
-    def embedded_object_in_one_to_one_relationship?
-      field_names.one?
-    end
-
-    def rendering_block?
-      !field_names.present? || details.dig(*field_names).is_a?(Hash)
-    end
-
-    def component
-      "ContentBlockTools::#{document_type.camelize}Component".constantize
-    rescue NameError
-      raise UnknownComponentError
-    end
-
-    def field_presenter(field)
-      "ContentBlockTools::Presenters::FieldPresenters::#{document_type.camelize}::#{field.to_s.camelize}Presenter".constantize
-    rescue NameError
-      ContentBlockTools::Presenters::FieldPresenters::BasePresenter
-    end
-
-    def field_names
-      @field_names ||= EmbedCode.new(embed_code).field_names
     end
   end
 end

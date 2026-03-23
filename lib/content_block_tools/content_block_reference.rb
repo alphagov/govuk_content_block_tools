@@ -41,9 +41,18 @@ module ContentBlockTools
     # The regex used to find content ID aliases
     CONTENT_ID_ALIAS_REGEX = /[a-z0-9\-–—]+/
     # The regex to find optional field names after the UUID, begins with '/'
-    FIELD_REGEX = /(\/[a-z0-9_\-–—\/]*)?/
-    # The regex used when scanning a document using {ContentBlockTools::ContentBlockReference.find_all_in_document}
-    EMBED_REGEX = /({{embed:(#{SUPPORTED_DOCUMENT_TYPES.join('|')}):(#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})#{FIELD_REGEX}}})/
+    FIELD_REGEX = /(?<fields>\/[a-z0-9_\-–—\/]*)?/
+    # The regex used when scanning a document
+    # @see ContentBlockReference.find_all_in_document
+    EMBED_REGEX = %r{
+      (?<embed_code>
+        \{\{embed:
+        (?<document_type>#{SUPPORTED_DOCUMENT_TYPES.join('|')}):
+        (?<identifier>#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})
+        #{FIELD_REGEX}
+        \}\}
+      )
+    }x
 
     # Returns if the identifier is an alias
     #
@@ -73,9 +82,11 @@ module ContentBlockTools
       #
       # @return [Array<ContentBlockReference>] An array of content block references
       def find_all_in_document(document)
-        document.scan(EMBED_REGEX).map do |match_data|
-          ContentBlockReference.from_match_data(match_data)
+        results = []
+        document.scan(EMBED_REGEX) do
+          results << ContentBlockReference.from_match_data(Regexp.last_match)
         end
+        results
       end
 
       # Converts a single embed code string into a ContentBlockReference object
@@ -97,7 +108,7 @@ module ContentBlockTools
         match_data = embed_code.match(/^#{EMBED_REGEX}$/)
         raise InvalidEmbedCodeError unless match_data
 
-        ContentBlockReference.from_match_data(match_data.captures)
+        ContentBlockReference.from_match_data(match_data)
       end
 
       # Converts match data from a regex scan into a ContentBlockReference object
@@ -107,8 +118,7 @@ module ContentBlockTools
       # by replacing en/em dashes with double/triple dashes (which can occur due to Kramdown's
       # markdown parsing) before creating the object.
       #
-      # @param match_data [MatchData, Array] the match data from scanning with {EMBED_REGEX}
-      #   Expected to contain: [full_match, document_type, identifier, field]
+      # @param match_data [MatchData] the match data from matching with {EMBED_REGEX}
       # @example Creating from match data
       #   match_data = "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}".match(EMBED_REGEX)
       #   ContentBlockReference.from_match_data(match_data)
@@ -117,27 +127,25 @@ module ContentBlockTools
       # @api private
       # @see find_all_in_document
       # @see from_string
-      # @see prepare_match
       def from_match_data(match_data)
-        match = prepare_match(match_data)
-        ContentBlockTools.logger.info("Found Content Block Reference: #{match}")
-        ContentBlockReference.new(document_type: match[1], identifier: match[2], embed_code: match[0])
+        embed_code = match_data[:embed_code]
+        document_type = match_data[:document_type]
+        identifier = replace_dashes(match_data[:identifier])
+
+        ContentBlockTools.logger.info(
+          "Found Content Block Reference: " \
+          "embed_code=#{embed_code}, " \
+          "document_type=#{document_type}, " \
+          "identifier=#{identifier}",
+        )
+        ContentBlockReference.new(document_type:, identifier:, embed_code:)
       end
 
     private
 
-      # This replaces an en / em dashes in content block references with double or triple dashes. This can occur
+      # This replaces en/em dashes in content block references with double or triple dashes. This can occur
       # because Kramdown (the markdown parser that Govspeak is based on) replaces double dashes with en dashes and
       # triple dashes with em dashes
-      def prepare_match(match)
-        [
-          match[0],
-          match[1],
-          replace_dashes(match[2]),
-          match[3],
-        ]
-      end
-
       def replace_dashes(value)
         value&.gsub("–", "--")
           &.gsub("—", "---")

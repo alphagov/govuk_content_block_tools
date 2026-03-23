@@ -71,4 +71,38 @@ RSpec.describe ContentBlockTools::EmbedCode do
       end
     end
   end
+
+  describe "#format" do
+    context "when embed code has a format specifier" do
+      it "returns the format name" do
+        embed_code = described_class.new(
+          "{{embed:content_block_time_period:tax-year|years_short}}",
+        )
+        expect(embed_code.format).to eq("years_short")
+      end
+
+      it "handles format with field path" do
+        embed_code = described_class.new(
+          "{{embed:content_block_contact:main_office/telephones/telephone|hmrc_full}}",
+        )
+        expect(embed_code.format).to eq("hmrc_full")
+      end
+    end
+
+    context "when embed code has no format specifier" do
+      it "returns the default format" do
+        embed_code = described_class.new(
+          "{{embed:content_block_contact:main_office}}",
+        )
+        expect(embed_code.format).to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+      end
+
+      it "returns default format when embed code has field path but no format" do
+        embed_code = described_class.new(
+          "{{embed:content_block_contact:main_office/telephones/telephone}}",
+        )
+        expect(embed_code.format).to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+      end
+    end
+  end
 end

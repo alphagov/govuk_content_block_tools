@@ -69,13 +69,14 @@ module ContentBlockTools
     def self.from_embed_code(embed_code)
       reference = ContentBlockReference.from_string(embed_code)
       api_response = GdsApi.content_store.content_item(reference.content_store_identifier)
+      parsed_embed_code = EmbedCode.new(embed_code)
       new(
         content_id: api_response["content_id"],
         title: api_response["title"],
         document_type: api_response["document_type"],
         details: api_response["details"],
         embed_code:,
-        format: Format.from_embed_code(embed_code),
+        format: parsed_embed_code.format,
       )
     end
 

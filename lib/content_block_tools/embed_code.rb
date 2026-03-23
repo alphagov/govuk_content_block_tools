@@ -18,9 +18,11 @@ module ContentBlockTools
   #
   # @example With format
   #   embed_code = EmbedCode.new("{{embed:content_block_time_period:tax-year|years_short}}")
-  #   embed_code.field_names #=> nil
+  #   embed_code.format #=> "years_short"
   #
   class EmbedCode
+    FORMAT_MATCHER = /\|(?<format>\S+)}}$/
+
     # @param embed_code [String] The raw embed code string
     def initialize(embed_code)
       @embed_code = embed_code
@@ -43,6 +45,21 @@ module ContentBlockTools
       @field_names ||= parse_field_names
     end
 
+    # Extracts the format specifier from the embed code.
+    #
+    # @return [String] The format name, or Format::DEFAULT_FORMAT if none specified
+    #
+    # @example
+    #   EmbedCode.new("{{embed:content_block_time_period:tax-year|years_short}}").format
+    #   #=> "years_short"
+    #
+    #   EmbedCode.new("{{embed:content_block_time_period:tax-year}}").format
+    #   #=> "default"
+    #
+    def format
+      @format ||= parse_format
+    end
+
   private
 
     attr_reader :embed_code
@@ -61,6 +78,13 @@ module ContentBlockTools
       cleaned_fields.split("/").map do |item|
         numeric?(item) ? item.to_i : item.to_sym
       end
+    end
+
+    def parse_format
+      match = FORMAT_MATCHER.match(embed_code)
+      return Format::DEFAULT_FORMAT unless match
+
+      match[:format]
     end
 
     def numeric?(item)

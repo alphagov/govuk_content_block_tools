@@ -26,6 +26,7 @@ module ContentBlockTools
     # @param embed_code [String] The raw embed code string
     def initialize(embed_code)
       @embed_code = embed_code
+      @matched_field_names = match_field_names
     end
 
     # Extracts the field path from the embed code.
@@ -65,19 +66,22 @@ module ContentBlockTools
     attr_reader :embed_code
 
     def parse_field_names
-      match = ContentBlockReference::EMBED_REGEX.match(embed_code)
-      return nil unless match
+      return nil unless @matched_field_names
 
-      raw_fields = match[4]
-      return nil if raw_fields.blank?
-
-      # Remove leading slash and any trailing slash
-      cleaned_fields = raw_fields.sub(%r{^/}, "").sub(%r{/$}, "")
-      return nil if cleaned_fields.blank?
-
-      cleaned_fields.split("/").map do |item|
+      @matched_field_names.split("/").map do |item|
         numeric?(item) ? item.to_i : item.to_sym
       end
+    end
+
+    def match_field_names
+      match = ContentBlockReference::EMBED_REGEX.match(embed_code)
+      return unless match && match[:fields]
+
+      stripped_of_trailing_or_leading_slashes(match[:fields])
+    end
+
+    def stripped_of_trailing_or_leading_slashes(string)
+      string.sub(%r{^/}, "").sub(%r{/$}, "")
     end
 
     def parse_format

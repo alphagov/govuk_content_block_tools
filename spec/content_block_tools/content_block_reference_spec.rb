@@ -79,8 +79,8 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
       describe "#content_references" do
         it "returns all references" do
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:contact:#{contact_uuid}}}\", \"contact\", \"#{contact_uuid}\", nil]")
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:content_block_pension:#{content_block_pension_uuid}}}\", \"content_block_pension\", \"#{content_block_pension_uuid}\", nil]")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: embed_code={{embed:contact:#{contact_uuid}}}, document_type=contact, identifier=#{contact_uuid}")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: embed_code={{embed:content_block_pension:#{content_block_pension_uuid}}}, document_type=content_block_pension, identifier=#{content_block_pension_uuid}")
 
           expect(result.count).to eq(2)
 
@@ -139,6 +139,33 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
             expect(result[2].embed_code).to eq("{{embed:content_block_pension:#{content_block_pension_uuid}/another-field}}")
           end
         end
+
+        context "when there are format specifiers in the embed code" do
+          let(:time_period_uuid) { SecureRandom.uuid }
+
+          let(:document) do
+            "
+              {{embed:content_block_time_period:#{time_period_uuid}|years}}
+              {{embed:content_block_time_period:#{time_period_uuid}|years_short}}
+            ".squish
+          end
+
+          it "finds all the references including format specifier" do
+            expect(result.count).to eq(2)
+
+            expect(result[0].document_type).to eq("content_block_time_period")
+            expect(result[0].identifier).to eq(time_period_uuid)
+            expect(result[0].embed_code).to eq(
+              "{{embed:content_block_time_period:#{time_period_uuid}|years}}",
+            )
+
+            expect(result[1].document_type).to eq("content_block_time_period")
+            expect(result[1].identifier).to eq(time_period_uuid)
+            expect(result[1].embed_code).to eq(
+              "{{embed:content_block_time_period:#{time_period_uuid}|years_short}}",
+            )
+          end
+        end
       end
     end
 
@@ -155,8 +182,8 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
       describe "#content_references" do
         it "returns all references" do
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:contact:#{contact_alias}}}\", \"contact\", \"#{contact_alias}\", nil]")
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:content_block_pension:#{content_block_pension_alias}}}\", \"content_block_pension\", \"#{content_block_pension_alias}\", nil]")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: embed_code={{embed:contact:#{contact_alias}}}, document_type=contact, identifier=#{contact_alias}")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: embed_code={{embed:content_block_pension:#{content_block_pension_alias}}}, document_type=content_block_pension, identifier=#{content_block_pension_alias}")
 
           expect(result.count).to eq(2)
 
@@ -233,6 +260,26 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
       expect(result.document_type).to eq("content_block_pension")
       expect(result.identifier).to eq("my-pension")
+      expect(result.embed_code).to eq(embed_code)
+    end
+
+    it "converts an embed code with a format specifier" do
+      embed_code = "{{embed:content_block_time_period:tax-year|years_short}}"
+
+      result = described_class.from_string(embed_code)
+
+      expect(result.document_type).to eq("content_block_time_period")
+      expect(result.identifier).to eq("tax-year")
+      expect(result.embed_code).to eq(embed_code)
+    end
+
+    it "converts an embed code with fields and a format specifier" do
+      embed_code = "{{embed:content_block_contact:my-contact/email|default}}"
+
+      result = described_class.from_string(embed_code)
+
+      expect(result.document_type).to eq("content_block_contact")
+      expect(result.identifier).to eq("my-contact")
       expect(result.embed_code).to eq(embed_code)
     end
 

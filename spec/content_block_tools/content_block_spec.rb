@@ -22,7 +22,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
     expect(content_block.details).to eq(details)
   end
 
-  describe "#from_embed_code" do
+  describe "::from_embed_code" do
     let(:embed_code) { "{{embed:content_block_pension:my-pension}}" }
     let(:api_response) do
       {
@@ -64,10 +64,68 @@ RSpec.describe ContentBlockTools::ContentBlock do
       expect(content_block.title).to eq(api_response["title"])
       expect(content_block.details).to eq(api_response["details"].deep_symbolize_keys)
       expect(content_block.document_type).to eq("pension")
+      expect(content_block.format).to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+    end
+
+    context "when the embed code includes a format" do
+      let(:embed_code) { "{{embed:content_block_pension:my-pension|custom_format}}" }
+
+      it "extracts the format from the embed code" do
+        expect(ContentBlockTools::ContentBlockReference).to receive(:from_string)
+                                                              .with(embed_code)
+                                                              .and_return(reference)
+
+        expect(reference).to receive(:content_store_identifier)
+                               .and_return(content_store_identifier)
+
+        expect(content_store).to receive(:content_item)
+                                   .with(content_store_identifier)
+                                   .and_return(api_response)
+
+        content_block = ContentBlockTools::ContentBlock.from_embed_code(embed_code)
+
+        expect(content_block.format).to eq("custom_format")
+      end
     end
   end
 
-  describe ".details" do
+  describe "#format" do
+    context "when a format is provided" do
+      let(:content_block) do
+        described_class.new(
+          document_type: document_type,
+          content_id: content_id,
+          title: title,
+          details: details,
+          embed_code: embed_code,
+          format: "years_short",
+        )
+      end
+
+      it "returns the format provided" do
+        expect(content_block.format).to eq("years_short")
+      end
+    end
+
+    context "when a format is NOT provided" do
+      let(:content_block) do
+        described_class.new(
+          document_type: document_type,
+          content_id: content_id,
+          title: title,
+          details: details,
+          embed_code: embed_code,
+          format: nil,
+        )
+      end
+
+      it "returns the ContentBlockTools::Format::DEFAULT_FORMAT" do
+        expect(content_block.format).to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+      end
+    end
+  end
+
+  describe "#details" do
     let(:details) do
       {
         "foo" => {
@@ -83,7 +141,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
     end
   end
 
-  describe ".render" do
+  describe "#render" do
     context "with a contact block" do
       let(:expected_wrapper_attributes) do
         {

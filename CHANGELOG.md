@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.11.0
+
+* Add dual-format support for `TimePeriod#date_range` - accepts both legacy nested 
+  format and ISO 8601 strings
+* 
 ## 1.10.4
 
 * Update dependencies

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.4
+
+* Update dependencies
+
 # 1.10.3
 
 * Remove pessimistic version constraint on `gds-api-adapters`

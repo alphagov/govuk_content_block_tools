@@ -16,6 +16,9 @@ require "content_block_tools/presenters/field_presenters/time_period/time_presen
 
 require "content_block_tools/content_block"
 require "content_block_tools/content_block_reference"
+require "content_block_tools/embed_code"
+require "content_block_tools/format"
+require "content_block_tools/renderer"
 
 require "content_block_tools/engine"
 
@@ -24,6 +27,7 @@ require "content_block_tools/version"
 module ContentBlockTools
   class Error < StandardError; end
   class InvalidEmbedCodeError < StandardError; end
+  class InvalidFormatError < StandardError; end
 
   module Presenters; end
 

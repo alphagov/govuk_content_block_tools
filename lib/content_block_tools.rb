@@ -20,6 +20,7 @@ require "content_block_tools/content_block"
 require "content_block_tools/content_block_reference"
 require "content_block_tools/embed_code"
 require "content_block_tools/normalised_date_range"
+require "content_block_tools/renderer"
 
 require "content_block_tools/engine"
 

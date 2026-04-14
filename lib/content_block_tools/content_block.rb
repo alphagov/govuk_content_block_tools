@@ -163,19 +163,7 @@ module ContentBlockTools
     end
 
     def field_names
-      @field_names ||= begin
-        embed_code_match = ContentBlockReference::EMBED_REGEX.match(embed_code)
-        if embed_code_match.present?
-          all_fields = embed_code_match[4]&.reverse&.chomp("/")&.reverse
-          all_fields&.split("/")&.map do |item|
-            is_number?(item) ? item.to_i : item.to_sym
-          end
-        end
-      end
-    end
-
-    def is_number?(item)
-      Float(item, exception: false)
+      @field_names ||= EmbedCode.new(embed_code).field_names
     end
   end
 end

@@ -40,4 +40,40 @@ RSpec.describe ContentBlockTools::EmbedCode do
       end
     end
   end
+
+  describe "#format" do
+    context "when no format is specified" do
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year}}" }
+
+      it "returns the default format" do
+        expect(described_class.new(embed_code).format)
+          .to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+      end
+    end
+
+    context "when a format is specified" do
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year|years_short}}" }
+
+      it "returns the format" do
+        expect(described_class.new(embed_code).format).to eq("years_short")
+      end
+    end
+
+    context "when embed code has fields and a format" do
+      let(:embed_code) { "{{embed:content_block_contact:main-office/email|custom_format}}" }
+
+      it "returns the format" do
+        expect(described_class.new(embed_code).format).to eq("custom_format")
+      end
+    end
+
+    context "when embed code is invalid" do
+      let(:embed_code) { "invalid" }
+
+      it "returns the default format" do
+        expect(described_class.new(embed_code).format)
+          .to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+      end
+    end
+  end
 end

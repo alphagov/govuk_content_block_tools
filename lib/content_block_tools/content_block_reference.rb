@@ -41,7 +41,7 @@ module ContentBlockTools
     # The regex used to find content ID aliases
     CONTENT_ID_ALIAS_REGEX = /[a-z0-9\-–—]+/
     # The regex to find optional field names after the UUID, begins with '/'
-    FIELD_REGEX = /(\/[a-z0-9_\-–—\/]*)?/
+    FIELD_REGEX = /(?<fields>\/[a-z0-9_\-–—\/]*)?/
     # The regex used when scanning a document using {ContentBlockTools::ContentBlockReference.find_all_in_document}
     EMBED_REGEX = /({{embed:(#{SUPPORTED_DOCUMENT_TYPES.join('|')}):(#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})#{FIELD_REGEX}}})/
 

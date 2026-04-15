@@ -53,23 +53,23 @@ RSpec.describe ContentBlockTools::NormalisedDateRange do
   describe "ISO 8601 format" do
     let(:date_range) do
       {
-        start: "2025-04-06T00:00:00+00:00",
-        end: "2026-04-05T23:59:00+00:00",
+        start: "2025-04-06T00:00:00+01:00",
+        end: "2026-04-05T23:59:00+01:00",
       }
     end
 
     it "returns the start time as a Time object" do
       normalised = described_class.new(date_range)
 
-      expect(normalised.start_time).to be_a(ActiveSupport::TimeWithZone)
-      expect(normalised.start_time).to eq(Time.zone.parse("2025-04-06T00:00:00+00:00"))
+      expect(normalised.start_time).to be_a(Time)
+      expect(normalised.start_time).to eq(Time.parse("2025-04-06T00:00:00+01:00"))
     end
 
     it "returns the end time as a Time object" do
       normalised = described_class.new(date_range)
 
-      expect(normalised.end_time).to be_a(ActiveSupport::TimeWithZone)
-      expect(normalised.end_time).to eq(Time.zone.parse("2026-04-05T23:59:00+00:00"))
+      expect(normalised.end_time).to be_a(Time)
+      expect(normalised.end_time).to eq(Time.parse("2026-04-05T23:59:00+01:00"))
     end
 
     it "returns the start date as a Date object" do
@@ -92,12 +92,11 @@ RSpec.describe ContentBlockTools::NormalisedDateRange do
         }
       end
 
-      it "preserves the original time (converted to zone)" do
+      it "extracts the date from the original timezone, not UTC" do
         normalised = described_class.new(date_range)
 
-        # +01:00 at midnight becomes 23:00 previous day in UTC
-        expect(normalised.start_time.utc.hour).to eq(23)
-        expect(normalised.start_time.utc.day).to eq(5)
+        expect(normalised.start_date).to eq(Date.new(2025, 4, 6))
+        expect(normalised.end_date).to eq(Date.new(2026, 4, 5))
       end
     end
   end
@@ -112,8 +111,8 @@ RSpec.describe ContentBlockTools::NormalisedDateRange do
 
     let(:iso8601_format) do
       {
-        start: "2025-04-06T00:00:00+00:00",
-        end: "2026-04-05T23:59:00+00:00",
+        start: "2025-04-06T00:00:00+01:00",
+        end: "2026-04-05T23:59:00+01:00",
       }
     end
 

@@ -83,6 +83,24 @@ RSpec.describe ContentBlockTools::ContentBlock do
     end
   end
 
+  describe "#format" do
+    context "when embed code has no format specifier" do
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year}}" }
+
+      it "returns the default format" do
+        expect(content_block.format).to eq(ContentBlockTools::Format::DEFAULT_FORMAT)
+      end
+    end
+
+    context "when embed code has a format specifier" do
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year|years_short}}" }
+
+      it "returns the format" do
+        expect(content_block.format).to eq("years_short")
+      end
+    end
+  end
+
   describe ".render" do
     context "with a contact block" do
       let(:expected_wrapper_attributes) do

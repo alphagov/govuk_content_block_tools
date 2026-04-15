@@ -79,8 +79,8 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
       describe "#content_references" do
         it "returns all references" do
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:contact:#{contact_uuid}}}\", \"contact\", \"#{contact_uuid}\", nil]")
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:content_block_pension:#{content_block_pension_uuid}}}\", \"content_block_pension\", \"#{content_block_pension_uuid}\", nil]")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: {:embed_code=>\"{{embed:contact:#{contact_uuid}}}\", :document_type=>\"contact\", :identifier=>\"#{contact_uuid}\", :fields=>nil}")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: {:embed_code=>\"{{embed:content_block_pension:#{content_block_pension_uuid}}}\", :document_type=>\"content_block_pension\", :identifier=>\"#{content_block_pension_uuid}\", :fields=>nil}")
 
           expect(result.count).to eq(2)
 
@@ -155,8 +155,8 @@ RSpec.describe ContentBlockTools::ContentBlockReference do
 
       describe "#content_references" do
         it "returns all references" do
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:contact:#{contact_alias}}}\", \"contact\", \"#{contact_alias}\", nil]")
-          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: [\"{{embed:content_block_pension:#{content_block_pension_alias}}}\", \"content_block_pension\", \"#{content_block_pension_alias}\", nil]")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: {:embed_code=>\"{{embed:contact:#{contact_alias}}}\", :document_type=>\"contact\", :identifier=>\"#{contact_alias}\", :fields=>nil}")
+          expect(ContentBlockTools.logger).to receive(:info).with("Found Content Block Reference: {:embed_code=>\"{{embed:content_block_pension:#{content_block_pension_alias}}}\", :document_type=>\"content_block_pension\", :identifier=>\"#{content_block_pension_alias}\", :fields=>nil}")
 
           expect(result.count).to eq(2)
 

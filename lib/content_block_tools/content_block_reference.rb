@@ -43,7 +43,7 @@ module ContentBlockTools
     # The regex to find optional field names after the UUID, begins with '/'
     FIELD_REGEX = /(?<fields>\/[a-z0-9_\-–—\/]*)?/
     # The regex used when scanning a document using {ContentBlockTools::ContentBlockReference.find_all_in_document}
-    EMBED_REGEX = /({{embed:(#{SUPPORTED_DOCUMENT_TYPES.join('|')}):(#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})#{FIELD_REGEX}}})/
+    EMBED_REGEX = /(?<embed_code>{{embed:(?<document_type>#{SUPPORTED_DOCUMENT_TYPES.join('|')}):(?<identifier>#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})#{FIELD_REGEX}}})/
 
     # Returns if the identifier is an alias
     #
@@ -73,8 +73,8 @@ module ContentBlockTools
       #
       # @return [Array<ContentBlockReference>] An array of content block references
       def find_all_in_document(document)
-        document.scan(EMBED_REGEX).map do |match_data|
-          ContentBlockReference.from_match_data(match_data)
+        document.to_enum(:scan, EMBED_REGEX).map do
+          ContentBlockReference.from_match_data(Regexp.last_match)
         end
       end
 
@@ -97,7 +97,7 @@ module ContentBlockTools
         match_data = embed_code.match(/^#{EMBED_REGEX}$/)
         raise InvalidEmbedCodeError unless match_data
 
-        ContentBlockReference.from_match_data(match_data.captures)
+        ContentBlockReference.from_match_data(match_data)
       end
 
       # Converts match data from a regex scan into a ContentBlockReference object
@@ -107,8 +107,8 @@ module ContentBlockTools
       # by replacing en/em dashes with double/triple dashes (which can occur due to Kramdown's
       # markdown parsing) before creating the object.
       #
-      # @param match_data [MatchData, Array] the match data from scanning with {EMBED_REGEX}
-      #   Expected to contain: [full_match, document_type, identifier, field]
+      # @param match_data [MatchData] the match data from scanning with {EMBED_REGEX}
+      #   Expected named captures: embed_code, document_type, identifier, fields
       # @example Creating from match data
       #   match_data = "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}".match(EMBED_REGEX)
       #   ContentBlockReference.from_match_data(match_data)
@@ -121,7 +121,11 @@ module ContentBlockTools
       def from_match_data(match_data)
         match = prepare_match(match_data)
         ContentBlockTools.logger.info("Found Content Block Reference: #{match}")
-        ContentBlockReference.new(document_type: match[1], identifier: match[2], embed_code: match[0])
+        ContentBlockReference.new(
+          document_type: match[:document_type],
+          identifier: match[:identifier],
+          embed_code: match[:embed_code],
+        )
       end
 
     private
@@ -130,12 +134,12 @@ module ContentBlockTools
       # because Kramdown (the markdown parser that Govspeak is based on) replaces double dashes with en dashes and
       # triple dashes with em dashes
       def prepare_match(match)
-        [
-          match[0],
-          match[1],
-          replace_dashes(match[2]),
-          match[3],
-        ]
+        {
+          embed_code: match[:embed_code],
+          document_type: match[:document_type],
+          identifier: replace_dashes(match[:identifier]),
+          fields: match[:fields],
+        }
       end
 
       def replace_dashes(value)

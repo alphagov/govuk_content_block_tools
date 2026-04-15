@@ -54,10 +54,9 @@ module ContentBlockTools
     end
 
     def parse_iso8601_format(datetime_string)
-      result = Time.zone.parse(datetime_string)
-      raise ParseError, "Invalid ISO 8601 format: #{datetime_string.inspect}" if result.nil?
-
-      result
+      Time.parse(datetime_string)
+    rescue ArgumentError
+      raise ParseError, "Invalid ISO 8601 format: #{datetime_string.inspect}"
     end
   end
 end

@@ -37,7 +37,7 @@ module ContentBlockTools
       match = ContentBlockReference::EMBED_REGEX.match(embed_code_string)
       return [] unless match
 
-      all_fields = match[4]&.reverse&.chomp("/")&.reverse
+      all_fields = match[:fields]&.reverse&.chomp("/")&.reverse
       all_fields&.split("/")&.map { |item| convert_field_item(item) }
     end
 

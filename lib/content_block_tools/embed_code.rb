@@ -29,6 +29,13 @@ module ContentBlockTools
       @field_names ||= parse_field_names
     end
 
+    # Returns the internal content path for this embed code
+    #
+    # @return [InternalContentPath] The path to internal content
+    def internal_content_path
+      @internal_content_path ||= InternalContentPath.new(field_names)
+    end
+
   private
 
     attr_reader :embed_code_string

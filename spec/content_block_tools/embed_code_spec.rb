@@ -40,4 +40,21 @@ RSpec.describe ContentBlockTools::EmbedCode do
       end
     end
   end
+
+  describe "#internal_content_path" do
+    it "returns an InternalContentPath with the field names" do
+      embed_code = described_class.new("{{embed:content_block_contact:main-office/email_addresses/main}}")
+      path = embed_code.internal_content_path
+
+      expect(path).to be_a(ContentBlockTools::InternalContentPath)
+      expect(path.path).to eq(%i[email_addresses main])
+    end
+
+    it "returns an empty InternalContentPath when no field path" do
+      embed_code = described_class.new("{{embed:content_block_contact:main-office}}")
+      path = embed_code.internal_content_path
+
+      expect(path).not_to be_present
+    end
+  end
 end

@@ -22,7 +22,7 @@ module ContentBlockTools
   #   embed_code.format #=> "years_short"
   #
   class EmbedCode
-    FORMAT_REGEX = /\|(?<format>[^}]+)}}$/
+    FORMAT_REGEX = /\|(?<format>[^}|]+)}}$/
 
     def initialize(embed_code_string)
       @embed_code_string = embed_code_string

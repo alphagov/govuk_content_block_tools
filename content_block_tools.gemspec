@@ -22,6 +22,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = %w[lib]
 
+  spec.add_development_dependency "cucumber", "~> 9.2"
+  spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rake", "13.4.1"
   spec.add_development_dependency "rspec-html-matchers", "0.10.0"
   spec.add_development_dependency "rspec-rails"

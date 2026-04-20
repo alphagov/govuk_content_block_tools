@@ -34,7 +34,7 @@ module ContentBlockTools
       match = ContentBlockReference::EMBED_REGEX.match(embed_code_string)
       return [] unless match
 
-      all_segments = strip_leading_slash(match[:fields])
+      all_segments = strip_leading_slash(match[:internal_content_path])
       return [] if all_segments.nil?
 
       all_segments.split("/").map { |item| convert_segment(item) }

@@ -40,10 +40,10 @@ module ContentBlockTools
     UUID_REGEX = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
     # The regex used to find content ID aliases
     CONTENT_ID_ALIAS_REGEX = /[a-z0-9\-–—]+/
-    # The regex to find optional field names after the UUID, begins with '/'
-    FIELD_REGEX = /(?<fields>\/[a-z0-9_\-–—\/]*)?/
+    # The regex to find optional internal content path after the UUID, begins with '/'
+    INTERNAL_CONTENT_PATH_REGEX = /(?<internal_content_path>\/[a-z0-9_\-–—\/]*)?/
     # The regex used when scanning a document using {ContentBlockTools::ContentBlockReference.find_all_in_document}
-    EMBED_REGEX = /(?<embed_code>{{embed:(?<document_type>#{SUPPORTED_DOCUMENT_TYPES.join('|')}):(?<identifier>#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})#{FIELD_REGEX}}})/
+    EMBED_REGEX = /(?<embed_code>{{embed:(?<document_type>#{SUPPORTED_DOCUMENT_TYPES.join('|')}):(?<identifier>#{UUID_REGEX}|#{CONTENT_ID_ALIAS_REGEX})#{INTERNAL_CONTENT_PATH_REGEX}}})/
 
     # Returns if the identifier is an alias
     #
@@ -108,7 +108,7 @@ module ContentBlockTools
       # markdown parsing) before creating the object.
       #
       # @param match_data [MatchData] the match data from scanning with {EMBED_REGEX}
-      #   Expected named captures: embed_code, document_type, identifier, fields
+      #   Expected named captures: embed_code, document_type, identifier, internal_content_path
       # @example Creating from match data
       #   match_data = "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}".match(EMBED_REGEX)
       #   ContentBlockReference.from_match_data(match_data)
@@ -138,7 +138,7 @@ module ContentBlockTools
           embed_code: match[:embed_code],
           document_type: match[:document_type],
           identifier: replace_dashes(match[:identifier]),
-          fields: match[:fields],
+          internal_content_path: match[:internal_content_path],
         }
       end
 

@@ -17,20 +17,7 @@ module ContentBlockTools
     end
 
     def render
-      case defaulted_format
-      when "long_form"
-        render_long_form
-      when "months_and_years_long"
-        render_months_and_years_long
-      when "start_day_and_month"
-        render_start_day_and_month
-      when "start_month_as_word"
-        render_start_month_as_word
-      when "years"
-        render_years
-      when "years_short"
-        render_years_short
-      end
+      format_component.render
     end
 
   private
@@ -38,6 +25,23 @@ module ContentBlockTools
     attr_reader :content_block, :normalised_date_range
 
     delegate :format, to: :content_block
+
+    def format_component
+      case defaulted_format
+      when "long_form"
+        TimePeriod::LongFormComponent.new(start_date:, end_date:)
+      when "months_and_years_long"
+        TimePeriod::MonthsAndYearsLongComponent.new(start_date:, end_date:)
+      when "start_day_and_month"
+        TimePeriod::StartDayAndMonthComponent.new(start_date:)
+      when "start_month_as_word"
+        TimePeriod::StartMonthAsWordComponent.new(start_date:)
+      when "years"
+        TimePeriod::YearsComponent.new(start_date:, end_date:)
+      when "years_short"
+        TimePeriod::YearsShortComponent.new(start_date:, end_date:)
+      end
+    end
 
     def defaulted_format
       return "long_form" if format == Format::DEFAULT_FORMAT
@@ -61,69 +65,6 @@ module ContentBlockTools
 
     def end_date
       normalised_date_range.end_date
-    end
-
-    def render_long_form
-      return "" unless start_date && end_date
-
-      content_tag(:p, class: "govuk-body") do
-        "#{format_date(start_date, :full)} to #{format_date(end_date, :full)}"
-      end
-    end
-
-    def render_months_and_years_long
-      return "" unless start_date && end_date
-
-      content_tag(:p, class: "govuk-body") do
-        "#{format_date(start_date, :month_year)} to #{format_date(end_date, :month_year)}"
-      end
-    end
-
-    def render_start_day_and_month
-      return "" unless start_date
-
-      content_tag(:p, class: "govuk-body") do
-        format_date(start_date, :day_month)
-      end
-    end
-
-    def render_start_month_as_word
-      return "" unless start_date
-
-      content_tag(:p, class: "govuk-body") do
-        format_date(start_date, :month_only)
-      end
-    end
-
-    def render_years
-      return "" unless start_date && end_date
-
-      content_tag(:p, class: "govuk-body") do
-        "#{start_date.year}-#{end_date.year}"
-      end
-    end
-
-    def render_years_short
-      return "" unless start_date && end_date
-
-      content_tag(:p, class: "govuk-body") do
-        "#{start_date.year}-#{end_date.strftime('%y')}"
-      end
-    end
-
-    def format_date(date, style)
-      case style
-      when :full
-        Presenters::FieldPresenters::TimePeriod::DatePresenter.new(
-          date,
-        ).render
-      when :month_year
-        date.strftime("%B %Y")
-      when :day_month
-        date.strftime("%e %B").strip
-      when :month_only
-        date.strftime("%B")
-      end
     end
   end
 end

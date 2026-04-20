@@ -37,6 +37,7 @@ module ContentBlockTools
 
   module Components
     module Contacts; end
+    module TimePeriod; end
   end
 
   class << self

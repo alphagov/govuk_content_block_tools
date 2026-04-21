@@ -8,42 +8,43 @@ module ContentBlockTools
   #
   # @example Basic embed code
   #   embed_code = EmbedCode.new("{{embed:content_block_contact:main-office}}")
-  #   embed_code.field_names #=> []
+  #   embed_code.internal_content_path.present? #=> false
   #
   # @example Embed code with field path
   #   embed_code = EmbedCode.new("{{embed:content_block_contact:main-office/email_addresses/main}}")
-  #   embed_code.field_names #=> [:email_addresses, :main]
+  #   embed_code.internal_content_path.path #=> [:email_addresses, :main]
   #
   class EmbedCode
     def initialize(embed_code_string)
       @embed_code_string = embed_code_string
     end
 
-    # Returns the field names extracted from the embed code path
+    # Returns the internal content path for this embed code
     #
-    # Field names are the path components after the identifier, converted to symbols
-    # or integers as appropriate.
-    #
-    # @return [Array<Symbol, Integer>] The field names, or [] if no path
-    def field_names
-      @field_names ||= parse_field_names
+    # @return [InternalContentPath] The path to internal content
+    def internal_content_path
+      @internal_content_path ||= InternalContentPath.new(parse_path_segments)
     end
 
   private
 
     attr_reader :embed_code_string
 
-    def parse_field_names
+    def parse_path_segments
       match = ContentBlockReference::EMBED_REGEX.match(embed_code_string)
       return [] unless match
 
-      all_fields = match[:fields]&.reverse&.chomp("/")&.reverse
-      return [] if all_fields.nil?
+      all_segments = strip_leading_slash(match[:internal_content_path])
+      return [] if all_segments.nil?
 
-      all_fields.split("/").map { |item| convert_field_item(item) }
+      all_segments.split("/").map { |item| convert_segment(item) }
     end
 
-    def convert_field_item(item)
+    def strip_leading_slash(path)
+      path&.reverse&.chomp("/")&.reverse
+    end
+
+    def convert_segment(item)
       numeric?(item) ? item.to_i : item.to_sym
     end
 

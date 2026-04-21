@@ -44,17 +44,17 @@ module ContentBlockTools
     end
 
     def content
-      field_names.present? ? field_or_block_content : component.new(content_block:).render
+      internal_content_path.present? ? field_or_block_content : component.new(content_block:).render
     rescue UnknownComponentError
       content_block.title
     end
 
     def field_or_block_content
-      field_content = content_block.details.dig(*field_names)
+      field_content = content_block.details.dig(*internal_content_path.path)
 
       case field_content
       when String
-        field_presenter(field_names.last).new(field_content).render
+        field_presenter(internal_content_path.block_name).new(field_content).render
       when Hash
         render_hash_content(field_content)
       else
@@ -64,29 +64,26 @@ module ContentBlockTools
     end
 
     def render_hash_content(field_content)
-      if embedded_object_in_one_to_one_relationship?
-        field_presenter(field_names.last).new(field_content).render
+      if internal_content_path.singular?
+        field_presenter(internal_content_path.block_name).new(field_content).render
       else
         component.new(
           content_block:,
-          block_type: field_names.first,
-          block_name: field_names.last,
+          block_type: internal_content_path.block_type,
+          block_name: internal_content_path.block_name,
         ).render
       end
     end
 
     def log_content_not_found
       ContentBlockTools.logger.warn(
-        "Content not found for content block #{content_block.content_id} and fields #{field_names}",
+        "Content not found for content block #{content_block.content_id} " \
+        "and fields #{internal_content_path.path}",
       )
     end
 
-    def embedded_object_in_one_to_one_relationship?
-      field_names.one?
-    end
-
     def rendering_block?
-      !field_names.present? || content_block.details.dig(*field_names).is_a?(Hash)
+      !internal_content_path.present? || content_block.details.dig(*internal_content_path.path).is_a?(Hash)
     end
 
     def component
@@ -103,8 +100,8 @@ module ContentBlockTools
       ContentBlockTools::Presenters::FieldPresenters::BasePresenter
     end
 
-    def field_names
-      @field_names ||= EmbedCode.new(content_block.embed_code).field_names
+    def internal_content_path
+      @internal_content_path ||= EmbedCode.new(content_block.embed_code).internal_content_path
     end
   end
 end

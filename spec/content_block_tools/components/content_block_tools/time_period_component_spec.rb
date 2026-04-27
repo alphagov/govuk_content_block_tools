@@ -41,7 +41,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
           content_id: SecureRandom.uuid,
           title: "Tax year",
           details: details,
-          embed_code: "{{embed:content_block_time_period:tax-year|long_form}}",
+          embed_code: "{{embed:content_block_time_period:tax-year#long_form}}",
         )
 
         default_component = described_class.new(content_block: default_block)
@@ -132,7 +132,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
     end
 
     describe "long_form format" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|long_form}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#long_form}}" }
 
       it "renders the full date range" do
         expect(component.render).to have_tag(
@@ -144,7 +144,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
     end
 
     describe "months_and_years_long format" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|months_and_years_long}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#months_and_years_long}}" }
 
       it "renders month and year only" do
         expect(component.render).to have_tag(
@@ -156,7 +156,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
     end
 
     describe "start_day_and_month format" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|start_day_and_month}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#start_day_and_month}}" }
 
       it "renders only the start day and month" do
         expect(component.render).to have_tag(
@@ -168,7 +168,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
     end
 
     describe "start_month_as_word format" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|start_month_as_word}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#start_month_as_word}}" }
 
       it "renders only the start month" do
         expect(component.render).to have_tag(
@@ -180,7 +180,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
     end
 
     describe "years format" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|years}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#years}}" }
 
       it "renders the year range with full years" do
         expect(component.render).to have_tag(
@@ -192,7 +192,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
     end
 
     describe "years_short format" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|years_short}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#years_short}}" }
 
       it "renders the year range with abbreviated end year" do
         expect(component.render).to have_tag(
@@ -204,7 +204,7 @@ RSpec.describe ContentBlockTools::TimePeriodComponent do
     end
 
     describe "invalid format" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|unknown_format}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#unknown_format}}" }
 
       it "raises InvalidFormatError" do
         expect { component }.to raise_error(

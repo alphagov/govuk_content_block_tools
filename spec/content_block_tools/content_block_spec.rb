@@ -93,7 +93,7 @@ RSpec.describe ContentBlockTools::ContentBlock do
     end
 
     context "when embed code has a format specifier" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|years_short}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#years_short}}" }
 
       it "returns the format" do
         expect(content_block.format).to eq("years_short")

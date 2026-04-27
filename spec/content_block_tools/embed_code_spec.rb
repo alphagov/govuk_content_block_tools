@@ -67,7 +67,7 @@ RSpec.describe ContentBlockTools::EmbedCode do
     end
 
     context "when a format is specified" do
-      let(:embed_code) { "{{embed:content_block_time_period:tax-year|years_short}}" }
+      let(:embed_code) { "{{embed:content_block_time_period:tax-year#years_short}}" }
 
       it "returns the format" do
         expect(described_class.new(embed_code).format).to eq("years_short")
@@ -75,7 +75,7 @@ RSpec.describe ContentBlockTools::EmbedCode do
     end
 
     context "when embed code has fields and a format" do
-      let(:embed_code) { "{{embed:content_block_contact:main-office/email|custom_format}}" }
+      let(:embed_code) { "{{embed:content_block_contact:main-office/email#custom_format}}" }
 
       it "returns the format" do
         expect(described_class.new(embed_code).format).to eq("custom_format")

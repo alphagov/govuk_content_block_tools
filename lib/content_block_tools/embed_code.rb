@@ -17,11 +17,11 @@ module ContentBlockTools
   #   embed_code.internal_content_path.path #=> [:email_addresses, :main]
   #
   # @example Embed code with format
-  #   embed_code = EmbedCode.new("{{embed:content_block_time_period:tax-year|years_short}}")
+  #   embed_code = EmbedCode.new("{{embed:content_block_time_period:tax-year#years_short}}")
   #   embed_code.format #=> "years_short"
   #
   class EmbedCode
-    FORMAT_REGEX = /\|(?<format>[^}|]+)}}$/
+    FORMAT_REGEX = /\#(?<format>[^}#]+)}}$/
 
     def initialize(embed_code_string)
       @embed_code_string = embed_code_string

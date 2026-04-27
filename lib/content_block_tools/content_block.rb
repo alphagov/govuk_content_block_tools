@@ -38,6 +38,12 @@ module ContentBlockTools
   #    content_block_reference.embed_code #=> "{{embed:content_block_pension:2b92cade-549c-4449-9796-e7a3957f3a86}}"
   #    content_block_reference.embed_code #=> "{{embed:content_block_contact:2b92cade-549c-4449-9796-e7a3957f3a86/field_name}}"
   #  @return [String]
+  #
+  # @!attribute [r] format
+  #  The format specifier from the embed code, used to control rendering output
+  #  @example
+  #    content_block.format #=> "years_short"
+  #  @return [String]
   class ContentBlock
     CONTENT_BLOCK_PREFIX = "content_block_".freeze
 
@@ -97,6 +103,10 @@ module ContentBlockTools
 
     def document_type
       @document_type.delete_prefix(CONTENT_BLOCK_PREFIX)
+    end
+
+    def format
+      EmbedCode.new(embed_code).format
     end
   end
 end

@@ -19,6 +19,7 @@ require "content_block_tools/presenters/field_presenters/time_period/end_present
 require "content_block_tools/content_block"
 require "content_block_tools/content_block_reference"
 require "content_block_tools/embed_code"
+require "content_block_tools/format"
 require "content_block_tools/internal_content_path"
 require "content_block_tools/normalised_date_range"
 require "content_block_tools/renderer"
@@ -30,11 +31,13 @@ require "content_block_tools/version"
 module ContentBlockTools
   class Error < StandardError; end
   class InvalidEmbedCodeError < StandardError; end
+  class InvalidFormatError < StandardError; end
 
   module Presenters; end
 
   module Components
     module Contacts; end
+    module TimePeriod; end
   end
 
   class << self

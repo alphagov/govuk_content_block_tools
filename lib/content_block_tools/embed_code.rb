@@ -5,6 +5,8 @@ module ContentBlockTools
   # fields to render. The format is:
   #   {{embed:block_type:identifier}}
   #   {{embed:block_type:identifier/field1/nested_field2}}
+  #   {{embed:block_type:identifier|format}}
+  #   {{embed:block_type:identifier/field1|format}}
   #
   # @example Basic embed code
   #   embed_code = EmbedCode.new("{{embed:content_block_contact:main-office}}")
@@ -14,7 +16,13 @@ module ContentBlockTools
   #   embed_code = EmbedCode.new("{{embed:content_block_contact:main-office/email_addresses/main}}")
   #   embed_code.internal_content_path.path #=> [:email_addresses, :main]
   #
+  # @example Embed code with format
+  #   embed_code = EmbedCode.new("{{embed:content_block_time_period:tax-year#years_short}}")
+  #   embed_code.format #=> "years_short"
+  #
   class EmbedCode
+    FORMAT_REGEX = /\#(?<format>[^}#]+)}}$/
+
     def initialize(embed_code_string)
       @embed_code_string = embed_code_string
     end
@@ -24,6 +32,13 @@ module ContentBlockTools
     # @return [InternalContentPath] The path to internal content
     def internal_content_path
       @internal_content_path ||= InternalContentPath.new(parse_path_segments)
+    end
+
+    # Returns the format specifier from the embed code
+    #
+    # @return [String] The format name, or Format::DEFAULT_FORMAT if none specified
+    def format
+      @format ||= parse_format
     end
 
   private
@@ -46,6 +61,13 @@ module ContentBlockTools
 
     def convert_segment(item)
       numeric?(item) ? item.to_i : item.to_sym
+    end
+
+    def parse_format
+      match = FORMAT_REGEX.match(embed_code_string)
+      return Format::DEFAULT_FORMAT unless match
+
+      match[:format]
     end
 
     def numeric?(item)

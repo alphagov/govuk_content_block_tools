@@ -1,5 +1,10 @@
 # Changelog
 
+# 11.12.0
+
+* Add support for "format specifier" to embed code [#153](https://github.
+  com/alphagov/govuk_content_block_tools/pull/153))
+
 # 1.11.0
 
 * Add dual-format support for `TimePeriod#date_range` - accepts both legacy nested 

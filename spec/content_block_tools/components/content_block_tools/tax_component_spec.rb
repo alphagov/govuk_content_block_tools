@@ -34,10 +34,43 @@ RSpec.describe ContentBlockTools::TaxComponent do
                   },
                 ],
               },
+              {
+                name: "Basic rate",
+                value: "20%",
+                bands: [
+                  {
+                    name: "Basic rate",
+                    lower_threshold: { show: true, value: "£12,571" },
+                    upper_threshold: { show: true, value: "£50,270" },
+                  },
+                ],
+              },
             ],
           },
         },
       }
+    end
+
+    describe "rendering with tax_table format" do
+      let(:embed_code) { "{{embed:content_block_tax:income-tax#tax_table}}" }
+
+      it "renders a table" do
+        expect(component.render).to have_tag("table", with: { class: "govuk-table" })
+      end
+
+      it "renders table headers" do
+        rendered = component.render
+        expect(rendered).to have_tag("th", text: "Band")
+        expect(rendered).to have_tag("th", text: "Taxable income")
+        expect(rendered).to have_tag("th", text: "Tax rate")
+      end
+
+      it "renders the income tax rates as rows" do
+        rendered = component.render
+        expect(rendered).to have_tag("td", text: "Personal Allowance")
+        expect(rendered).to have_tag("td", text: "Up to £12,570")
+        expect(rendered).to have_tag("td", text: "0%")
+      end
     end
 
     describe "format validation" do
@@ -46,10 +79,6 @@ RSpec.describe ContentBlockTools::TaxComponent do
 
         it "does not raise an error" do
           expect { component }.not_to raise_error
-        end
-
-        it "returns a string from render" do
-          expect(component.render).to be_a(String)
         end
       end
 

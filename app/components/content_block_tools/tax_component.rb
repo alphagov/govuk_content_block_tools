@@ -12,7 +12,9 @@ module ContentBlockTools
     end
 
     def render
-      ""
+      return "" unless tax_table_format?
+
+      Tax::TaxTableComponent.new(rates: income_tax_rates).render
     end
 
   private

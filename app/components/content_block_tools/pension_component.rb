@@ -14,7 +14,9 @@ module ContentBlockTools
     end
 
     def render
-      ""
+      return "" unless one_off_arrears_format?
+
+      Pension::OneOffArrearsComponent.new(amount: weekly_amount).render
     end
 
   private
@@ -68,6 +70,10 @@ module ContentBlockTools
 
     def single_rate
       details[:rates].values.first
+    end
+
+    def weekly_amount
+      parse_currency(single_rate[:amount])
     end
 
     def parseable_currency?(string)

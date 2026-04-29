@@ -209,5 +209,25 @@ RSpec.describe ContentBlockTools::PensionComponent do
         end
       end
     end
+
+    describe "rendering one_off_arrears format" do
+      let(:embed_code) { "{{embed:content_block_pension:state-pension#one_off_arrears}}" }
+
+      it "renders arrears paragraphs via OneOffArrearsComponent" do
+        rendered = component.render
+        expect(rendered).to include("one-off arrears payment of £12,547.60")
+        expect(rendered).to include("one-off arrears payment of £6,515.10")
+      end
+
+      it "includes a link to /new-state-pension" do
+        expect(component.render).to have_tag("a", with: { href: "/new-state-pension" })
+      end
+
+      it "renders within a div" do
+        expect(component.render).to have_tag("div") do
+          with_tag("p", count: 2)
+        end
+      end
+    end
   end
 end

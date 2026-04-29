@@ -353,10 +353,10 @@ RSpec.describe ContentBlockTools::ContentBlock do
       end
 
       context "embed code does not include any field or block references" do
-        let(:embed_code) { "{{embed:content_block_contact:pension}}" }
+        let(:embed_code) { "{{embed:content_block_pension:state-pension}}" }
 
-        it "returns the content block's title" do
-          expect(content_block.render).to have_tag("div", text: content_block.title, with: expected_wrapper_attributes)
+        it "renders an empty div for default format" do
+          expect(content_block.render).to have_tag("div", text: "", with: expected_wrapper_attributes)
         end
       end
 

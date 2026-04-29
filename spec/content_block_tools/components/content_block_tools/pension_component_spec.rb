@@ -67,5 +67,55 @@ RSpec.describe ContentBlockTools::PensionComponent do
         end
       end
     end
+
+    describe "rate validation for one_off_arrears" do
+      let(:embed_code) { "{{embed:content_block_pension:state-pension#one_off_arrears}}" }
+
+      context "when there is exactly one rate" do
+        it "does not raise an error" do
+          expect { component }.not_to raise_error
+        end
+      end
+
+      context "when there is no rates key" do
+        let(:details) { {} }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: no rates found",
+          )
+        end
+      end
+
+      context "when the rates collection is empty" do
+        let(:details) { { rates: {} } }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: no rates found",
+          )
+        end
+      end
+
+      context "when there are multiple rates" do
+        let(:details) do
+          {
+            rates: {
+              "rate-one": { title: "Rate one", amount: "£100.00" },
+              "rate-two": { title: "Rate two", amount: "£200.00" },
+            },
+          }
+        end
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: expected exactly one rate, found 2",
+          )
+        end
+      end
+    end
   end
 end

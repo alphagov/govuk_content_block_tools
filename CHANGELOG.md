@@ -1,5 +1,9 @@
 # Changelog
 
+# 11.13.0
+
+* Add "tax_table" format rendering for tax blocks [#155](https://github.com/alphagov/govuk_content_block_tools/pull/155)
+
 ## 1.12.2
 
 * Add data attributes to identify contact parts

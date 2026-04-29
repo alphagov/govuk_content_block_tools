@@ -117,5 +117,97 @@ RSpec.describe ContentBlockTools::PensionComponent do
         end
       end
     end
+
+    describe "amount validation for one_off_arrears" do
+      let(:embed_code) { "{{embed:content_block_pension:state-pension#one_off_arrears}}" }
+
+      context "with a valid amount" do
+        it "does not raise an error" do
+          expect { component }.not_to raise_error
+        end
+      end
+
+      context "with amount without currency symbol" do
+        let(:details) { { rates: { "rate": { amount: "241.30" } } } }
+
+        it "does not raise an error" do
+          expect { component }.not_to raise_error
+        end
+      end
+
+      context "with amount with commas" do
+        let(:details) { { rates: { "rate": { amount: "£1,241.30" } } } }
+
+        it "does not raise an error" do
+          expect { component }.not_to raise_error
+        end
+      end
+
+      context "with missing amount" do
+        let(:details) { { rates: { "rate": { title: "Rate" } } } }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: rate is missing 'amount'",
+          )
+        end
+      end
+
+      context "with empty amount" do
+        let(:details) { { rates: { "rate": { amount: "" } } } }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: rate is missing 'amount'",
+          )
+        end
+      end
+
+      context "with whitespace-only amount" do
+        let(:details) { { rates: { "rate": { amount: "   " } } } }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: rate is missing 'amount'",
+          )
+        end
+      end
+
+      context "with invalid amount format" do
+        let(:details) { { rates: { "rate": { amount: "not a number" } } } }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: 'not a number' is not a valid currency amount",
+          )
+        end
+      end
+
+      context "with zero amount" do
+        let(:details) { { rates: { "rate": { amount: "£0.00" } } } }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: amount must be positive",
+          )
+        end
+      end
+
+      context "with negative amount" do
+        let(:details) { { rates: { "rate": { amount: "-£100.00" } } } }
+
+        it "raises InvalidFormatError" do
+          expect { component }.to raise_error(
+            ContentBlockTools::InvalidFormatError,
+            "Cannot render 'one_off_arrears' format: '-£100.00' is not a valid currency amount",
+          )
+        end
+      end
+    end
   end
 end

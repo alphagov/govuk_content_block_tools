@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+
+* Update dependencies
+
 # 11.12.0
 
 * Add support for "format specifier" to embed code [#153](https://github.

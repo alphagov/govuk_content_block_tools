@@ -113,7 +113,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
                              .and_call_original
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
-        with_tag("div", with: { "data-diff-key" => "description" }) do
+        with_tag("div", with: { "data-id" => "description" }) do
           with_tag("p", text: description)
         end
       end
@@ -169,7 +169,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("div", with: { "data-diff-key" => "email_addresses-foo" }) do
+          with_tag("div", with: { "data-block-type" => "email_addresses", "data-block-id" => "foo" }) do
             with_tag("dt", text: /#{email_addresses[:foo][:title]}/)
             with_tag("dd") do
               with_tag("p", text: "EMAIL ADDRESS")
@@ -184,7 +184,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
-        without_tag("div", with: { "data-diff-key" => "email_addresses-foo" })
+        without_tag("div", with: { "data-block-type" => "email_addresses", "data-block-id" => "foo" })
         without_tag("dt", text: email_addresses[:foo][:title])
         with_tag("p", text: "EMAIL ADDRESS")
       end
@@ -217,7 +217,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("div", with: { "data-diff-key" => "telephones-foo" }) do
+          with_tag("div", with: { "data-block-type" => "telephones", "data-block-id" => "foo" }) do
             with_tag("dt", text: /#{telephones[:foo][:title]}/)
             with_tag("dd") do
               with_tag("p", text: "TELEPHONE")
@@ -232,7 +232,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
-        without_tag("div", with: { "data-diff-key" => "telephones-foo" })
+        without_tag("div", with: { "data-block-type" => "telephones", "data-block-id" => "foo" })
         without_tag("dt", text: telephones[:foo][:title])
         with_tag("p", text: "TELEPHONE")
       end
@@ -265,7 +265,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("div", with: { "data-diff-key" => "addresses-some_address" }) do
+          with_tag("div", with: { "data-block-type" => "addresses", "data-block-id" => "some_address" }) do
             with_tag("dt", text: /#{addresses[:some_address][:title]}/)
             with_tag("dd") do
               with_tag("p", text: "ADDRESS")
@@ -280,7 +280,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
-        without_tag("div", with: { "data-diff-key" => "addresses-some_address" })
+        without_tag("div", with: { "data-block-type" => "addresses", "data-block-id" => "some_address" })
         without_tag("dt", text: /#{addresses[:some_address][:title]}/)
         with_tag("p", text: "ADDRESS")
       end
@@ -313,7 +313,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         with_tag("dl") do
-          with_tag("div", with: { "data-diff-key" => "contact_links-foo" }) do
+          with_tag("div", with: { "data-block-type" => "contact_links", "data-block-id" => "foo" }) do
             with_tag("dt", text: /#{contact_links[:foo][:title]}/)
             with_tag("dd") do
               with_tag("p", text: "CONTACT LINK")
@@ -328,7 +328,7 @@ RSpec.describe ContentBlockTools::ContactComponent do
 
       expect(component.render).to have_tag("div", with: { class: "vcard" }) do
         without_tag("dl")
-        without_tag("div", with: { "data-diff-key" => "contact_links-foo" })
+        without_tag("div", with: { "data-block-type" => "contact_links", "data-block-id" => "foo" })
         without_tag("dt", text: /#{contact_links[:foo][:title]}/)
         with_tag("p", text: "CONTACT LINK")
       end

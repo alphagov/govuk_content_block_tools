@@ -1,13 +1,13 @@
 <div class="vcard">
   <% if block_type.nil? %>
     <% if content_block.details[:description] %>
-      <div data-diff-key="description">
+      <div data-diff-key="description" data-id="description">
         <%= render_govspeak(content_block.details[:description]) %>
       </div>
     <% end %>
     <dl class="<%= margin_classes(0) %> <%= padding_classes(0) %>">
       <% items.each do |block_type, key, item| %>
-        <div data-diff-key="<%= block_type %>-<%= key %>">
+        <div data-diff-key="<%= block_type %>-<%= key %>" data-block-type="<%= block_type %>" data-block-id="<%= key %>">
           <dt class="<%= margin_classes(0, 0, 4, 0) %> <%= padding_classes(0) %> <%= font_classes(19, "bold") %>">
             <%= item[:title] %>
           </dt>

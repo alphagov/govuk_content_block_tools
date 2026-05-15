@@ -27,11 +27,6 @@ When("asked to render with embed code {string}") do |embed_code|
   end
 end
 
-Then("the rendered output should be {string}") do |expected_text|
-  expect(@error).to be_nil, "Expected no error but got: #{@error&.message}"
-  expect(@rendered).to include(expected_text)
-end
-
 Then("an InvalidFormatError should be raised with message {string}") do |expected_message|
   expect(@error).to be_a(ContentBlockTools::InvalidFormatError)
   expect(@error.message).to eq(expected_message)

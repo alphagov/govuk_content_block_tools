@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.14.0
+
+* Add dual-format support for `Pension#amount` - accepts both legacy 
+  format (string including '£' prefix) and new string format without '£' prefix
+
 # 11.13.0
 
 * Add "tax_table" format rendering for tax blocks [#155](https://github.com/alphagov/govuk_content_block_tools/pull/155)

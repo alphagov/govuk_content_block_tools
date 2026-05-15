@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.2
+
+* Add data attributes to identify contact parts
+
 ## 1.12.1
 
 * Update dependencies

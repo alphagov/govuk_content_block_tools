@@ -15,6 +15,7 @@ require "content_block_tools/presenters/field_presenters/time_period/date_presen
 require "content_block_tools/presenters/field_presenters/time_period/time_presenter"
 require "content_block_tools/presenters/field_presenters/time_period/start_presenter"
 require "content_block_tools/presenters/field_presenters/time_period/end_presenter"
+require "content_block_tools/presenters/field_presenters/pension/amount_presenter"
 
 require "content_block_tools/content_block"
 require "content_block_tools/content_block_reference"

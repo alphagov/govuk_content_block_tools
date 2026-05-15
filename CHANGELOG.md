@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.13.0
+
+* Add dual-format support for `Pension#amount` - accepts both legacy 
+  format (string including '£' prefix) and new string format without '£' prefix
+
 ## 1.12.2
 
 * Add data attributes to identify contact parts

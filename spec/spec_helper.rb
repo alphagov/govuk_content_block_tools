@@ -8,6 +8,7 @@ SimpleCov.start do
 end
 
 require "bundler/setup"
+require "capybara/rspec"
 require "securerandom"
 require "rspec-html-matchers"
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.1
+
+* Update dependencies
+
 # 1.14.0
 
 * Add dual-format support for `Pension#amount` - accepts both legacy 

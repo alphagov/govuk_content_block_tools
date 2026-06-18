@@ -4,7 +4,7 @@ module ContentBlockTools
       module Pension
         class AmountPresenter < BasePresenter
           def render
-            field.start_with?("£") ? field : "£#{field}"
+            "£#{field}"
           end
         end
       end

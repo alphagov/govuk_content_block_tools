@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/alphagov/content_block_tools"
   spec.license       = "MIT"
 
-  spec.required_ruby_version = ">= 3.2"
+  spec.required_ruby_version = ">= 3.3"
   spec.files = Dir[
     "{node_modules/govuk-frontend,app,lib}/**/*", "LICENCE.txt", "README.md"
   ]

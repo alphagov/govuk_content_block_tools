@@ -5,8 +5,8 @@ module ContentBlockTools
   # fields to render. The format is:
   #   {{embed:block_type:identifier}}
   #   {{embed:block_type:identifier/field1/nested_field2}}
-  #   {{embed:block_type:identifier|format}}
-  #   {{embed:block_type:identifier/field1|format}}
+  #   {{embed:block_type:identifier#format}}
+  #   {{embed:block_type:identifier/field1#format}}
   #
   # @example Basic embed code
   #   embed_code = EmbedCode.new("{{embed:content_block_contact:main-office}}")

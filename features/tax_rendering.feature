@@ -19,7 +19,7 @@ Feature: Tax rendering
     When asked to render tax with embed code "{{embed:content_block_tax:income-tax#unknown_format}}"
     Then an InvalidFormatError should be raised with message "Unknown format 'unknown_format' for tax"
 
-  Scenario: Raise error when income tax data is missing
+  Scenario: Return an empty string when the block can't be rendered as a tax table
     Given a tax content block without income data
     When asked to render tax with embed code "{{embed:content_block_tax:other-tax#tax_table}}"
-    Then an InvalidFormatError should be raised with message "Cannot render 'tax_table' format: missing income tax rates"
+    Then the rendered output should be an empty wrapper

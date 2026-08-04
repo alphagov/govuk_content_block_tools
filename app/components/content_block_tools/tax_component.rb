@@ -8,11 +8,10 @@ module ContentBlockTools
     def initialize(content_block:, _block_type: nil, _block_name: nil)
       @content_block = content_block
       validate_format!
-      validate_presence_of_income_tax_rates! if tax_table_format?
     end
 
     def render
-      return "" unless tax_table_format?
+      return "" unless tax_table_format? && able_to_format_as_table?
 
       Tax::TaxTableComponent.new(rates: income_tax_rates).render
     end
@@ -29,11 +28,8 @@ module ContentBlockTools
       raise InvalidFormatError, "Unknown format '#{format}' for tax"
     end
 
-    def validate_presence_of_income_tax_rates!
-      return if income_tax_rates&.any?
-
-      raise InvalidFormatError,
-            "Cannot render 'tax_table' format: missing income tax rates"
+    def able_to_format_as_table?
+      income_tax_rates&.present?
     end
 
     def tax_table_format?

@@ -110,50 +110,41 @@ RSpec.describe ContentBlockTools::TaxComponent do
       end
     end
 
-    describe "data validation for tax_table" do
+    describe "when the tax object can't be formatted as a tax table" do
       let(:embed_code) { "{{embed:content_block_tax:income-tax#tax_table}}" }
-
       context "when things_taxed is missing" do
         let(:details) { { tax_type: "Tax" } }
 
-        it "raises InvalidFormatError with descriptive message" do
-          expect { component }.to raise_error(
-            ContentBlockTools::InvalidFormatError,
-            "Cannot render 'tax_table' format: missing income tax rates",
-          )
+        it "renders an empty string" do
+          rendered = component.render
+          expect(rendered).to eq("")
         end
       end
 
       context "when income is missing from things_taxed" do
         let(:details) { { tax_type: "Tax", things_taxed: {} } }
 
-        it "raises InvalidFormatError with descriptive message" do
-          expect { component }.to raise_error(
-            ContentBlockTools::InvalidFormatError,
-            "Cannot render 'tax_table' format: missing income tax rates",
-          )
+        it "renders an empty string" do
+          rendered = component.render
+          expect(rendered).to eq("")
         end
       end
 
       context "when rates is missing from income" do
         let(:details) { { tax_type: "Tax", things_taxed: { income: { title: "Income" } } } }
 
-        it "raises InvalidFormatError with descriptive message" do
-          expect { component }.to raise_error(
-            ContentBlockTools::InvalidFormatError,
-            "Cannot render 'tax_table' format: missing income tax rates",
-          )
+        it "renders an empty string" do
+          rendered = component.render
+          expect(rendered).to eq("")
         end
       end
 
       context "when rates is empty" do
         let(:details) { { tax_type: "Tax", things_taxed: { income: { rates: [] } } } }
 
-        it "raises InvalidFormatError with descriptive message" do
-          expect { component }.to raise_error(
-            ContentBlockTools::InvalidFormatError,
-            "Cannot render 'tax_table' format: missing income tax rates",
-          )
+        it "renders an empty string" do
+          rendered = component.render
+          expect(rendered).to eq("")
         end
       end
     end

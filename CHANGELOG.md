@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0
+
+* Remove rendering by way of Content Store (`ContactBlock.from_embed_code`). Blocks 
+  are no longer being published to Content Store. See [ADR 15: Remove dependence on base_path](https://github.com/alphagov/content-block-manager/blob/ea52adea1dcaeaede9b3530295abe08ae045c676/docs/architecture/decisions/0015-remove-dependence-on-base-path.md).
+  We've already removed the 2 known usages of this: Publisher and Smart Answers. 
+  See [PR 180](https://github.com/alphagov/govuk_content_block_tools/pull/180)
+
 ## 1.14.1
 
 * Update dependencies

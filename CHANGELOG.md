@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+
+* Return empty content if format is not applicable. [#181](https://github.com/alphagov/govuk_content_block_tools/pull/181/)
+
 ## 2.0.0
 
 * Remove rendering by way of Content Store (`ContactBlock.from_embed_code`). Blocks 

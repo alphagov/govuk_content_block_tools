@@ -40,6 +40,6 @@ Feature: Time period rendering
     When asked to render with embed code "{{embed:content_block_time_period:tax-year#years_short}}"
     Then the rendered output should be "2025-26"
 
-  Scenario: Raise error for invalid format
+  Scenario: Render failure message for invalid format
     When asked to render with embed code "{{embed:content_block_time_period:tax-year#unknown_format}}"
-    Then an InvalidFormatError should be raised with message "Unknown format 'unknown_format' for time_period"
+    Then I should see the rendering failure message

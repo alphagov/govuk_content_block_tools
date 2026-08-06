@@ -49,7 +49,7 @@ module ContentBlockTools
 
     def content
       internal_content_path.present? ? field_or_block_content : component.new(content_block:).render
-    rescue UnknownComponentError
+    rescue UnknownComponentError, InvalidFormatError
       failure_message
     end
 

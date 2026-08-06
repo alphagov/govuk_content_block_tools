@@ -140,10 +140,17 @@ RSpec.describe ContentBlockTools::ContentBlock do
       context "embed code references a non-existent field" do
         let(:embed_code) { "{{embed:content_block_contact:contact/email_addresses/something/bleh}}" }
 
-        it "uses the presenter to render the field" do
+        it "uses the presenter to render the field with failure message" do
           expect(ContentBlockTools.logger).to receive(:warn).with("Content not found for content block #{content_id} and fields [:email_addresses, :something, :bleh]")
 
-          expect(content_block.render).to have_tag("span", text: embed_code, with: expected_wrapper_attributes)
+          expect(content_block.render).to have_tag(
+            "span",
+            text: rendering_failure_message(
+              title: content_block.title,
+              embed_code: content_block.embed_code,
+            ),
+            with: expected_wrapper_attributes,
+          )
         end
       end
     end
@@ -310,8 +317,15 @@ RSpec.describe ContentBlockTools::ContentBlock do
       context "embed code does not include any field or block references" do
         let(:embed_code) { "{{embed:content_block_contact:pension}}" }
 
-        it "returns the content block's title" do
-          expect(content_block.render).to have_tag("div", text: content_block.title, with: expected_wrapper_attributes)
+        it "returns the failure message" do
+          expect(content_block.render).to have_tag(
+            "div",
+            text: rendering_failure_message(
+              title: content_block.title,
+              embed_code: content_block.embed_code,
+            ),
+            with: expected_wrapper_attributes,
+          )
         end
       end
 

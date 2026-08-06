@@ -54,8 +54,14 @@ RSpec.describe ContentBlockTools::Renderer do
         )
       end
 
-      it "falls back to displaying the title" do
-        expect(rendered).to have_tag("div", seen: title)
+      it "displays failure message" do
+        expect(rendered).to have_tag(
+          "div",
+          text: rendering_failure_message(
+            title: content_block.title,
+            embed_code: content_block.embed_code,
+          ),
+        )
       end
     end
 
@@ -164,8 +170,14 @@ RSpec.describe ContentBlockTools::Renderer do
         )
       end
 
-      it "returns the embed code" do
-        expect(rendered).to include(embed_code)
+      it "displays failure message" do
+        expect(rendered).to have_tag(
+          "span",
+          text: rendering_failure_message(
+            title: content_block.title,
+            embed_code: content_block.embed_code,
+          ),
+        )
       end
     end
   end

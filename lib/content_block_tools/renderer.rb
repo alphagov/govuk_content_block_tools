@@ -39,6 +39,10 @@ module ContentBlockTools
 
     attr_reader :content_block
 
+    def failure_message
+      "Unable to render block '#{content_block.title}' #{content_block.embed_code}"
+    end
+
     def base_tag
       rendering_block? ? :div : :span
     end
@@ -46,7 +50,7 @@ module ContentBlockTools
     def content
       internal_content_path.present? ? field_or_block_content : component.new(content_block:).render
     rescue UnknownComponentError
-      content_block.title
+      failure_message
     end
 
     def field_or_block_content
@@ -59,7 +63,7 @@ module ContentBlockTools
         render_hash_content(field_content)
       else
         log_content_not_found
-        content_block.embed_code
+        failure_message
       end
     end
 

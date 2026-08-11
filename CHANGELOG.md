@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0
+
+* Return standard failure message if format is not applicable, component doesn't 
+  exist or internal content is not found [#182](https://github.com/alphagov/govuk_content_block_tools/pull/182/)
+
 ## 2.0.0
 
 * Remove rendering by way of Content Store (`ContactBlock.from_embed_code`). Blocks 

@@ -14,12 +14,12 @@ Feature: Tax rendering
       | Higher rate        | £50,271 to £125,140 | 40% |
       | Additional rate    | over £125,140       | 45% |
 
-  Scenario: Raise error for invalid format
+  Scenario: Return a failure message for invalid format
     Given a tax content block with income tax rates
     When asked to render tax with embed code "{{embed:content_block_tax:income-tax#unknown_format}}"
-    Then an InvalidFormatError should be raised with message "Unknown format 'unknown_format' for tax"
+    Then I should see the rendering failure message
 
-  Scenario: Raise error when income tax data is missing
+  Scenario: Return a failure message when block can't be rendered as a tax table
     Given a tax content block without income data
     When asked to render tax with embed code "{{embed:content_block_tax:other-tax#tax_table}}"
-    Then an InvalidFormatError should be raised with message "Cannot render 'tax_table' format: missing income tax rates"
+    Then I should see the rendering failure message

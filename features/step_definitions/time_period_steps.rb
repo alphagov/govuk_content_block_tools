@@ -27,11 +27,6 @@ When("asked to render with embed code {string}") do |embed_code|
   end
 end
 
-Then("an InvalidFormatError should be raised with message {string}") do |expected_message|
-  expect(@error).to be_a(ContentBlockTools::InvalidFormatError)
-  expect(@error.message).to eq(expected_message)
-end
-
 Given("a time period content block exists") do
   @content_block = ContentBlockTools::ContentBlock.new(
     document_type: "content_block_time_period",

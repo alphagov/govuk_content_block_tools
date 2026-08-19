@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+* Revert PR 167 to restore the support of pension rates which may or may not include
+  the currency symbol. This addresses a bug in production with pensions being
+  double-rendered by Publisher following https://github.com/alphagov/publisher/pull/3411
+
 ## 2.1.0
 
 * Return standard failure message if format is not applicable, component doesn't 

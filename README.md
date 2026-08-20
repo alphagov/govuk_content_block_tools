@@ -50,6 +50,20 @@ content_block.render
 
 For more information, see the [Documentation](https://www.rubydoc.info/github/alphagov/content_block_tools)
 
+## Development
+
+### Running the test suites
+
+To run the unit tests:
+```
+bundle exec rspec
+```
+
+To run the feature tests:
+```
+bundle exec cucumber
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

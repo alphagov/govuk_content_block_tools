@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0
+
+* Bump version to republish gem with support for Rails 8.1.5.
+
 ## 2.2.0
 
 * Revert PR 167 to restore the support of pension rates which may or may not include

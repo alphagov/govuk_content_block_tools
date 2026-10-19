@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = %w[lib]
 
   spec.add_development_dependency "capybara"
-  spec.add_development_dependency "cucumber", "~> 11.0"
+  spec.add_development_dependency "cucumber", "~> 12.0"
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rake", "13.4.2"
   spec.add_development_dependency "rspec-html-matchers", "0.10.0"

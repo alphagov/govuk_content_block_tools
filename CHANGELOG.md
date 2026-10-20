@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.1
+
+* Update dependencies
+
 ## 2.3.0
 
 * Bump version to republish gem with support for Rails 8.1.5.

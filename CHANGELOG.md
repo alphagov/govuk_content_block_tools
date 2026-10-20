@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.1
+
+* Bump ruby/setup-ruby from 1.327.0 to 1.334.0
+* Update cucumber requirement from ~> 11.0 to ~> 12.0
+* Bump actions/setup-node from 7.0.0 to 7.1.0
+
 ## 2.3.0
 
 * Bump version to republish gem with support for Rails 8.1.5.

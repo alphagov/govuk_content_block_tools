@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.2
+
+* Update dependencies
+
 ## 2.3.1
 
 * Bump ruby/setup-ruby from 1.327.0 to 1.334.0
